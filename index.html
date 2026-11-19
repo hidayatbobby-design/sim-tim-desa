@@ -1,115 +1,103 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SIM-TIM DESA</title>
 <style>
-body{font-family:Arial;background:#f1f5f9;margin:0;color:#172033}
+*{box-sizing:border-box}
+body{font-family:Arial;background:#f1f5f9;margin:0;color:#1e293b}
 header{background:#14532d;color:white;padding:20px}
-main{padding:15px}
-.card{background:white;padding:15px;margin:12px 0;border-radius:12px}
-input,select,button{width:100%;padding:12px;margin:6px 0;box-sizing:border-box;border:1px solid #ccc;border-radius:7px}
+main{padding:15px;max-width:850px;margin:auto}
+.card,.member{background:white;padding:15px;margin:12px 0;border-radius:10px}
+.member{background:#f8fafc;border:1px solid #ddd}
+input,select,button{width:100%;padding:12px;margin:6px 0;border-radius:7px;border:1px solid #ccc;font-size:15px}
 button{background:#166534;color:white;border:0;font-weight:bold}
-.stats{display:flex;gap:8px}
-.stats div{flex:1;text-align:center;padding:12px;border-radius:8px;background:#e2e8f0}
-.green{background:#bbf7d0!important}
-.yellow{background:#fef08a!important}
-.red{background:#fecaca!important}
-small{color:#64748b}
+.danger{background:#b91c1c}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stat{background:#dcfce7;padding:12px;text-align:center;border-radius:8px}
 </style>
 </head>
 <body>
-<header>
-<h2>SIM-TIM DESA</h2>
-<p>Sistem Informasi Data Keluarga</p>
-</header>
+<header><h2>SIM-TIM DESA</h2><p>Sistem Informasi Data Keluarga</p></header>
 <main>
 <div class="card">
 <h3>Dashboard</h3>
 <div class="stats">
-<div class="green">Hijau<br><b id="h">0</b></div>
-<div class="yellow">Kuning<br><b id="k">0</b></div>
-<div class="red">Merah<br><b id="m">0</b></div>
-</div>
-<p>Total KK: <b id="total">0</b></p>
-<p>Total pemilih: <b id="pemilih">0</b></p>
-</div>
-
+<div class="stat">Total KK<br><b id="total">0</b></div>
+<div class="stat">Total Anggota<br><b id="pemilih">0</b></div>
+<div class="stat">Lengkap<br><b id="lengkap">0</b></div>
+<div class="stat">Perlu Pemeriksaan<br><b id="periksa">0</b></div>
+</div></div>
 <div class="card">
 <h3>Input Data KK</h3>
 <input id="kk" placeholder="Nomor KK">
 <input id="kepala" placeholder="Nama Kepala Keluarga">
 <input id="rt" placeholder="RT">
 <input id="rw" placeholder="RW">
-<input id="jumlah" type="number" min="1" placeholder="Jumlah pemilih dalam KK">
-<select id="status">
-<option value="Hijau">Hijau</option>
-<option value="Kuning">Kuning</option>
-<option value="Merah">Merah</option>
-</select>
+<label>Jumlah anggota keluarga</label>
+<input id="jumlah" type="number" min="1" max="30" placeholder="Jumlah anggota" oninput="buatKolomAnggota()">
+<div id="kolomAnggota"></div>
 <button onclick="simpan()">SIMPAN DATA KK</button>
 </div>
-
 <div class="card">
 <h3>Daftar Data KK</h3>
 <input id="cari" placeholder="Cari nama atau nomor KK" oninput="tampil()">
 <div id="daftar"></div>
 </div>
 </main>
-
 <script>
-let data=JSON.parse(localStorage.getItem("simtim")||"[]");
+let data=[];
+try{
+data=JSON.parse(localStorage.getItem("simtim_v2")||"null");
+if(!Array.isArray(data)){
+let lama=JSON.parse(localStorage.getItem("simtim")||"[]");
+data=lama.map(x=>({kk:x.kk||"",kepala:x.kepala||"",rt:x.rt||"",rw:x.rw||"",anggota:Array.from({length:Math.max(1,Math.min(30,Number(x.jumlah)||1))},(_,i)=>({nama:i===0?(x.kepala||""):"",status:"Perlu Verifikasi"}))}));
+localStorage.setItem("simtim_v2",JSON.stringify(data));
+localStorage.removeItem("simtim");
+}
+}catch(e){data=[]}
+function simpanLokal(){localStorage.setItem("simtim_v2",JSON.stringify(data))}
+function aman(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function buatKolomAnggota(){
+let j=Math.max(0,Math.min(30,Number(document.getElementById("jumlah").value)||0));
+let lama=[];
+document.querySelectorAll(".namaAnggota").forEach((e,i)=>lama.push({nama:e.value,status:document.getElementById("statusAnggota"+i)?.value||"Perlu Verifikasi"}));
+let h="";
+for(let i=0;i<j;i++){
+let n=lama[i]?.nama||"",s=lama[i]?.status||"Perlu Verifikasi";
+h+=`<div class="member"><b>Anggota keluarga ${i+1}</b><input class="namaAnggota" placeholder="Nama anggota keluarga ${i+1}" value="${aman(n)}"><label>Status administrasi</label><select id="statusAnggota${i}"><option ${s==="Lengkap"?"selected":""}>Lengkap</option><option ${s==="Belum Lengkap"?"selected":""}>Belum Lengkap</option><option ${s==="Perlu Verifikasi"?"selected":""}>Perlu Verifikasi</option></select></div>`;
+}
+document.getElementById("kolomAnggota").innerHTML=h;
+}
 function simpan(){
-let kk=document.getElementById("kk").value.trim();
-let kepala=document.getElementById("kepala").value.trim();
-let rt=document.getElementById("rt").value.trim();
-let rw=document.getElementById("rw").value.trim();
-let jumlah=Number(document.getElementById("jumlah").value);
-let status=document.getElementById("status").value;
-if(!kk||!kepala||!rt||!rw||!Number.isInteger(jumlah)||jumlah<1){
-alert("Lengkapi semua data dengan benar");return;
+let kk=document.getElementById("kk").value.trim(),kepala=document.getElementById("kepala").value.trim(),rt=document.getElementById("rt").value.trim(),rw=document.getElementById("rw").value.trim(),j=Number(document.getElementById("jumlah").value);
+if(!kk||!kepala||!rt||!rw||!Number.isInteger(j)||j<1||j>30){alert("Lengkapi data dengan benar");return}
+if(data.some(x=>x.kk===kk)){alert("Nomor KK sudah terdaftar");return}
+let nama=document.querySelectorAll(".namaAnggota"),anggota=[];
+for(let i=0;i<j;i++){
+let n=nama[i].value.trim();
+if(!n){alert("Isi nama anggota "+(i+1));return}
+anggota.push({nama:n,status:document.getElementById("statusAnggota"+i).value});
 }
-if(data.some(x=>x.kk===kk)){
-alert("Nomor KK sudah terdaftar");return;
-}
-data.push({kk,kepala,rt,rw,jumlah,status});
-localStorage.setItem("simtim",JSON.stringify(data));
+data.push({kk,kepala,rt,rw,anggota});
+simpanLokal();
 ["kk","kepala","rt","rw","jumlah"].forEach(id=>document.getElementById(id).value="");
-tampil();
-alert("Data berhasil disimpan");
+document.getElementById("kolomAnggota").innerHTML="";
+tampil();alert("Data KK berhasil disimpan");
 }
 function tampil(){
-let cari=document.getElementById("cari").value.toLowerCase();
-let hasil=data.filter(x=>(x.kk+" "+x.kepala).toLowerCase().includes(cari));
-document.getElementById("daftar").innerHTML=hasil.map(x=>
-`<div class="card ${x.status.toLowerCase()}">
-<b>${aman(x.kepala)}</b><br>
-KK: ${aman(x.kk)}<br>
-RT ${aman(x.rt)} / RW ${aman(x.rw)}<br>
-Jumlah pemilih: ${x.jumlah}<br>
-Status: ${x.status}
-<button onclick="hapus('${x.kk}')">Hapus</button>
-</div>`).join("");
+let c=document.getElementById("cari").value.toLowerCase();
+let hasil=data.filter(x=>(x.kk+" "+x.kepala+" "+x.rt+" "+x.rw).toLowerCase().includes(c));
+document.getElementById("daftar").innerHTML=hasil.map(x=>`<div class="member"><b>${aman(x.kepala)}</b><br>KK: ${aman(x.kk)}<br>RT ${aman(x.rt)} / RW ${aman(x.rw)}<br>Jumlah anggota: ${x.anggota.length}${x.anggota.map((a,i)=>`<div class="member"><b>Anggota ${i+1}: ${aman(a.nama)}</b><br>Status administrasi: ${aman(a.status)}</div>`).join("")}<button class="danger" onclick="hapus('${aman(x.kk)}')">Hapus Data KK</button></div>`).join("");
+let semua=data.flatMap(x=>x.anggota);
 document.getElementById("total").textContent=data.length;
-document.getElementById("pemilih").textContent=data.reduce((a,b)=>a+b.jumlah,0);
-["Hijau","Kuning","Merah"].forEach((s,i)=>{
-document.getElementById(["h","k","m"][i]).textContent=data.filter(x=>x.status===s).length;
-});
+document.getElementById("pemilih").textContent=semua.length;
+document.getElementById("lengkap").textContent=semua.filter(x=>x.status==="Lengkap").length;
+document.getElementById("periksa").textContent=semua.filter(x=>x.status!=="Lengkap").length;
 }
-function aman(s){
-return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-}
-function hapus(kk){
-if(confirm("Hapus data KK ini?")){
-data=data.filter(x=>x.kk!==kk);
-localStorage.setItem("simtim",JSON.stringify(data));
-tampil();
-}
-}
+function hapus(kk){if(confirm("Hapus data KK ini?")){data=data.filter(x=>x.kk!==kk);simpanLokal();tampil()}}
 tampil();
 </script>
 </body>
 </html>
-
