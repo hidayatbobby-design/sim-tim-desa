@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -7,84 +8,98 @@
 <title>SIM-TIM DESA</title>
 <style>
 *{box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:#f1f5f9;margin:0;color:#1e293b;max-width:100%;overflow-x:hidden}
-header{background:#14532d;color:#fff;padding:20px}
+body{font-family:Arial,sans-serif;background:#f1f5f9;margin:0;color:#1e293b;overflow-x:hidden}
+header{background:#14532d;color:white;padding:20px}
 header h2{margin:0}
-header p{margin-bottom:0}
-main{padding:15px;max-width:1000px;margin:auto}
-.card{background:#fff;padding:16px;margin:12px 0;border-radius:12px;max-width:100%;min-width:0}
+main{padding:12px;max-width:1100px;margin:auto}
+.card{background:white;padding:16px;margin:12px 0;border-radius:12px;min-width:0}
 input,select,button{width:100%;padding:12px;margin:6px 0;border:1px solid #cbd5e1;border-radius:7px;font-size:15px}
-button{background:#166534;color:#fff;border:0;font-weight:bold;cursor:pointer}
+button{background:#166534;color:white;border:0;font-weight:bold;cursor:pointer}
 .secondary{background:#475569}
 .danger{background:#b91c1c}
 .edit{background:#2563eb}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
 .stat{background:#dcfce7;padding:14px;text-align:center;border-radius:8px}
 .stat b{font-size:23px;display:block;margin-top:5px}
-.voter{border:1px solid #e2e8f0;padding:10px;margin:8px 0;border-radius:8px;min-width:0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.voter{border:1px solid #e2e8f0;padding:10px;margin:8px 0;border-radius:8px}
 .actions{display:flex;gap:8px}
 .actions button{flex:1}
-.table-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.table-wrap{width:100%;overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{padding:9px;border:1px solid #e2e8f0;text-align:center}
+th,td{padding:9px;border:1px solid #e2e8f0;text-align:center;white-space:nowrap}
 th{background:#dcfce7}
 .total-row{font-weight:bold;background:#f1f5f9}
+label{display:block;margin-top:8px;font-weight:bold;font-size:14px}
 small{color:#64748b}
-.voter input,.voter select{margin:5px 0}
-label{display:block;margin-top:8px}
+.info{background:#eff6ff;padding:12px;border-radius:8px;font-size:13px}
+.stat-title{font-size:13px;color:#475569}
+h3{margin-top:5px}
 @media(min-width:650px){.stats{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:600px){
-  .card{overflow:hidden}
-  .table-wrap table{min-width:650px}
-  .stat{padding:12px 6px}
-}
+@media(max-width:450px){.grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
+
 <header>
 <h2>SIM-TIM DESA</h2>
-<p>Sistem Informasi Data Keluarga dan Pemilih</p>
+<p>Sistem Informasi Data Keluarga dan Administrasi Wilayah</p>
 </header>
 
 <main>
+
 <section class="card">
-<h3>Dashboard</h3>
+<h3>Dashboard Desa Gondanglegi</h3>
 <div class="stats">
 <div class="stat">Total KK<b id="total">0</b></div>
-<div class="stat">Total Pemilih<b id="pemilih">0</b></div>
-<div class="stat">Total RT<b id="totalRT">0</b></div>
-<div class="stat">Total RW<b id="totalRW">0</b></div>
+<div class="stat">Anggota KK<b id="pemilih">0</b></div>
+<div class="stat">Jumlah RT<b id="totalRT">37</b></div>
+<div class="stat">Jumlah RW<b id="totalRW">11</b></div>
 </div>
+<p class="info">
+Data acuan wilayah: 4 dukuh, 11 RW, 37 RT.
+Jumlah pemilih acuan: <b>6.070</b>.
+Data acuan tidak ditambahkan ke jumlah anggota KK yang diinput.
+</p>
 </section>
 
 <section class="card">
 <h3 id="judulForm">Input Data KK</h3>
-<label for="kk">Nomor KK</label>
-<input id="kk" placeholder="Nomor KK">
-<label for="kepala">Nama Kepala Keluarga</label>
-<input id="kepala" placeholder="Nama Kepala Keluarga">
-<label for="rt">Nomor RT</label>
-<input id="rt" placeholder="Nomor RT">
-<label for="rw">Nomor RW</label>
-<input id="rw" placeholder="Nomor RW">
-<label for="dukuh">Nama Dukuh</label>
-<select id="dukuh" required>
+
+<label>Nomor KK</label>
+<input id="kk" placeholder="Masukkan nomor KK">
+
+<label>Nama Kepala Keluarga</label>
+<input id="kepala" placeholder="Nama kepala keluarga">
+
+<label>Dukuh</label>
+<select id="dukuh">
 <option value="">Pilih Dukuh</option>
-<option value="Gondanglegi">Gondanglegi</option>
-<option value="Ringinrejo">Ringinrejo</option>
-<option value="Combre">Combre</option>
-<option value="Benden">Benden</option>
 </select>
-<label for="jumlah">Jumlah pemilih dalam KK</label>
-<input id="jumlah" type="number" min="1" max="30" placeholder="Masukkan jumlah pemilih">
+
+<label>RW</label>
+<select id="rw">
+<option value="">Pilih RW</option>
+</select>
+
+<label>RT</label>
+<select id="rt">
+<option value="">Pilih RT</option>
+</select>
+
+<label>Jumlah anggota keluarga</label>
+<input id="jumlah" type="number" min="1" max="30"
+placeholder="Jumlah anggota keluarga">
+
 <div id="kolomAnggota"></div>
+
 <button id="btnSimpan">SIMPAN DATA KK</button>
 <button class="secondary" id="btnReset">KOSONGKAN FORM</button>
 </section>
 
 <section class="card">
 <h3>Daftar Data KK</h3>
-<input id="cari" placeholder="Cari nama, nomor KK, RT, RW atau dukuh">
+<input id="cari" placeholder="Cari nomor KK, nama, dukuh, RW atau RT">
 <div id="daftar"></div>
 </section>
 
@@ -94,23 +109,38 @@ label{display:block;margin-top:8px}
 </section>
 
 <section class="card">
-<h3>Rekapitulasi Per RT</h3>
-<div id="rekapRT" class="table-wrap"></div>
+<h3>REKAPITULASI PER DUKUH</h3>
+<div id="rekapDukuh" class="table-wrap"></div>
 </section>
 
 <section class="card">
-<h3>Rekapitulasi Per RW</h3>
+<h3>REKAPITULASI PER RW</h3>
 <div id="rekapRW" class="table-wrap"></div>
 </section>
 
 <section class="card">
-<h3>Cadangan Data</h3>
+<h3>REKAPITULASI PER RT</h3>
+<div id="rekapRT" class="table-wrap"></div>
+</section>
+
+<section class="card">
+<h3>DATA ACUAN PEMILIH PER RT</h3>
+<p class="info">
+Angka berikut adalah data acuan awal yang sebelumnya dimasukkan.
+Gunakan sebagai pembanding, bukan sebagai data KK terdaftar.
+</p>
+<div id="rekapAcuan" class="table-wrap"></div>
+</section>
+
+<section class="card">
+<h3>Cadangan dan Pemulihan Data</h3>
 <button id="btnEkspor">DOWNLOAD CADANGAN DATA JSON</button>
-<label for="file">Pilih file cadangan JSON</label>
+<label>Pilih file cadangan JSON</label>
 <input type="file" id="file" accept=".json,application/json">
 <button class="secondary" id="btnImpor">PULIHKAN DATA JSON</button>
-<p><small>Data tersimpan di browser/perangkat ini. Unduh cadangan secara berkala.</small></p>
+<p><small>Data tersimpan pada browser perangkat ini. Unduh cadangan secara berkala.</small></p>
 </section>
+
 </main>
 
 <script>
@@ -118,37 +148,73 @@ label{display:block;margin-top:8px}
 
 const KEY="simtim_v2";
 const el=id=>document.getElementById(id);
+
 let data=[];
 let editId=null;
 
-const statusList=[
- "Belum ditentukan",
- "Mendukung",
- "Belum pasti",
- "Tidak mendukung"
+const dukuhList=[
+ {nama:"Gondanglegi",rw:[1,2,3,4]},
+ {nama:"Combre",rw:[5,6,7]},
+ {nama:"Ringinrejo",rw:[8,9,10]},
+ {nama:"Benden",rw:[11]}
 ];
+
+// Jumlah RT per RW dan data pemilih acuan per RT.
+// Urutan RT dimulai dari RT 001.
+const wilayah=[
+ {rw:1,acuan:[177,143,171,204]},
+ {rw:2,acuan:[152,98,76]},
+ {rw:3,acuan:[216,185,165]},
+ {rw:4,acuan:[195,127,220,170]},
+ {rw:5,acuan:[304,186,150]},
+ {rw:6,acuan:[98,136,196]},
+ {rw:7,acuan:[99,139,68,105]},
+ {rw:8,acuan:[157,222,216]},
+ {rw:9,acuan:[129,132,125]},
+ {rw:10,acuan:[144,117,140]},
+ {rw:11,acuan:[191,276,246,195]}
+];
+
+const statusList=[
+ "Belum diverifikasi",
+ "Terverifikasi"
+];
+
+function pad(n){
+ return String(n).padStart(3,"0");
+}
+
+function namaDukuh(rw){
+ const d=dukuhList.find(x=>x.rw.includes(Number(rw)));
+ return d?d.nama:"Belum ditentukan";
+}
 
 function aman(s){
  return String(s??"").replace(/[&<>"']/g,c=>({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+ "&":"&amp;","<":"&lt;",">":"&gt;",
+ '"':"&quot;","'":"&#39;"
  }[c]));
 }
 
 function normalisasi(item,i){
  const anggota=Array.isArray(item.anggota)?item.anggota:[];
+ const rw=String(item.rw||"").replace(/\D/g,"");
+ const rt=String(item.rt||"").replace(/\D/g,"");
+
  return {
   id:String(item.id||("data-"+Date.now()+"-"+i)),
   kk:String(item.kk||""),
   kepala:String(item.kepala||""),
-  rt:String(item.rt||""),
-  rw:String(item.rw||""),
-  dukuh:String(item.dukuh||""),
-  anggota:anggota.map(a=>{
-   const nama=typeof a==="string"?a:(a.nama||"");
-   const status=typeof a==="string"?"Belum ditentukan":
-    (statusList.includes(a.status)?a.status:"Belum ditentukan");
-   return {nama:String(nama),status};
-  })
+  rw:rw?pad(rw):"",
+  rt:rt?pad(rt):"",
+  dukuh:dukuhList.some(d=>d.nama===item.dukuh)
+   ?item.dukuh:namaDukuh(rw),
+  anggota:anggota.map(a=>({
+   nama:String(typeof a==="string"?a:(a.nama||"")),
+   verifikasi:
+    typeof a==="object"&&a.verifikasi==="Terverifikasi"
+    ?"Terverifikasi":"Belum diverifikasi"
+  }))
  };
 }
 
@@ -158,7 +224,7 @@ function muatData(){
   data=Array.isArray(raw)?raw.map(normalisasi):[];
  }catch(e){
   data=[];
-  alert("Data lokal tidak dapat dibaca. Coba pulihkan dari cadangan JSON.");
+  alert("Data lokal tidak dapat dibaca. Pulihkan dari cadangan JSON.");
  }
 }
 
@@ -172,40 +238,88 @@ function simpanLokal(){
  }
 }
 
+function isiDukuh(){
+ el("dukuh").innerHTML=
+ '<option value="">Pilih Dukuh</option>'+
+ dukuhList.map(d=>'<option value="'+aman(d.nama)+'">'+aman(d.nama)+'</option>').join("");
+}
+
+function isiRW(){
+ const d=dukuhList.find(x=>x.nama===el("dukuh").value);
+ el("rw").innerHTML='<option value="">Pilih RW</option>';
+ el("rt").innerHTML='<option value="">Pilih RT</option>';
+
+ if(!d)return;
+
+ d.rw.forEach(r=>{
+  const o=document.createElement("option");
+  o.value=pad(r);
+  o.textContent="RW "+pad(r);
+  el("rw").appendChild(o);
+ });
+}
+
+function isiRT(){
+ const rw=Number(el("rw").value);
+ const w=wilayah.find(x=>x.rw===rw);
+ el("rt").innerHTML='<option value="">Pilih RT</option>';
+ if(!w)return;
+
+ w.acuan.forEach((v,i)=>{
+  const o=document.createElement("option");
+  o.value=pad(i+1);
+  o.textContent="RT "+pad(i+1);
+  el("rt").appendChild(o);
+ });
+}
+
 function buatKolom(){
  const n=Math.max(0,Math.min(30,Number(el("jumlah").value)||0));
- const lama=[...document.querySelectorAll(".namaPemilih")].map(x=>x.value);
- const statusLama=[...document.querySelectorAll(".statusPemilih")].map(x=>x.value);
+ const lama=[...document.querySelectorAll(".namaPemilih")]
+  .map(x=>x.value);
+ const statusLama=[...document.querySelectorAll(".statusPemilih")]
+  .map(x=>x.value);
+
  el("kolomAnggota").innerHTML="";
 
  for(let i=0;i<n;i++){
   const div=document.createElement("div");
   div.className="voter";
-  const label=document.createElement("b");
-  label.textContent="Nama Pemilih "+(i+1);
+
+  const b=document.createElement("b");
+  b.textContent="Anggota keluarga "+(i+1);
+
   const nama=document.createElement("input");
   nama.className="namaPemilih";
-  nama.placeholder="Nama pemilih "+(i+1);
+  nama.placeholder="Nama anggota keluarga";
   nama.value=lama[i]||"";
-  const statusLabel=document.createElement("label");
-  statusLabel.textContent="Status Pemilih";
+
+  const label=document.createElement("label");
+  label.textContent="Verifikasi administrasi";
+
   const select=document.createElement("select");
   select.className="statusPemilih";
+
   statusList.forEach(s=>{
-   const option=document.createElement("option");
-   option.value=s;
-   option.textContent=s;
-   select.appendChild(option);
+   const o=document.createElement("option");
+   o.value=s;
+   o.textContent=s;
+   select.appendChild(o);
   });
-  select.value=statusList.includes(statusLama[i])?statusLama[i]:"Belum ditentukan";
-  div.append(label,nama,statusLabel,select);
+
+  select.value=statusList.includes(statusLama[i])
+   ?statusLama[i]:"Belum diverifikasi";
+
+  div.append(b,nama,label,select);
   el("kolomAnggota").appendChild(div);
  }
 }
 
 function resetForm(){
  editId=null;
- ["kk","kepala","rt","rw","jumlah","dukuh"].forEach(id=>el(id).value="");
+ ["kk","kepala","jumlah"].forEach(id=>el(id).value="");
+ el("dukuh").value="";
+ isiRW();
  el("kolomAnggota").innerHTML="";
  el("judulForm").textContent="Input Data KK";
  el("btnSimpan").textContent="SIMPAN DATA KK";
@@ -214,46 +328,71 @@ function resetForm(){
 function simpan(){
  const kk=el("kk").value.trim();
  const kepala=el("kepala").value.trim();
- const rt=el("rt").value.trim();
- const rw=el("rw").value.trim();
  const dukuh=el("dukuh").value;
+ const rw=el("rw").value;
+ const rt=el("rt").value;
  const n=Number(el("jumlah").value);
+
  const names=[...document.querySelectorAll(".namaPemilih")];
  const statuses=[...document.querySelectorAll(".statusPemilih")];
 
- if(!kk||!kepala||!rt||!rw||!dukuh){
-  alert("Lengkapi Nomor KK, Kepala Keluarga, RT, RW dan Nama Dukuh.");
+ if(!kk||!kepala||!dukuh||!rw||!rt){
+  alert("Lengkapi seluruh data KK dan wilayah.");
   return;
  }
+
+ if(!/^\d{16}$/.test(kk)){
+  alert("Nomor KK harus terdiri dari 16 angka.");
+  return;
+ }
+
  if(!Number.isInteger(n)||n<1||n>30||names.length!==n){
-  alert("Jumlah pemilih harus antara 1 sampai 30.");
+  alert("Jumlah anggota harus antara 1 sampai 30.");
   return;
  }
+
  if(names.some(x=>!x.value.trim())){
-  alert("Isi nama semua pemilih.");
+  alert("Isi nama seluruh anggota keluarga.");
   return;
  }
- if(data.some(x=>x.kk.toLowerCase()===kk.toLowerCase()&&x.id!==editId)){
+
+ if(data.some(x=>x.kk===kk&&x.id!==editId)){
   alert("Nomor KK sudah terdaftar.");
+  return;
+ }
+
+ const w=wilayah.find(x=>x.rw===Number(rw));
+ if(!w||!w.acuan[Number(rt)-1]){
+  alert("Kombinasi RW dan RT tidak sesuai.");
   return;
  }
 
  const item={
   id:editId||String(Date.now()),
-  kk,kepala,rt,rw,dukuh,
-  anggota:names.map((x,i)=>({nama:x.value.trim(),status:statuses[i].value}))
+  kk,kepala,dukuh,rw,rt,
+  anggota:names.map((x,i)=>({
+   nama:x.value.trim(),
+   verifikasi:statuses[i].value
+  }))
  };
- const lama=[...data];
 
+ const lama=[...data];
  if(editId){
   const index=data.findIndex(x=>x.id===editId);
-  if(index<0){alert("Data yang akan diedit tidak ditemukan.");return;}
+  if(index<0){
+   alert("Data yang akan diedit tidak ditemukan.");
+   return;
+  }
   data[index]=item;
  }else{
   data.push(item);
  }
 
- if(!simpanLokal()){data=lama;return;}
+ if(!simpanLokal()){
+  data=lama;
+  return;
+ }
+
  resetForm();
  tampil();
  alert("Data KK berhasil disimpan.");
@@ -262,55 +401,96 @@ function simpan(){
 function edit(id){
  const x=data.find(x=>x.id===id);
  if(!x)return;
+
  editId=id;
- ["kk","kepala","rt","rw","dukuh"].forEach(k=>el(k).value=x[k]||"");
+ el("kk").value=x.kk;
+ el("kepala").value=x.kepala;
+ el("dukuh").value=x.dukuh;
+ isiRW();
+ el("rw").value=x.rw;
+ isiRT();
+ el("rt").value=x.rt;
  el("jumlah").value=x.anggota.length;
+
  el("judulForm").textContent="Edit Data KK";
  el("btnSimpan").textContent="SIMPAN PERUBAHAN";
  buatKolom();
 
  const names=document.querySelectorAll(".namaPemilih");
  const statuses=document.querySelectorAll(".statusPemilih");
+
  x.anggota.forEach((a,i)=>{
   names[i].value=a.nama;
-  statuses[i].value=a.status;
+  statuses[i].value=a.verifikasi;
  });
+
  window.scrollTo({top:0,behavior:"smooth"});
 }
 
 function hapus(id){
  const x=data.find(x=>x.id===id);
  if(!x)return;
+
  if(!confirm("Hapus data KK "+x.kk+" atas nama "+x.kepala+"?"))return;
+
  const lama=[...data];
  data=data.filter(x=>x.id!==id);
- if(!simpanLokal()){data=lama;return;}
+
+ if(!simpanLokal()){
+  data=lama;
+  return;
+ }
+
  if(editId===id)resetForm();
  tampil();
 }
 
+function hitungWilayah(list){
+ return {
+  kk:list.length,
+  anggota:list.reduce((s,x)=>s+x.anggota.length,0),
+  terverifikasi:list.reduce((s,x)=>
+   s+x.anggota.filter(a=>a.verifikasi==="Terverifikasi").length,0)
+ };
+}
+
+function tabel(rows,headers){
+ return "<table><thead><tr>"+
+ headers.map(h=>"<th>"+h+"</th>").join("")+
+ "</tr></thead><tbody>"+
+ rows.map(row=>"<tr>"+row.map(v=>"<td>"+v+"</td>").join("")+"</tr>").join("")+
+ "</tbody></table>";
+}
+
 function tampil(){
  const q=el("cari").value.trim().toLowerCase();
- const totalPemilih=data.reduce((s,x)=>s+x.anggota.length,0);
- el("total").textContent=data.length;
- el("pemilih").textContent=totalPemilih;
- el("totalRT").textContent=new Set(data.map(x=>x.rw+"|"+x.rt)).size;
- el("totalRW").textContent=new Set(data.map(x=>x.rw)).size;
+ const total=hitungWilayah(data);
+
+ el("total").textContent=total.kk;
+ el("pemilih").textContent=total.anggota;
+ el("totalRT").textContent="37";
+ el("totalRW").textContent="11";
 
  const hasil=data.filter(x=>{
-  const teks=[x.kk,x.kepala,x.rt,x.rw,x.dukuh,...x.anggota.map(a=>a.nama)].join(" ").toLowerCase();
+  const teks=[
+   x.kk,x.kepala,x.rt,x.rw,x.dukuh,
+   ...x.anggota.map(a=>a.nama)
+  ].join(" ").toLowerCase();
   return teks.includes(q);
  });
 
  el("daftar").innerHTML=hasil.length?hasil.map(x=>
   '<div class="voter">'+
   "<b>"+aman(x.kepala)+"</b>"+
-  "<p>KK: "+aman(x.kk)+"</p>"+
-  "<p>RT: "+aman(x.rt)+" | RW: "+aman(x.rw)+"</p>"+
-  "<p>Dukuh: "+aman(x.dukuh||"-")+"</p>"+
-  "<p>Jumlah pemilih: "+x.anggota.length+"</p>"+
-  "<details><summary>Lihat nama pemilih</summary>"+
-  x.anggota.map((a,i)=>"<p>"+(i+1)+". "+aman(a.nama)+" — "+aman(a.status)+"</p>").join("")+
+  "<p>Nomor KK: "+aman(x.kk)+"</p>"+
+  "<p>Dukuh: "+aman(x.dukuh)+"</p>"+
+  "<p>RW "+aman(x.rw)+" | RT "+aman(x.rt)+"</p>"+
+  "<p>Jumlah anggota: "+x.anggota.length+"</p>"+
+  '<details><summary>Lihat anggota keluarga</summary>'+
+  x.anggota.map((a,i)=>
+   "<p>"+(i+1)+". "+aman(a.nama)+
+   " — "+aman(a.verifikasi)+"</p>"
+  ).join("")+
   "</details>"+
   '<div class="actions">'+
   '<button class="edit" data-aksi="edit" data-id="'+aman(x.id)+'">EDIT</button>'+
@@ -318,75 +498,129 @@ function tampil(){
   "</div></div>"
  ).join(""):"Belum ada data ditemukan.";
 
- rekap("rt","rekapRT");
- rekap("rw","rekapRW");
  rekapDesa();
-}
-
-function rekap(field,target){
- const grup={};
- data.forEach(x=>{
-  const k=field==="rt"?JSON.stringify([x.rw,x.rt]):x.rw;
-  if(!grup[k]){
-   grup[k]={rt:x.rt,rw:x.rw,kk:0,pemilih:0,mendukung:0,belumPasti:0,tidakMendukung:0,belumDitentukan:0};
-  }
-  const g=grup[k];
-  g.kk++;
-  x.anggota.forEach(a=>{
-   g.pemilih++;
-   switch(a.status){
-    case "Mendukung":g.mendukung++;break;
-    case "Belum pasti":g.belumPasti++;break;
-    case "Tidak mendukung":g.tidakMendukung++;break;
-    default:g.belumDitentukan++;
-   }
-  });
- });
-
- const keys=Object.keys(grup).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
- if(!keys.length){el(target).textContent="Belum ada data.";return;}
-
- const total={kk:0,pemilih:0,mendukung:0,belumPasti:0,tidakMendukung:0,belumDitentukan:0};
- keys.forEach(k=>Object.keys(total).forEach(v=>total[v]+=grup[k][v]));
- const header=field==="rt"?"<th>RT</th><th>RW</th>":"<th>RW</th>";
-
- el(target).innerHTML=
-  "<table><thead><tr>"+header+
-  "<th>Jumlah KK</th><th>Total Pemilih</th><th>Mendukung</th>"+
-  "<th>Belum Pasti</th><th>Tidak Mendukung</th><th>Belum Ditentukan</th>"+
-  "</tr></thead><tbody>"+
-  keys.map(k=>{
-   const g=grup[k];
-   return "<tr>"+(field==="rt"?"<td>"+aman(g.rt)+"</td><td>"+aman(g.rw)+"</td>":"<td>"+aman(g.rw)+"</td>")+
-    "<td>"+g.kk+"</td><td>"+g.pemilih+"</td><td>"+g.mendukung+"</td>"+
-    "<td>"+g.belumPasti+"</td><td>"+g.tidakMendukung+"</td><td>"+g.belumDitentukan+"</td></tr>";
-  }).join("")+
-  "</tbody><tfoot><tr class='total-row'>"+
-  (field==="rt"?"<td colspan='2'>TOTAL</td>":"<td>TOTAL</td>")+
-  "<td>"+total.kk+"</td><td>"+total.pemilih+"</td><td>"+total.mendukung+"</td>"+
-  "<td>"+total.belumPasti+"</td><td>"+total.tidakMendukung+"</td><td>"+total.belumDitentukan+"</td>"+
-  "</tr></tfoot></table>";
+ rekapDukuh();
+ rekapRW();
+ rekapRT();
+ rekapAcuan();
 }
 
 function rekapDesa(){
- const totalKK=data.length;
- const totalPemilih=data.reduce((s,x)=>s+x.anggota.length,0);
- const totalRT=new Set(data.map(x=>x.rw+"|"+x.rt)).size;
- const totalRW=new Set(data.map(x=>x.rw)).size;
- const totalDukuh=new Set(data.map(x=>x.dukuh).filter(Boolean)).size;
+ const t=hitungWilayah(data);
+ const rows=[
+  ["Jumlah Dukuh","4"],
+  ["Jumlah RW","11"],
+  ["Jumlah RT","37"],
+  ["Jumlah KK terdata",t.kk],
+  ["Jumlah anggota KK terdata",t.anggota],
+  ["Anggota terverifikasi",t.terverifikasi],
+  ["Pemilih acuan awal","6.070"]
+ ];
 
- el("rekapDesa").innerHTML=
-  "<table><thead><tr><th>Keterangan</th><th>Jumlah</th></tr></thead><tbody>"+
-  "<tr><td>Total KK</td><td>"+totalKK+"</td></tr>"+
-  "<tr><td>Total Pemilih</td><td>"+totalPemilih+"</td></tr>"+
-  "<tr><td>Total RT</td><td>"+totalRT+"</td></tr>"+
-  "<tr><td>Total RW</td><td>"+totalRW+"</td></tr>"+
-  "<tr><td>Total Dukuh Terdata</td><td>"+totalDukuh+"</td></tr>"+
-  "</tbody></table>";
+ el("rekapDesa").innerHTML=tabel(rows,["Keterangan","Jumlah"]);
+}
+
+function rekapDukuh(){
+ const rows=dukuhList.map(d=>{
+  const list=data.filter(x=>x.dukuh===d.nama);
+  const t=hitungWilayah(list);
+  return [
+   aman(d.nama),
+   d.rw.length,
+   t.kk,
+   t.anggota,
+   t.terverifikasi
+  ];
+ });
+
+ el("rekapDukuh").innerHTML=tabel(rows,
+  ["Nama Dukuh","RW","Jumlah KK","Anggota KK","Terverifikasi"]);
+}
+
+function rekapRW(){
+ const rows=wilayah.map(w=>{
+  const list=data.filter(x=>Number(x.rw)===w.rw);
+  const t=hitungWilayah(list);
+
+  return [
+   "RW "+pad(w.rw),
+   aman(namaDukuh(w.rw)),
+   w.acuan.length,
+   t.kk,
+   t.anggota,
+   t.terverifikasi
+  ];
+ });
+
+ el("rekapRW").innerHTML=tabel(rows,
+  ["RW","Dukuh","RT","Jumlah KK","Anggota KK","Terverifikasi"]);
+}
+
+function rekapRT(){
+ const rows=[];
+
+ wilayah.forEach(w=>{
+  w.acuan.forEach((acuan,i)=>{
+   const rt=pad(i+1);
+   const list=data.filter(x=>
+    Number(x.rw)===w.rw&&x.rt===rt
+   );
+   const t=hitungWilayah(list);
+
+   rows.push([
+    aman(namaDukuh(w.rw)),
+    "RW "+pad(w.rw),
+    "RT "+rt,
+    t.kk,
+    t.anggota,
+    acuan
+   ]);
+  });
+ });
+
+ el("rekapRT").innerHTML=tabel(rows,
+  ["Dukuh","RW","RT","Jumlah KK","Anggota KK","Pemilih Acuan"]);
+}
+
+function rekapAcuan(){
+ let total=0;
+ const rows=[];
+
+ wilayah.forEach(w=>{
+  let subtotal=0;
+  w.acuan.forEach((v,i)=>{
+   subtotal+=v;
+   rows.push([
+    "RW "+pad(w.rw),
+    "RT "+pad(i+1),
+    v.toLocaleString("id-ID")
+   ]);
+  });
+
+  rows.push([
+   "<b>SUBTOTAL RW "+pad(w.rw)+"</b>",
+   "-",
+   "<b>"+subtotal.toLocaleString("id-ID")+"</b>"
+  ]);
+
+  total+=subtotal;
+ });
+
+ rows.push([
+  "<b>TOTAL SELURUH DESA</b>",
+  "37 RT",
+  "<b>"+total.toLocaleString("id-ID")+"</b>"
+ ]);
+
+ el("rekapAcuan").innerHTML=tabel(rows,
+  ["RW","RT","Pemilih Acuan"]);
 }
 
 function ekspor(){
- const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+ const blob=new Blob(
+  [JSON.stringify(data,null,2)],
+  {type:"application/json"}
+ );
  const url=URL.createObjectURL(blob);
  const a=document.createElement("a");
  a.href=url;
@@ -397,39 +631,59 @@ function ekspor(){
 
 function impor(){
  const file=el("file").files[0];
- if(!file){alert("Pilih file JSON terlebih dahulu.");return;}
+ if(!file){
+  alert("Pilih file JSON terlebih dahulu.");
+  return;
+ }
+
  const reader=new FileReader();
+
  reader.onload=()=>{
   try{
    const d=JSON.parse(reader.result);
    if(!Array.isArray(d))throw Error("Format salah");
+
    const baru=d.map(normalisasi);
    const ids=baru.map(x=>x.id);
+   const nomor=baru.map(x=>x.kk);
+
    if(new Set(ids).size!==ids.length)throw Error("ID ganda");
-   const nomor=baru.map(x=>x.kk.toLowerCase());
-   if(new Set(nomor).size!==nomor.length)throw Error("Nomor KK ganda");
-   if(!confirm("Data saat ini akan diganti dengan data cadangan. Lanjutkan?"))return;
+   if(new Set(nomor).size!==nomor.length)throw Error("KK ganda");
+
+   if(baru.some(x=>
+    !x.kk||!x.kepala||
+    !wilayah.some(w=>w.rw===Number(x.rw)&&
+    w.acuan[Number(x.rt)-1]!==undefined)
+   ))throw Error("Wilayah tidak valid");
+
+   if(!confirm("Data saat ini akan diganti. Lanjutkan?"))return;
+
    const lama=[...data];
    data=baru;
-   if(!simpanLokal()){data=lama;return;}
+
+   if(!simpanLokal()){
+    data=lama;
+    return;
+   }
+
    resetForm();
    tampil();
    el("file").value="";
    alert("Data berhasil dipulihkan.");
+
   }catch(e){
    alert("File JSON tidak valid atau mengandung data ganda.");
   }
  };
+
  reader.readAsText(file);
 }
 
-el("daftar").addEventListener("click",e=>{
- const btn=e.target.closest("button[data-aksi]");
- if(!btn)return;
- const id=btn.dataset.id;
- if(btn.dataset.aksi==="edit")edit(id);
- if(btn.dataset.aksi==="hapus")hapus(id);
+el("dukuh").addEventListener("change",()=>{
+ isiRW();
 });
+
+el("rw").addEventListener("change",isiRT);
 el("jumlah").addEventListener("input",buatKolom);
 el("cari").addEventListener("input",tampil);
 el("btnSimpan").addEventListener("click",simpan);
@@ -437,81 +691,18 @@ el("btnReset").addEventListener("click",resetForm);
 el("btnEkspor").addEventListener("click",ekspor);
 el("btnImpor").addEventListener("click",impor);
 
+el("daftar").addEventListener("click",e=>{
+ const btn=e.target.closest("button[data-aksi]");
+ if(!btn)return;
+
+ if(btn.dataset.aksi==="edit")edit(btn.dataset.id);
+ if(btn.dataset.aksi==="hapus")hapus(btn.dataset.id);
+});
+
+isiDukuh();
 muatData();
 tampil();
-</script>
-<div id="rekapDasarDesa"></div>
-  
-<script>
-(function(){
 
-const data = [
-["I",177,143,171,204],
-["II",152,98,76],
-["III",216,185,165],
-["IV",195,127,220,170],
-["V",304,186,150],
-["VI",98,136,196],
-["VII",99,139,68,105],
-["VIII",157,222,216],
-["IX",129,132,125],
-["X",144,117,140],
-["XI",191,276,246,195]
-];
-
-let total = 0;
-let totalRT = 0;
-let html = `
-<div style="background:#dcfce7;padding:15px;
-border-radius:10px;margin-bottom:15px">
-<h3 style="margin:0">TOTAL PEMILIH DESA</h3>
-<h1 id="totalPemilihDasar">6.070</h1>
-<p>11 RW · 37 RT</p>
-</div>
-<div style="overflow-x:auto">
-<table style="width:100%;border-collapse:collapse">
-<thead>
-<tr style="background:#166534;color:white">
-<th style="padding:10px">RW</th>
-<th style="padding:10px">RT</th>
-<th style="padding:10px">Pemilih</th>
-</tr>
-</thead><tbody>`;
-
-data.forEach((rw)=>{
-let subtotal=0;
-rw.slice(1).forEach((jumlah,i)=>{
-subtotal+=jumlah;
-total+=jumlah;
-totalRT++;
-html+=`<tr>
-<td style="padding:9px;border-bottom:1px solid #ddd">
-${rw[0]}</td>
-<td style="padding:9px;border-bottom:1px solid #ddd">
-${String(i+1).padStart(3,"0")}</td>
-<td style="padding:9px;text-align:center;
-border-bottom:1px solid #ddd">${jumlah}</td>
-</tr>`;
-});
-html+=`<tr style="background:#dcfce7;font-weight:bold">
-<td colspan="2" style="padding:9px">
-SUBTOTAL RW ${rw[0]}</td>
-<td style="padding:9px;text-align:center">${subtotal}</td>
-</tr>`;
-});
-
-html+=`</tbody></table></div>
-<p style="font-weight:bold;background:#166534;
-color:white;padding:12px;border-radius:8px">
-TOTAL SELURUH DESA: ${total.toLocaleString("id-ID")}
-PEMILIH
-</p>`;
-
-const target=document.getElementById("rekapDasarDesa");
-if(target) target.innerHTML=html;
-
-})();
 </script>
 </body>
 </html>
-
