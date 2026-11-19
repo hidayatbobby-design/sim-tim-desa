@@ -1,4 +1,4 @@
-
+Rp
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -151,19 +151,72 @@ function tampil(){
  ).join(""):"Belum ada data ditemukan.";
  rekap("rt","rekapRT");rekap("rw","rekapRW");
 }
+
 function rekap(field,target){
  const grup={};
+
  data.forEach(x=>{
-  const k=x[field]||"-";
-  if(!grup[k])grup[k]={kk:0,pemilih:0};
-  grup[k].kk++;grup[k].pemilih+=x.anggota.length;
+   const k=x[field]||"-";
+
+   if(!grup[k]){
+     grup[k]={
+       kk:0,
+       pemilih:0,
+       mendukung:0,
+       belumPasti:0,
+       tidakMendukung:0,
+       belumDitentukan:0
+     };
+   }
+
+   grup[k].kk++;
+
+   x.anggota.forEach(a=>{
+     grup[k].pemilih++;
+
+     const s=(a.status||"Belum ditentukan").toLowerCase();
+
+     if(s==="mendukung"){
+       grup[k].mendukung++;
+     }else if(s==="belum pasti"){
+       grup[k].belumPasti++;
+     }else if(s==="tidak mendukung"){
+       grup[k].tidakMendukung++;
+     }else{
+       grup[k].belumDitentukan++;
+     }
+   });
  });
- const keys=Object.keys(grup).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
+
+ const keys=Object.keys(grup).sort(
+   (a,b)=>a.localeCompare(b,undefined,{numeric:true})
+ );
+
  el(target).innerHTML=keys.length?
-  '<table><tr><th>'+field.toUpperCase()+'</th><th>Jumlah KK</th><th>Jumlah Pemilih</th></tr>'+
-  keys.map(k=>'<tr><td>'+aman(k)+'</td><td>'+grup[k].kk+'</td><td>'+grup[k].pemilih+'</td></tr>').join("")+'</table>':
-  "Belum ada data.";
-}
+ `<table>
+ <tr>
+ <th>${field.toUpperCase()}</th>
+ <th>Jumlah KK</th>
+ <th>Total Pemilih</th>
+ <th>Mendukung</th>
+ <th>Belum Pasti</th>
+ <th>Tidak Mendukung</th>
+ <th>Belum Ditentukan</th>
+ </tr>`+
+ keys.map(k=>`
+ <tr>
+ <td>${aman(k)}</td>
+ <td>${grup[k].kk}</td>
+ <td>${grup[k].pemilih}</td>
+ <td>${grup[k].mendukung}</td>
+ <td>${grup[k].belumPasti}</td>
+ <td>${grup[k].tidakMendukung}</td>
+ <td>${grup[k].belumDitentukan}</td>
+ </tr>
+ `).join("")+
+ `</table>`:"Belum ada data.";
+  }
+                                               
 function ekspor(){
  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
  const url=URL.createObjectURL(blob),a=document.createElement("a");
@@ -187,5 +240,6 @@ tampil();
 </script>
 </body>
 </html>
+
 
   
