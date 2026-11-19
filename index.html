@@ -34,6 +34,36 @@ small{color:#64748b}
 @media(min-width:650px){
 .stats{grid-template-columns:repeat(4,1fr)}
 }
+ 
+/* PERBAIKAN TABEL UNTUK HP */
+@media(max-width:600px){
+  .table-wrap{
+    width:100%;
+    overflow-x:auto;
+  }
+
+  .table-wrap table{
+    width:100%;
+    min-width:0 !important;
+    table-layout:fixed;
+    font-size:10px;
+  }
+
+  .table-wrap th,
+  .table-wrap td{
+    padding:6px 3px;
+    font-size:10px;
+    overflow-wrap:anywhere;
+    word-break:normal;
+  }
+
+  .card{
+    max-width:100%;
+    overflow:hidden;
+  }
+
+
+ 
 </style>
 </head>
 <body>
