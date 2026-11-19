@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -6,105 +5,48 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#14532d">
 <title>SIM-TIM DESA</title>
- 
 <style>
 *{box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:#f1f5f9;margin:0;color:#1e293b}
-header{background:#14532d;color:white;padding:20px}
+body{font-family:Arial,sans-serif;background:#f1f5f9;margin:0;color:#1e293b;max-width:100%;overflow-x:hidden}
+header{background:#14532d;color:#fff;padding:20px}
 header h2{margin:0}
+header p{margin-bottom:0}
 main{padding:15px;max-width:1000px;margin:auto}
-.card{background:white;padding:16px;margin:12px 0;border-radius:12px}
+.card{background:#fff;padding:16px;margin:12px 0;border-radius:12px;max-width:100%;min-width:0}
 input,select,button{width:100%;padding:12px;margin:6px 0;border:1px solid #cbd5e1;border-radius:7px;font-size:15px}
-button{background:#166534;color:white;border:0;font-weight:bold;cursor:pointer}
+button{background:#166534;color:#fff;border:0;font-weight:bold;cursor:pointer}
 .secondary{background:#475569}
 .danger{background:#b91c1c}
 .edit{background:#2563eb}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .stat{background:#dcfce7;padding:14px;text-align:center;border-radius:8px}
 .stat b{font-size:23px;display:block;margin-top:5px}
-.voter{border:1px solid #e2e8f0;padding:10px;margin:8px 0;border-radius:8px}
+.voter{border:1px solid #e2e8f0;padding:10px;margin:8px 0;border-radius:8px;min-width:0}
 .actions{display:flex;gap:8px}
 .actions button{flex:1}
-.table-wrap{overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:13px;min-width:650px}
+.table-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:collapse;font-size:13px}
 th,td{padding:9px;border:1px solid #e2e8f0;text-align:center}
 th{background:#dcfce7}
 .total-row{font-weight:bold;background:#f1f5f9}
 small{color:#64748b}
 .voter input,.voter select{margin:5px 0}
-@media(min-width:650px){
-.stats{grid-template-columns:repeat(4,1fr)}
-}
- 
-/* PERBAIKAN TABEL UNTUK HP */
+label{display:block;margin-top:8px}
+@media(min-width:650px){.stats{grid-template-columns:repeat(4,1fr)}}
 @media(max-width:600px){
-  .table-wrap{
-    width:100%;
-    overflow-x:auto;
-  }
-
-  .table-wrap table{
-    width:100%;
-    min-width:0 !important;
-    table-layout:fixed;
-    font-size:10px;
-  }
-
-  .table-wrap th,
-  .table-wrap td{
-    padding:6px 3px;
-    font-size:10px;
-    overflow-wrap:anywhere;
-    word-break:normal;
-  }
-
-  .card{
-    max-width:100%;
-    overflow:hidden;
-  }
-
-* {
-  box-sizing: border-box;
+  .card{overflow:hidden}
+  .table-wrap table{min-width:650px}
+  .stat{padding:12px 6px}
 }
-
-body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.card, section, .container {
-  max-width: 100%;
-  min-width: 0;
-}
-
-table {
-  display: block;
-  max-width: 100%;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-th, td {
-  white-space: nowrap;
-  padding: 9px;
-}
- 
 </style>
 </head>
 <body>
-
 <header>
 <h2>SIM-TIM DESA</h2>
 <p>Sistem Informasi Data Keluarga dan Pemilih</p>
 </header>
 
 <main>
-
 <section class="card">
 <h3>Dashboard</h3>
 <div class="stats">
@@ -117,40 +59,40 @@ th, td {
 
 <section class="card">
 <h3 id="judulForm">Input Data KK</h3>
-
+<label for="kk">Nomor KK</label>
 <input id="kk" placeholder="Nomor KK">
+<label for="kepala">Nama Kepala Keluarga</label>
 <input id="kepala" placeholder="Nama Kepala Keluarga">
+<label for="rt">Nomor RT</label>
 <input id="rt" placeholder="Nomor RT">
+<label for="rw">Nomor RW</label>
 <input id="rw" placeholder="Nomor RW">
- <label for="dukuh">Nama Dukuh</label>
+<label for="dukuh">Nama Dukuh</label>
 <select id="dukuh" required>
-  <option value="">Pilih Dukuh</option>
-  <option value="Gondanglegi">Gondanglegi</option>
-  <option value="Ringinrejo">Ringinrejo</option>
-  <option value="Combre">Combre</option>
-  <option value="Benden">Benden</option>
+<option value="">Pilih Dukuh</option>
+<option value="Gondanglegi">Gondanglegi</option>
+<option value="Ringinrejo">Ringinrejo</option>
+<option value="Combre">Combre</option>
+<option value="Benden">Benden</option>
 </select>
-
 <label for="jumlah">Jumlah pemilih dalam KK</label>
-<input id="jumlah" type="number" min="1" max="30"
-placeholder="Masukkan jumlah pemilih">
-
+<input id="jumlah" type="number" min="1" max="30" placeholder="Masukkan jumlah pemilih">
 <div id="kolomAnggota"></div>
-
 <button id="btnSimpan">SIMPAN DATA KK</button>
 <button class="secondary" id="btnReset">KOSONGKAN FORM</button>
 </section>
 
 <section class="card">
 <h3>Daftar Data KK</h3>
-<input id="cari" placeholder="Cari nama, nomor KK, RT atau RW">
+<input id="cari" placeholder="Cari nama, nomor KK, RT, RW atau dukuh">
 <div id="daftar"></div>
 </section>
+
 <section class="card">
 <h3>REKAPITULASI SELURUH DESA</h3>
-<div id="rekapDesa"></div>
+<div id="rekapDesa" class="table-wrap"></div>
 </section>
- 
+
 <section class="card">
 <h3>Rekapitulasi Per RT</h3>
 <div id="rekapRT" class="table-wrap"></div>
@@ -164,12 +106,11 @@ placeholder="Masukkan jumlah pemilih">
 <section class="card">
 <h3>Cadangan Data</h3>
 <button id="btnEkspor">DOWNLOAD CADANGAN DATA JSON</button>
+<label for="file">Pilih file cadangan JSON</label>
 <input type="file" id="file" accept=".json,application/json">
 <button class="secondary" id="btnImpor">PULIHKAN DATA JSON</button>
-<p><small>Data tersimpan di browser/perangkat ini.
-Unduh cadangan secara berkala.</small></p>
+<p><small>Data tersimpan di browser/perangkat ini. Unduh cadangan secara berkala.</small></p>
 </section>
-
 </main>
 
 <script>
@@ -177,21 +118,19 @@ Unduh cadangan secara berkala.</small></p>
 
 const KEY="simtim_v2";
 const el=id=>document.getElementById(id);
-
 let data=[];
 let editId=null;
 
 const statusList=[
-"Belum ditentukan",
-"Mendukung",
-"Belum pasti",
-"Tidak mendukung"
+ "Belum ditentukan",
+ "Mendukung",
+ "Belum pasti",
+ "Tidak mendukung"
 ];
 
 function aman(s){
  return String(s??"").replace(/[&<>"']/g,c=>({
- "&":"&amp;","<":"&lt;",">":"&gt;",
- '"':"&quot;","'":"&#39;"
+  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
  }[c]));
 }
 
@@ -203,10 +142,10 @@ function normalisasi(item,i){
   kepala:String(item.kepala||""),
   rt:String(item.rt||""),
   rw:String(item.rw||""),
+  dukuh:String(item.dukuh||""),
   anggota:anggota.map(a=>{
    const nama=typeof a==="string"?a:(a.nama||"");
-   const status=typeof a==="string"?
-    "Belum ditentukan":
+   const status=typeof a==="string"?"Belum ditentukan":
     (statusList.includes(a.status)?a.status:"Belum ditentukan");
    return {nama:String(nama),status};
   })
@@ -219,7 +158,7 @@ function muatData(){
   data=Array.isArray(raw)?raw.map(normalisasi):[];
  }catch(e){
   data=[];
-  alert("Data lokal tidak dapat dibaca. Periksa cadangan JSON Anda.");
+  alert("Data lokal tidak dapat dibaca. Coba pulihkan dari cadangan JSON.");
  }
 }
 
@@ -235,44 +174,38 @@ function simpanLokal(){
 
 function buatKolom(){
  const n=Math.max(0,Math.min(30,Number(el("jumlah").value)||0));
-
- const lama=[...document.querySelectorAll(".namaPemilih")]
-  .map(x=>x.value);
-
- const statusLama=[...document.querySelectorAll(".statusPemilih")]
-  .map(x=>x.value);
-
+ const lama=[...document.querySelectorAll(".namaPemilih")].map(x=>x.value);
+ const statusLama=[...document.querySelectorAll(".statusPemilih")].map(x=>x.value);
  el("kolomAnggota").innerHTML="";
 
  for(let i=0;i<n;i++){
-  const nama=aman(lama[i]||"");
-  const status=statusList.includes(statusLama[i])?
-   statusLama[i]:"Belum ditentukan";
-
   const div=document.createElement("div");
   div.className="voter";
-
-  div.innerHTML=
-   "<b>Nama Pemilih "+(i+1)+"</b>"+
-   '<input class="namaPemilih" placeholder="Nama pemilih '+(i+1)+'" value="'+nama+'">'+
-   "<label>Status Pemilih</label>"+
-   '<select class="statusPemilih">'+
-   statusList.map(s=>
-    '<option value="'+s+'" '+(s===status?"selected":"")+'>'+s+'</option>'
-   ).join("")+
-   "</select>";
-
+  const label=document.createElement("b");
+  label.textContent="Nama Pemilih "+(i+1);
+  const nama=document.createElement("input");
+  nama.className="namaPemilih";
+  nama.placeholder="Nama pemilih "+(i+1);
+  nama.value=lama[i]||"";
+  const statusLabel=document.createElement("label");
+  statusLabel.textContent="Status Pemilih";
+  const select=document.createElement("select");
+  select.className="statusPemilih";
+  statusList.forEach(s=>{
+   const option=document.createElement("option");
+   option.value=s;
+   option.textContent=s;
+   select.appendChild(option);
+  });
+  select.value=statusList.includes(statusLama[i])?statusLama[i]:"Belum ditentukan";
+  div.append(label,nama,statusLabel,select);
   el("kolomAnggota").appendChild(div);
  }
 }
 
 function resetForm(){
  editId=null;
-
- ["kk","kepala","rt","rw","jumlah"].forEach(id=>{
-  el(id).value="";
- });
-
+ ["kk","kepala","rt","rw","jumlah","dukuh"].forEach(id=>el(id).value="");
  el("kolomAnggota").innerHTML="";
  el("judulForm").textContent="Input Data KK";
  el("btnSimpan").textContent="SIMPAN DATA KK";
@@ -283,62 +216,44 @@ function simpan(){
  const kepala=el("kepala").value.trim();
  const rt=el("rt").value.trim();
  const rw=el("rw").value.trim();
+ const dukuh=el("dukuh").value;
  const n=Number(el("jumlah").value);
-
  const names=[...document.querySelectorAll(".namaPemilih")];
  const statuses=[...document.querySelectorAll(".statusPemilih")];
 
- if(!kk||!kepala||!rt||!rw){
-  alert("Lengkapi Nomor KK, Kepala Keluarga, RT dan RW.");
+ if(!kk||!kepala||!rt||!rw||!dukuh){
+  alert("Lengkapi Nomor KK, Kepala Keluarga, RT, RW dan Nama Dukuh.");
   return;
  }
-
  if(!Number.isInteger(n)||n<1||n>30||names.length!==n){
   alert("Jumlah pemilih harus antara 1 sampai 30.");
   return;
  }
-
  if(names.some(x=>!x.value.trim())){
   alert("Isi nama semua pemilih.");
   return;
  }
-
- const ganda=data.some(x=>
-  x.kk.toLowerCase()===kk.toLowerCase()&&x.id!==editId
- );
-
- if(ganda){
+ if(data.some(x=>x.kk.toLowerCase()===kk.toLowerCase()&&x.id!==editId)){
   alert("Nomor KK sudah terdaftar.");
   return;
  }
 
  const item={
   id:editId||String(Date.now()),
-  kk,kepala,rt,rw,
-  anggota:names.map((x,i)=>({
-   nama:x.value.trim(),
-   status:statuses[i].value
-  }))
+  kk,kepala,rt,rw,dukuh,
+  anggota:names.map((x,i)=>({nama:x.value.trim(),status:statuses[i].value}))
  };
-
  const lama=[...data];
 
  if(editId){
   const index=data.findIndex(x=>x.id===editId);
-  if(index<0){
-   alert("Data yang akan diedit tidak ditemukan.");
-   return;
-  }
+  if(index<0){alert("Data yang akan diedit tidak ditemukan.");return;}
   data[index]=item;
  }else{
   data.push(item);
  }
 
- if(!simpanLokal()){
-  data=lama;
-  return;
- }
-
+ if(!simpanLokal()){data=lama;return;}
  resetForm();
  tampil();
  alert("Data KK berhasil disimpan.");
@@ -347,90 +262,61 @@ function simpan(){
 function edit(id){
  const x=data.find(x=>x.id===id);
  if(!x)return;
-
  editId=id;
-
- ["kk","kepala","rt","rw"].forEach(k=>{
-  el(k).value=x[k]||"";
- });
-
+ ["kk","kepala","rt","rw","dukuh"].forEach(k=>el(k).value=x[k]||"");
  el("jumlah").value=x.anggota.length;
  el("judulForm").textContent="Edit Data KK";
  el("btnSimpan").textContent="SIMPAN PERUBAHAN";
-
  buatKolom();
 
  const names=document.querySelectorAll(".namaPemilih");
  const statuses=document.querySelectorAll(".statusPemilih");
-
  x.anggota.forEach((a,i)=>{
   names[i].value=a.nama;
   statuses[i].value=a.status;
  });
-
  window.scrollTo({top:0,behavior:"smooth"});
 }
 
 function hapus(id){
  const x=data.find(x=>x.id===id);
  if(!x)return;
-
  if(!confirm("Hapus data KK "+x.kk+" atas nama "+x.kepala+"?"))return;
-
  const lama=[...data];
  data=data.filter(x=>x.id!==id);
-
- if(!simpanLokal()){
-  data=lama;
-  return;
- }
-
+ if(!simpanLokal()){data=lama;return;}
  if(editId===id)resetForm();
  tampil();
 }
 
 function tampil(){
  const q=el("cari").value.trim().toLowerCase();
-
  const totalPemilih=data.reduce((s,x)=>s+x.anggota.length,0);
-
  el("total").textContent=data.length;
  el("pemilih").textContent=totalPemilih;
-
- el("totalRT").textContent=
-  new Set(data.map(x=>x.rw+"|"+x.rt)).size;
-
- el("totalRW").textContent=
-  new Set(data.map(x=>x.rw)).size;
+ el("totalRT").textContent=new Set(data.map(x=>x.rw+"|"+x.rt)).size;
+ el("totalRW").textContent=new Set(data.map(x=>x.rw)).size;
 
  const hasil=data.filter(x=>{
-  const teks=[
-   x.kk,x.kepala,x.rt,x.rw,
-   ...x.anggota.map(a=>a.nama)
-  ].join(" ").toLowerCase();
-
+  const teks=[x.kk,x.kepala,x.rt,x.rw,x.dukuh,...x.anggota.map(a=>a.nama)].join(" ").toLowerCase();
   return teks.includes(q);
  });
 
- el("daftar").innerHTML=hasil.length?
-  hasil.map(x=>
-   '<div class="voter">'+
-   "<b>"+aman(x.kepala)+"</b>"+
-   "<p>KK: "+aman(x.kk)+"</p>"+
-   "<p>RT: "+aman(x.rt)+" | RW: "+aman(x.rw)+"</p>"+
-   "<p>Jumlah pemilih: "+x.anggota.length+"</p>"+
-   "<details><summary>Lihat nama pemilih</summary>"+
-   x.anggota.map((a,i)=>
-    "<p>"+(i+1)+". "+aman(a.nama)+
-    " — "+aman(a.status)+"</p>"
-   ).join("")+
-   "</details>"+
-   '<div class="actions">'+
-   '<button class="edit" data-aksi="edit" data-id="'+aman(x.id)+'">EDIT</button>'+
-   '<button class="danger" data-aksi="hapus" data-id="'+aman(x.id)+'">HAPUS</button>'+
-   "</div></div>"
-  ).join("")
-  :"Belum ada data ditemukan.";
+ el("daftar").innerHTML=hasil.length?hasil.map(x=>
+  '<div class="voter">'+
+  "<b>"+aman(x.kepala)+"</b>"+
+  "<p>KK: "+aman(x.kk)+"</p>"+
+  "<p>RT: "+aman(x.rt)+" | RW: "+aman(x.rw)+"</p>"+
+  "<p>Dukuh: "+aman(x.dukuh||"-")+"</p>"+
+  "<p>Jumlah pemilih: "+x.anggota.length+"</p>"+
+  "<details><summary>Lihat nama pemilih</summary>"+
+  x.anggota.map((a,i)=>"<p>"+(i+1)+". "+aman(a.nama)+" — "+aman(a.status)+"</p>").join("")+
+  "</details>"+
+  '<div class="actions">'+
+  '<button class="edit" data-aksi="edit" data-id="'+aman(x.id)+'">EDIT</button>'+
+  '<button class="danger" data-aksi="hapus" data-id="'+aman(x.id)+'">HAPUS</button>'+
+  "</div></div>"
+ ).join(""):"Belum ada data ditemukan.";
 
  rekap("rt","rekapRT");
  rekap("rw","rekapRW");
@@ -439,341 +325,111 @@ function tampil(){
 
 function rekap(field,target){
  const grup={};
-
  data.forEach(x=>{
-  // RT digabung dengan RW agar nomor RT yang sama
-  // pada RW berbeda tidak tercampur.
-  const k=field==="rt"?
-   JSON.stringify([x.rw,x.rt]):x.rw;
-
+  const k=field==="rt"?JSON.stringify([x.rw,x.rt]):x.rw;
   if(!grup[k]){
-   grup[k]={
-    rt:x.rt,rw:x.rw,
-    kk:0,pemilih:0,
-    mendukung:0,
-    belumPasti:0,
-    tidakMendukung:0,
-    belumDitentukan:0
-   };
+   grup[k]={rt:x.rt,rw:x.rw,kk:0,pemilih:0,mendukung:0,belumPasti:0,tidakMendukung:0,belumDitentukan:0};
   }
-
   const g=grup[k];
   g.kk++;
-
   x.anggota.forEach(a=>{
    g.pemilih++;
-
-   switch(a.status||"Belum ditentukan"){
-    case "Mendukung":
-     g.mendukung++;
-     break;
-    case "Belum pasti":
-     g.belumPasti++;
-     break;
-    case "Tidak mendukung":
-     g.tidakMendukung++;
-     break;
-    default:
-     g.belumDitentukan++;
+   switch(a.status){
+    case "Mendukung":g.mendukung++;break;
+    case "Belum pasti":g.belumPasti++;break;
+    case "Tidak mendukung":g.tidakMendukung++;break;
+    default:g.belumDitentukan++;
    }
   });
  });
 
- const keys=Object.keys(grup).sort((a,b)=>
-  a.localeCompare(b,undefined,{numeric:true})
- );
+ const keys=Object.keys(grup).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
+ if(!keys.length){el(target).textContent="Belum ada data.";return;}
 
- if(!keys.length){
-  el(target).textContent="Belum ada data.";
-  return;
- }
-
- const total={
-  kk:0,pemilih:0,mendukung:0,
-  belumPasti:0,tidakMendukung:0,
-  belumDitentukan:0
- };
-
- keys.forEach(k=>{
-  Object.keys(total).forEach(v=>total[v]+=grup[k][v]);
- });
-
- const headerRT=field==="rt"?
-  "<th>RT</th><th>RW</th>":"<th>RW</th>";
+ const total={kk:0,pemilih:0,mendukung:0,belumPasti:0,tidakMendukung:0,belumDitentukan:0};
+ keys.forEach(k=>Object.keys(total).forEach(v=>total[v]+=grup[k][v]));
+ const header=field==="rt"?"<th>RT</th><th>RW</th>":"<th>RW</th>";
 
  el(target).innerHTML=
-  "<table><thead><tr>"+
-  headerRT+
-  "<th>Jumlah KK</th>"+
-  "<th>Total Pemilih</th>"+
-  "<th>Mendukung</th>"+
-  "<th>Belum Pasti</th>"+
-  "<th>Tidak Mendukung</th>"+
-  "<th>Belum Ditentukan</th>"+
+  "<table><thead><tr>"+header+
+  "<th>Jumlah KK</th><th>Total Pemilih</th><th>Mendukung</th>"+
+  "<th>Belum Pasti</th><th>Tidak Mendukung</th><th>Belum Ditentukan</th>"+
   "</tr></thead><tbody>"+
   keys.map(k=>{
    const g=grup[k];
-
-   return "<tr>"+
-    (field==="rt"?
-     "<td>"+aman(g.rt)+"</td><td>"+aman(g.rw)+"</td>":
-     "<td>"+aman(g.rw)+"</td>")+
-    "<td>"+g.kk+"</td>"+
-    "<td>"+g.pemilih+"</td>"+
-    "<td>"+g.mendukung+"</td>"+
-    "<td>"+g.belumPasti+"</td>"+
-    "<td>"+g.tidakMendukung+"</td>"+
-    "<td>"+g.belumDitentukan+"</td>"+
-    "</tr>";
+   return "<tr>"+(field==="rt"?"<td>"+aman(g.rt)+"</td><td>"+aman(g.rw)+"</td>":"<td>"+aman(g.rw)+"</td>")+
+    "<td>"+g.kk+"</td><td>"+g.pemilih+"</td><td>"+g.mendukung+"</td>"+
+    "<td>"+g.belumPasti+"</td><td>"+g.tidakMendukung+"</td><td>"+g.belumDitentukan+"</td></tr>";
   }).join("")+
   "</tbody><tfoot><tr class='total-row'>"+
   (field==="rt"?"<td colspan='2'>TOTAL</td>":"<td>TOTAL</td>")+
-  "<td>"+total.kk+"</td>"+
-  "<td>"+total.pemilih+"</td>"+
-  "<td>"+total.mendukung+"</td>"+
-  "<td>"+total.belumPasti+"</td>"+
-  "<td>"+total.tidakMendukung+"</td>"+
-  "<td>"+total.belumDitentukan+"</td>"+
+  "<td>"+total.kk+"</td><td>"+total.pemilih+"</td><td>"+total.mendukung+"</td>"+
+  "<td>"+total.belumPasti+"</td><td>"+total.tidakMendukung+"</td><td>"+total.belumDitentukan+"</td>"+
   "</tr></tfoot></table>";
- </table>`;
-rekapDesa();
-  }
-
-
-function rekapDesa(){
-  const total = {
-    kk: data.length,
-    pemilih: 0,
-    mendukung: 0,
-    belumPasti: 0,
-    tidakMendukung: 0,
-    belumDitentukan: 0
-  };
-
-  data.forEach(item => {
-    const anggota = Array.isArray(item.anggota)
-      ? item.anggota : [];
-
-    anggota.forEach(a => {
-      total.pemilih++;
-
-      switch(a.status){
-        case "Mendukung":
-          total.mendukung++;
-          break;
-        case "Belum pasti":
-          total.belumPasti++;
-          break;
-        case "Tidak mendukung":
-          total.tidakMendukung++;
-          break;
-
-function rekap(field,target){
-  const grup={};
-
-  data.forEach(x=>{
-    const k=field==="rt"
-      ? JSON.stringify([x.rw,x.rt])
-      : x.rw;
-
-    if(!grup[k]){
-      grup[k]={
-        rt:x.rt,
-        rw:x.rw,
-        kk:0,
-        pemilih:0
-      };
-    }
-
-    grup[k].kk++;
-    grup[k].pemilih+=Array.isArray(x.anggota)
-      ? x.anggota.length : 0;
-  });
-
-  const keys=Object.keys(grup).sort((a,b)=>
-    a.localeCompare(b,undefined,{numeric:true})
-  );
-
-  if(!keys.length){
-
-
-function rekap(field,target){
-  const grup={};
-
-  data.forEach(x=>{
-    const k=field==="rt"
-      ? JSON.stringify([x.rw,x.rt])
-      : x.rw;
-
-    if(!grup[k]){
-      grup[k]={
-        rt:x.rt,
-        rw:x.rw,
-        kk:0,
-        pemilih:0
-      };
-    }
-
-    grup[k].kk++;
-    grup[k].pemilih+=Array.isArray(x.anggota)
-      ? x.anggota.length : 0;
-  });
-
-  const keys=Object.keys(grup).sort((a,b)=>
-    a.localeCompare(b,undefined,{numeric:true})
-  );
-
-  if(!keys.length){
-    el(target).textContent="Belum ada data.";
-    return;
-  }
-
-  let totalKK=0;
-  let totalPemilih=0;
-
-  const header=field==="rt"
-    ? "<th>RT</th><th>RW</th>"
-    : "<th>RW</th>";
-
-  el(target).innerHTML=
-    "<table><thead><tr>"+
-    header+
-    "<th>Jumlah KK</th>"+
-    "<th>Jumlah Pemilih</th>"+
-    "</tr></thead><tbody>"+
-
-    keys.map(k=>{
-      const g=grup[k];
-      totalKK+=g.kk;
-      totalPemilih+=g.pemilih;
-
-      return "<tr>"+
-        (field==="rt"
-          ? "<td>"+aman(g.rt)+"</td><td>"+aman(g.rw)+"</td>"
-          : "<td>"+aman(g.rw)+"</td>")+
-        "<td>"+g.kk+"</td>"+
-        "<td>"+g.pemilih+"</td>"+
-        "</tr>";
-    }).join("")+
-
-    "</tbody><tfoot><tr class='total-row'>"+
-    (field==="rt"
-      ? "<td colspan='2'>TOTAL</td>"
-      : "<td>TOTAL</td>")+
-    "<td>"+totalKK+"</td>"+
-    "<td>"+totalPemilih+"</td>"+
-    "</tr></tfoot></table>";
 }
 
 function rekapDesa(){
-  const totalKK=data.length;
+ const totalKK=data.length;
+ const totalPemilih=data.reduce((s,x)=>s+x.anggota.length,0);
+ const totalRT=new Set(data.map(x=>x.rw+"|"+x.rt)).size;
+ const totalRW=new Set(data.map(x=>x.rw)).size;
+ const totalDukuh=new Set(data.map(x=>x.dukuh).filter(Boolean)).size;
 
-  const totalPemilih=data.reduce((s,x)=>
-    s+(Array.isArray(x.anggota)?x.anggota.length:0),0
-  );
-
-  const totalRT=new Set(
-    data.map(x=>x.rw+"|"+x.rt)
-  ).size;
-
-  const totalRW=new Set(
-    data.map(x=>x.rw)
-  ).size;
-
-  el("rekapDesa").innerHTML=
-    "<table><thead><tr>"+
-    "<th>Keterangan</th><th>Jumlah</th>"+
-    "</tr></thead><tbody>"+
-    "<tr><td>Total KK</td><td>"+totalKK+"</td></tr>"+
-    "<tr><td>Total Pemilih</td><td>"+totalPemilih+"</td></tr>"+
-    "<tr><td>Total RT</td><td>"+totalRT+"</td></tr>"+
-    "<tr><td>Total RW</td><td>"+totalRW+"</td></tr>"+
-    "</tbody></table>";
+ el("rekapDesa").innerHTML=
+  "<table><thead><tr><th>Keterangan</th><th>Jumlah</th></tr></thead><tbody>"+
+  "<tr><td>Total KK</td><td>"+totalKK+"</td></tr>"+
+  "<tr><td>Total Pemilih</td><td>"+totalPemilih+"</td></tr>"+
+  "<tr><td>Total RT</td><td>"+totalRT+"</td></tr>"+
+  "<tr><td>Total RW</td><td>"+totalRW+"</td></tr>"+
+  "<tr><td>Total Dukuh Terdata</td><td>"+totalDukuh+"</td></tr>"+
+  "</tbody></table>";
 }
 
- 
 function ekspor(){
- const blob=new Blob(
-  [JSON.stringify(data,null,2)],
-  {type:"application/json"}
- );
-
+ const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
  const url=URL.createObjectURL(blob);
  const a=document.createElement("a");
-
  a.href=url;
  a.download="cadangan-sim-tim-desa.json";
  a.click();
-
  setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 
 function impor(){
  const file=el("file").files[0];
-
- if(!file){
-  alert("Pilih file JSON terlebih dahulu.");
-  return;
- }
-
+ if(!file){alert("Pilih file JSON terlebih dahulu.");return;}
  const reader=new FileReader();
-
  reader.onload=()=>{
   try{
    const d=JSON.parse(reader.result);
-
    if(!Array.isArray(d))throw Error("Format salah");
-
    const baru=d.map(normalisasi);
-
-   if(baru.some(x=>!x.id||!Array.isArray(x.anggota))) {
-    throw Error("Data tidak valid");
-   }
-
    const ids=baru.map(x=>x.id);
-   if(new Set(ids).size!==ids.length){
-    throw Error("ID data ganda");
-   }
-
+   if(new Set(ids).size!==ids.length)throw Error("ID ganda");
    const nomor=baru.map(x=>x.kk.toLowerCase());
-   if(new Set(nomor).size!==nomor.length){
-    throw Error("Nomor KK ganda");
-   }
-
+   if(new Set(nomor).size!==nomor.length)throw Error("Nomor KK ganda");
    if(!confirm("Data saat ini akan diganti dengan data cadangan. Lanjutkan?"))return;
-
    const lama=[...data];
    data=baru;
-
-   if(!simpanLokal()){
-    data=lama;
-    return;
-   }
-
+   if(!simpanLokal()){data=lama;return;}
    resetForm();
    tampil();
    el("file").value="";
    alert("Data berhasil dipulihkan.");
-
   }catch(e){
    alert("File JSON tidak valid atau mengandung data ganda.");
   }
  };
-
  reader.readAsText(file);
 }
 
-// Event tombol daftar
 el("daftar").addEventListener("click",e=>{
  const btn=e.target.closest("button[data-aksi]");
  if(!btn)return;
-
  const id=btn.dataset.id;
-
  if(btn.dataset.aksi==="edit")edit(id);
  if(btn.dataset.aksi==="hapus")hapus(id);
 });
-
 el("jumlah").addEventListener("input",buatKolom);
 el("cari").addEventListener("input",tampil);
 el("btnSimpan").addEventListener("click",simpan);
@@ -781,17 +437,8 @@ el("btnReset").addEventListener("click",resetForm);
 el("btnEkspor").addEventListener("click",ekspor);
 el("btnImpor").addEventListener("click",impor);
 
-// Jalankan aplikasi
 muatData();
 tampil();
-
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
