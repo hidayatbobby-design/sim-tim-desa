@@ -567,29 +567,101 @@ function rekapDesa(){
         case "Tidak mendukung":
           total.tidakMendukung++;
           break;
-        default:
-          total.belumDitentukan++;
-      }
-    });
+
+function rekap(field,target){
+  const grup={};
+
+  data.forEach(x=>{
+    const k=field==="rt"
+      ? JSON.stringify([x.rw,x.rt])
+      : x.rw;
+
+    if(!grup[k]){
+      grup[k]={
+        rt:x.rt,
+        rw:x.rw,
+        kk:0,
+        pemilih:0
+      };
+    }
+
+    grup[k].kk++;
+    grup[k].pemilih+=Array.isArray(x.anggota)
+      ? x.anggota.length : 0;
   });
 
-  el("rekapDesa").innerHTML = `
-    <table>
-      <tr>
-        <th>Keterangan</th>
-        <th>Jumlah</th>
-      </tr>
-      <tr><td>Total KK</td><td>${total.kk}</td></tr>
-      <tr><td>Total Pemilih</td><td>${total.pemilih}</td></tr>
-      <tr><td>Mendukung</td><td>${total.mendukung}</td></tr>
-      <tr><td>Belum Pasti</td><td>${total.belumPasti}</td></tr>
-      <tr><td>Tidak Mendukung</td><td>${total.tidakMendukung}</td></tr>
-      <tr><td>Belum Ditentukan</td><td>${total.belumDitentukan}</td></tr>
-    </table>
-  `;
+  const keys=Object.keys(grup).sort((a,b)=>
+    a.localeCompare(b,undefined,{numeric:true})
+  );
+
+  if(!keys.length){
+    el(target).textContent="Belum ada data.";
+    return;
+  }
+
+  let totalKK=0;
+  let totalPemilih=0;
+
+  const header=field==="rt"
+    ? "<th>RT</th><th>RW</th>"
+    : "<th>RW</th>";
+
+  el(target).innerHTML=
+    "<table><thead><tr>"+
+    header+
+    "<th>Jumlah KK</th>"+
+    "<th>Jumlah Pemilih</th>"+
+    "</tr></thead><tbody>"+
+
+    keys.map(k=>{
+      const g=grup[k];
+      totalKK+=g.kk;
+      totalPemilih+=g.pemilih;
+
+      return "<tr>"+
+        (field==="rt"
+          ? "<td>"+aman(g.rt)+"</td><td>"+aman(g.rw)+"</td>"
+          : "<td>"+aman(g.rw)+"</td>")+
+        "<td>"+g.kk+"</td>"+
+        "<td>"+g.pemilih+"</td>"+
+        "</tr>";
+    }).join("")+
+
+    "</tbody><tfoot><tr class='total-row'>"+
+    (field==="rt"
+      ? "<td colspan='2'>TOTAL</td>"
+      : "<td>TOTAL</td>")+
+    "<td>"+totalKK+"</td>"+
+    "<td>"+totalPemilih+"</td>"+
+    "</tr></tfoot></table>";
 }
 
- rekapDesa();
+function rekapDesa(){
+  const totalKK=data.length;
+
+  const totalPemilih=data.reduce((s,x)=>
+    s+(Array.isArray(x.anggota)?x.anggota.length:0),0
+  );
+
+  const totalRT=new Set(
+    data.map(x=>x.rw+"|"+x.rt)
+  ).size;
+
+  const totalRW=new Set(
+    data.map(x=>x.rw)
+  ).size;
+
+  el("rekapDesa").innerHTML=
+    "<table><thead><tr>"+
+    "<th>Keterangan</th><th>Jumlah</th>"+
+    "</tr></thead><tbody>"+
+    "<tr><td>Total KK</td><td>"+totalKK+"</td></tr>"+
+    "<tr><td>Total Pemilih</td><td>"+totalPemilih+"</td></tr>"+
+    "<tr><td>Total RT</td><td>"+totalRT+"</td></tr>"+
+    "<tr><td>Total RW</td><td>"+totalRW+"</td></tr>"+
+    "</tbody></table>";
+}
+
  
 function ekspor(){
  const blob=new Blob(
