@@ -78,7 +78,11 @@ placeholder="Masukkan jumlah pemilih">
 <input id="cari" placeholder="Cari nama, nomor KK, RT atau RW">
 <div id="daftar"></div>
 </section>
-
+<section class="card">
+<h3>REKAPITULASI SELURUH DESA</h3>
+<div id="rekapDesa"></div>
+</section>
+ 
 <section class="card">
 <h3>Rekapitulasi Per RT</h3>
 <div id="rekapRT" class="table-wrap"></div>
@@ -362,6 +366,7 @@ function tampil(){
 
  rekap("rt","rekapRT");
  rekap("rw","rekapRW");
+ rekapDesa();
 }
 
 function rekap(field,target){
@@ -463,7 +468,48 @@ function rekap(field,target){
   "<td>"+total.belumDitentukan+"</td>"+
   "</tr></tfoot></table>";
 }
+function rekapDesa(){
+ const total={
+  kk:data.length,
+  pemilih:0,
+  mendukung:0,
+  belumPasti:0,
+  tidakMendukung:0,
+  belumDitentukan:0
+ };
 
+ data.forEach(x=>{
+  x.anggota.forEach(a=>{
+   total.pemilih++;
+
+   switch(a.status){
+    case "Mendukung":
+     total.mendukung++;
+     break;
+    case "Belum pasti":
+     total.belumPasti++;
+     break;
+    case "Tidak mendukung":
+     total.tidakMendukung++;
+     break;
+    default:
+     total.belumDitentukan++;
+   }
+  });
+ });
+
+ el("rekapDesa").innerHTML=`
+ <table>
+ <tr><th>Keterangan</th><th>Jumlah</th></tr>
+ <tr><td>Total KK</td><td>${total.kk}</td></tr>
+ <tr><td>Total Pemilih</td><td>${total.pemilih}</td></tr>
+ <tr><td>Mendukung</td><td>${total.mendukung}</td></tr>
+ <tr><td>Belum Pasti</td><td>${total.belumPasti}</td></tr>
+ <tr><td>Tidak Mendukung</td><td>${total.tidakMendukung}</td></tr>
+ <tr><td>Belum Ditentukan</td><td>${total.belumDitentukan}</td></tr>
+ </table>`;
+ }
+ 
 function ekspor(){
  const blob=new Blob(
   [JSON.stringify(data,null,2)],
