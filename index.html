@@ -537,46 +537,56 @@ function rekap(field,target){
   "</tr></tfoot></table>";
 }
 function rekapDesa(){
- const total={
-  kk:data.length,
-  pemilih:0,
-  mendukung:0,
-  belumPasti:0,
-  tidakMendukung:0,
-  belumDitentukan:0
- };
 
- data.forEach(x=>{
-  x.anggota.forEach(a=>{
-   total.pemilih++;
+function rekapDesa(){
+  const total = {
+    kk: data.length,
+    pemilih: 0,
+    mendukung: 0,
+    belumPasti: 0,
+    tidakMendukung: 0,
+    belumDitentukan: 0
+  };
 
-   switch(a.status){
-    case "Mendukung":
-     total.mendukung++;
-     break;
-    case "Belum pasti":
-     total.belumPasti++;
-     break;
-    case "Tidak mendukung":
-     total.tidakMendukung++;
-     break;
-    default:
-     total.belumDitentukan++;
-   }
+  data.forEach(item => {
+    const anggota = Array.isArray(item.anggota)
+      ? item.anggota : [];
+
+    anggota.forEach(a => {
+      total.pemilih++;
+
+      switch(a.status){
+        case "Mendukung":
+          total.mendukung++;
+          break;
+        case "Belum pasti":
+          total.belumPasti++;
+          break;
+        case "Tidak mendukung":
+          total.tidakMendukung++;
+          break;
+        default:
+          total.belumDitentukan++;
+      }
+    });
   });
- });
 
- el("rekapDesa").innerHTML=`
- <table>
- <tr><th>Keterangan</th><th>Jumlah</th></tr>
- <tr><td>Total KK</td><td>${total.kk}</td></tr>
- <tr><td>Total Pemilih</td><td>${total.pemilih}</td></tr>
- <tr><td>Mendukung</td><td>${total.mendukung}</td></tr>
- <tr><td>Belum Pasti</td><td>${total.belumPasti}</td></tr>
- <tr><td>Tidak Mendukung</td><td>${total.tidakMendukung}</td></tr>
- <tr><td>Belum Ditentukan</td><td>${total.belumDitentukan}</td></tr>
- </table>`;
- }
+  el("rekapDesa").innerHTML = `
+    <table>
+      <tr>
+        <th>Keterangan</th>
+        <th>Jumlah</th>
+      </tr>
+      <tr><td>Total KK</td><td>${total.kk}</td></tr>
+      <tr><td>Total Pemilih</td><td>${total.pemilih}</td></tr>
+      <tr><td>Mendukung</td><td>${total.mendukung}</td></tr>
+      <tr><td>Belum Pasti</td><td>${total.belumPasti}</td></tr>
+      <tr><td>Tidak Mendukung</td><td>${total.tidakMendukung}</td></tr>
+      <tr><td>Belum Ditentukan</td><td>${total.belumDitentukan}</td></tr>
+    </table>
+  `;
+}
+
  rekapDesa();
  
 function ekspor(){
