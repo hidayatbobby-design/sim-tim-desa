@@ -86,31 +86,45 @@ c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 }
 
 function buatKolom(){
-let j=Math.max(0,Math.min(30,Number(document.getElementById("jumlah").value)||0));
-let lama=[];
-document.querySelectorAll(".namaAnggota").forEach((e,i)=>{
-lama[i]={
-nama:e.value,
-status:document.getElementById("status"+i)?.value||"Perlu Verifikasi"
-};
-});
-let html="";
-for(let i=0;i<j;i++){
-let a=lama[i]||{};
-html+=`
-<div class="member">
-<b>Pemilih ${i+1}</b>
-<input class="namaAnggota" placeholder="Nama pemilih ${i+1}" value="${aman(a.nama||"")}">
-<label>Status verifikasi</label>
-<select id="status${i}">
-<option value="Perlu Verifikasi" ${a.status==="Perlu Verifikasi"?"selected":""}>Perlu Verifikasi</option>
-<option value="Terverifikasi" ${a.status==="Terverifikasi"?"selected":""}>Terverifikasi</option>
-</select>
-</div>`;
-}
-document.getElementById("kolomAnggota").innerHTML=html;
-}
 
+function buatKolom(){
+  let jumlah=Math.max(0,Math.min(30,
+    Number(document.getElementById("jumlah").value)||0
+  ));
+
+  let lama=[];
+  document.querySelectorAll(".namaAnggota").forEach((e,i)=>{
+    let s=document.getElementById("status"+i);
+    lama[i]={
+      nama:e.value,
+      status:s?s.value:"Perlu Verifikasi"
+    };
+  });
+
+  let html="";
+  for(let i=0;i<jumlah;i++){
+    let a=lama[i]||{};
+    html+=`
+    <div class="member">
+      <b>Pemilih ${i+1}</b>
+      <input class="namaAnggota"
+        placeholder="Nama pemilih ${i+1}"
+        value="${aman(a.nama||"")}">
+      <label>Status verifikasi</label>
+      <select id="status${i}">
+        <option value="Perlu Verifikasi"
+        ${a.status==="Perlu Verifikasi"?"selected":""}>
+        Perlu Verifikasi</option>
+        <option value="Terverifikasi"
+        ${a.status==="Terverifikasi"?"selected":""}>
+        Terverifikasi</option>
+      </select>
+    </div>`;
+  }
+
+  document.getElementById("kolomAnggota").innerHTML=html;
+}
+  
 function resetForm(){
 editId=null;
 ["kk","kepala","rt","rw","jumlah"].forEach(id=>{
