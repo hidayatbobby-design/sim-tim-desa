@@ -595,6 +595,35 @@ function rekap(field,target){
   );
 
   if(!keys.length){
+
+
+function rekap(field,target){
+  const grup={};
+
+  data.forEach(x=>{
+    const k=field==="rt"
+      ? JSON.stringify([x.rw,x.rt])
+      : x.rw;
+
+    if(!grup[k]){
+      grup[k]={
+        rt:x.rt,
+        rw:x.rw,
+        kk:0,
+        pemilih:0
+      };
+    }
+
+    grup[k].kk++;
+    grup[k].pemilih+=Array.isArray(x.anggota)
+      ? x.anggota.length : 0;
+  });
+
+  const keys=Object.keys(grup).sort((a,b)=>
+    a.localeCompare(b,undefined,{numeric:true})
+  );
+
+  if(!keys.length){
     el(target).textContent="Belum ada data.";
     return;
   }
@@ -759,6 +788,7 @@ tampil();
 </script>
 </body>
 </html>
+
 
 
 
