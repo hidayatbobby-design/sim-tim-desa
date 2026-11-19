@@ -7,37 +7,51 @@
 <title>SIM-TIM DESA</title>
 <style>
 *{box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:#f1f5f9;margin:0;color:#1e293b;max-width:100%;overflow-x:hidden}
-header{background:#14532d;color:#fff;padding:20px}
-header h2{margin:0}
-header p{margin-bottom:0}
-main{padding:15px;max-width:1000px;margin:auto}
-.card{background:#fff;padding:16px;margin:12px 0;border-radius:12px;max-width:100%;min-width:0}
-input,select,button{width:100%;padding:12px;margin:6px 0;border:1px solid #cbd5e1;border-radius:7px;font-size:15px}
-button{background:#166534;color:#fff;border:0;font-weight:bold;cursor:pointer}
+:root{--green:#14532d;--green2:#166534;--green3:#15803d;--mint:#dcfce7;--ink:#1e293b;--muted:#64748b;--line:#e2e8f0}
+body{font-family:Arial,sans-serif;background:#f1f5f9;margin:0;color:var(--ink);max-width:100%;overflow-x:hidden}
+header{background:linear-gradient(135deg,#103d25 0%,#166534 55%,#22a05a 100%);color:#fff;padding:27px 20px 30px;position:relative;overflow:hidden;box-shadow:0 5px 18px rgba(20,83,45,.18)}
+header:after{content:"";position:absolute;width:220px;height:220px;border:35px solid rgba(255,255,255,.07);border-radius:50%;right:-75px;top:-115px}
+header:before{content:"";position:absolute;width:130px;height:130px;background:rgba(255,255,255,.05);border-radius:50%;right:95px;bottom:-100px}
+header h2{margin:0;font-size:26px;letter-spacing:1px;position:relative;z-index:1}
+header p{margin:8px 0 0;color:#dcfce7;font-size:13px;position:relative;z-index:1}
+main{padding:16px;max-width:1050px;margin:auto}
+.card{background:#fff;padding:19px;margin:15px 0;border-radius:16px;max-width:100%;min-width:0;border:1px solid #e8eee9;box-shadow:0 4px 15px rgba(15,23,42,.055)}
+.card h3{color:#14532d;font-size:17px;margin:0 0 16px;padding-bottom:12px;border-bottom:2px solid #dcfce7}
+input,select,button{width:100%;padding:12px;margin:6px 0;border:1px solid #cbd5e1;border-radius:9px;font-size:14px}
+input,select{background:#f8fafc;color:#1e293b;outline:none;transition:.2s}
+input:focus,select:focus{border-color:#16a34a;background:#fff;box-shadow:0 0 0 3px rgba(22,163,74,.12)}
+button{background:linear-gradient(135deg,#15803d,#166534);color:#fff;border:0;font-weight:bold;cursor:pointer;box-shadow:0 3px 8px rgba(22,101,52,.13);transition:filter .2s,transform .1s}
+button:hover{filter:brightness(1.07)}
+button:active{transform:scale(.985)}
 .secondary{background:#475569}
 .danger{background:#b91c1c}
 .edit{background:#2563eb}
-.excel{background:#15803d}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.stat{background:#dcfce7;padding:14px;text-align:center;border-radius:8px}
-.stat b{font-size:23px;display:block;margin-top:5px}
-.voter{border:1px solid #e2e8f0;padding:10px;margin:8px 0;border-radius:8px;min-width:0}
+.excel{background:linear-gradient(135deg,#15803d,#166534);padding:14px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:linear-gradient(145deg,#f0fdf4,#dcfce7);padding:15px 9px;text-align:center;border-radius:12px;color:#166534;font-size:12px;font-weight:700;border:1px solid #bbf7d0}
+.stat b{font-size:26px;display:block;margin-top:7px;color:#14532d}
+.voter{border:1px solid #e2e8f0;padding:12px;margin:9px 0;border-radius:11px;min-width:0;background:#fff}
+.voter input,.voter select{margin:5px 0}
+.voter b{color:#14532d}
+.voter p{font-size:13px;line-height:1.5;margin:7px 0}
+.voter details{background:#f8fafc;border-radius:8px;padding:10px;margin-top:8px}
+.voter summary{cursor:pointer;color:#166534;font-weight:700}
 .actions{display:flex;gap:8px}
 .actions button{flex:1}
-.table-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{padding:9px;border:1px solid #e2e8f0;text-align:center}
-th{background:#dcfce7}
+.table-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:9px}
+table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}
+th,td{padding:10px;border:1px solid #e2e8f0;text-align:center}
+th{background:#dcfce7;color:#14532d;font-weight:700}
+tbody tr:nth-child(even){background:#f8fafc}
 #rekapAcuan h4{color:#166534;margin:18px 0 8px}
 #rekapAcuan table{margin-bottom:12px}
-#rekapAcuan tfoot td{font-weight:bold;background:#f1f5f9}
-.total-row{font-weight:bold;background:#f1f5f9}
-small{color:#64748b}
-.voter input,.voter select{margin:5px 0}
-label{display:block;margin-top:8px}
-@media(min-width:650px){.stats{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:600px){.card{overflow:hidden}.table-wrap table{min-width:650px}.stat{padding:12px 6px}}
+#rekapAcuan tfoot td,.total-row{font-weight:bold;background:#ecfdf5;color:#14532d}
+small{color:#64748b;line-height:1.55}
+label{display:block;margin-top:9px;font-size:13px;font-weight:700;color:#334155}
+p{line-height:1.5}
+input[type=file]{background:#f0fdf4;border:1px dashed #86b99a;padding:11px}
+@media(min-width:650px){.stats{grid-template-columns:repeat(4,1fr)}header{padding-left:max(24px,calc((100% - 1000px)/2));padding-right:max(24px,calc((100% - 1000px)/2))}.card{padding:23px}main{padding:22px}}
+@media(max-width:600px){.card{padding:15px;overflow:hidden}.table-wrap table{min-width:650px}.stat{padding:13px 5px}.stat b{font-size:24px}header h2{font-size:24px}.actions button{font-size:12px;padding:11px 5px}}
 </style>
 </head>
 <body>
@@ -102,7 +116,6 @@ label{display:block;margin-top:8px}
 </section>
 </main>
 
-<!-- Library Excel. Ekspor Excel memerlukan koneksi internet saat library pertama kali dimuat. -->
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <script>
 "use strict";
@@ -209,9 +222,9 @@ function hapus(id){
 function tampil(){
  const q=el("cari").value.trim().toLowerCase();
  const totalPemilih=data.reduce((s,x)=>s+x.anggota.length,0);
- el("total").textContent=data.length;el("pemilih").textContent=totalPemilih;
- el("totalRT").textContent=new Set(data.map(x=>x.rw+"|"+x.rt)).size;
- el("totalRW").textContent=new Set(data.map(x=>x.rw)).size;
+ el("total").textContent=fmt(data.length);el("pemilih").textContent=fmt(totalPemilih);
+ el("totalRT").textContent=fmt(new Set(data.map(x=>x.rw+"|"+x.rt)).size);
+ el("totalRW").textContent=fmt(new Set(data.map(x=>x.rw)).size);
  const hasil=data.filter(x=>[x.kk,x.kepala,x.rt,x.rw,x.dukuh,...x.anggota.map(a=>a.nama)].join(" ").toLowerCase().includes(q));
  el("daftar").innerHTML=hasil.length?hasil.map(x=>
   '<div class="voter"><b>'+aman(x.kepala)+'</b><p>KK: '+aman(x.kk)+'</p>'+
@@ -267,9 +280,9 @@ function rekapDesa(){
  const totalRT=new Set(data.map(x=>x.rw+"|"+x.rt)).size,totalRW=new Set(data.map(x=>x.rw)).size;
  const totalDukuh=new Set(data.map(x=>x.dukuh).filter(Boolean)).size;
  el("rekapDesa").innerHTML="<table><thead><tr><th>Keterangan</th><th>Jumlah</th></tr></thead><tbody>"+
- "<tr><td>Total KK</td><td>"+totalKK+"</td></tr><tr><td>Total Pemilih</td><td>"+totalPemilih+"</td></tr>"+
- "<tr><td>Total RT</td><td>"+totalRT+"</td></tr><tr><td>Total RW</td><td>"+totalRW+"</td></tr>"+
- "<tr><td>Total Dukuh Terdata</td><td>"+totalDukuh+"</td></tr></tbody></table>";
+ "<tr><td>Total KK</td><td>"+fmt(totalKK)+"</td></tr><tr><td>Total Pemilih</td><td>"+fmt(totalPemilih)+"</td></tr>"+
+ "<tr><td>Total RT</td><td>"+fmt(totalRT)+"</td></tr><tr><td>Total RW</td><td>"+fmt(totalRW)+"</td></tr>"+
+ "<tr><td>Total Dukuh Terdata</td><td>"+fmt(totalDukuh)+"</td></tr></tbody></table>";
 }
 function ekspor(){
  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
@@ -305,7 +318,6 @@ function downloadExcel(){
   ws["!cols"]=baris[0].map((_,i)=>({wch:Math.min(32,Math.max(12,...baris.slice(0,100).map(r=>String(r[i]??"").length+2)))}));
   XLSX.utils.book_append_sheet(wb,ws,nama);
  };
-
  const totalPemilih=data.reduce((s,x)=>s+x.anggota.length,0);
  tambahSheet("Rekap Desa",[
   ["REKAPITULASI SELURUH DESA"],["Keterangan","Jumlah"],
@@ -314,7 +326,6 @@ function downloadExcel(){
   ["Total RW",new Set(data.map(x=>x.rw)).size],
   ["Total Dukuh Terdata",new Set(data.map(x=>x.dukuh).filter(Boolean)).size]
  ]);
-
  const kelompokDukuh={};
  data.forEach(x=>{
   const nama=x.dukuh||"Belum dipetakan";
@@ -324,7 +335,6 @@ function downloadExcel(){
  });
  tambahSheet("Rekap Dukuh",[["Dukuh","Jumlah KK","Jumlah Pemilih","Terverifikasi","Belum Diverifikasi"],
   ...Object.entries(kelompokDukuh).map(([k,v])=>[k,v.kk,v.pemilih,v.terverifikasi,v.pemilih-v.terverifikasi])]);
-
  const kelompokRW={};
  data.forEach(x=>{
   const k=x.rw||"Tidak diisi";
@@ -335,7 +345,6 @@ function downloadExcel(){
  tambahSheet("Rekap RW",[["RW","Jumlah KK","Jumlah Pemilih","Terverifikasi","Belum Diverifikasi"],
   ...Object.entries(kelompokRW).sort((a,b)=>a[0].localeCompare(b[0],undefined,{numeric:true}))
    .map(([k,v])=>[k,v.kk,v.pemilih,v.terverifikasi,v.pemilih-v.terverifikasi])]);
-
  const kelompokRT={};
  data.forEach(x=>{
   const k=x.rw+"-"+x.rt;
@@ -346,31 +355,25 @@ function downloadExcel(){
  tambahSheet("Rekap RT",[["RW","RT","Jumlah KK","Jumlah Pemilih","Terverifikasi","Belum Diverifikasi"],
   ...Object.values(kelompokRT).sort((a,b)=>Number(a.rw)-Number(b.rw)||Number(a.rt)-Number(b.rt))
    .map(v=>[v.rw,v.rt,v.kk,v.pemilih,v.terverifikasi,v.pemilih-v.terverifikasi])]);
-
  tambahSheet("Data KK",[["Nomor KK","Kepala Keluarga","Dukuh","RW","RT","Jumlah Pemilih"],
   ...data.map(x=>[x.kk,x.kepala,x.dukuh,x.rw,x.rt,x.anggota.length])]);
-
  tambahSheet("Detail Pemilih",[["Nomor KK","Kepala Keluarga","Dukuh","RW","RT","Nama Pemilih","Status Verifikasi"],
   ...data.flatMap(x=>x.anggota.map(a=>[x.kk,x.kepala,x.dukuh,x.rw,x.rt,a.nama,a.status]))]);
-
  const acuan=[["Dukuh","RW","RT","Data Acuan","Data Masuk","Belum Masuk"]];
  let totalA=0,totalM=0;
  Object.keys(ACUAN).forEach(r=>{
   ACUAN[r].forEach((jumlah,i)=>{
    const rt=i+1;
-   const masuk=data.filter(x=>nomor(x.rw)===Number(r)&&nomor(x.rt)===rt)
-    .reduce((s,x)=>s+x.anggota.length,0);
+   const masuk=data.filter(x=>nomor(x.rw)===Number(r)&&nomor(x.rt)===rt).reduce((s,x)=>s+x.anggota.length,0);
    totalA+=jumlah;totalM+=masuk;
    acuan.push([DUKUH_RW[r],"RW "+r,"RT "+String(rt).padStart(3,"0"),jumlah,masuk,Math.max(0,jumlah-masuk)]);
   });
  });
  acuan.push(["TOTAL DESA","","",totalA,totalM,Math.max(0,totalA-totalM)]);
  tambahSheet("Acuan dan Masuk",acuan);
-
  XLSX.writeFile(wb,"LAPORAN_SIM_TIM_DESA_"+new Date().toISOString().slice(0,10)+".xlsx");
 }
 el("btnExcel").addEventListener("click",downloadExcel);
-
 el("daftar").addEventListener("click",e=>{
  const btn=e.target.closest("button[data-aksi]");if(!btn)return;
  const id=btn.dataset.id;
@@ -383,7 +386,6 @@ el("btnSimpan").addEventListener("click",simpan);
 el("btnReset").addEventListener("click",resetForm);
 el("btnEkspor").addEventListener("click",ekspor);
 el("btnImpor").addEventListener("click",impor);
-
 muatData();
 tampil();
 </script>
