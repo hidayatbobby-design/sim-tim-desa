@@ -18,6 +18,7 @@ button{background:#166534;color:#fff;border:0;font-weight:bold;cursor:pointer}
 .secondary{background:#475569}
 .danger{background:#b91c1c}
 .edit{background:#2563eb}
+.excel{background:#15803d}
 .stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .stat{background:#dcfce7;padding:14px;text-align:center;border-radius:8px}
 .stat b{font-size:23px;display:block;margin-top:5px}
@@ -36,11 +37,7 @@ small{color:#64748b}
 .voter input,.voter select{margin:5px 0}
 label{display:block;margin-top:8px}
 @media(min-width:650px){.stats{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:600px){
-  .card{overflow:hidden}
-  .table-wrap table{min-width:650px}
-  .stat{padding:12px 6px}
-}
+@media(max-width:600px){.card{overflow:hidden}.table-wrap table{min-width:650px}.stat{padding:12px 6px}}
 </style>
 </head>
 <body>
@@ -62,14 +59,10 @@ label{display:block;margin-top:8px}
 
 <section class="card">
 <h3 id="judulForm">Input Data KK</h3>
-<label for="kk">Nomor KK</label>
-<input id="kk" placeholder="Nomor KK">
-<label for="kepala">Nama Kepala Keluarga</label>
-<input id="kepala" placeholder="Nama Kepala Keluarga">
-<label for="rt">Nomor RT</label>
-<input id="rt" placeholder="Nomor RT">
-<label for="rw">Nomor RW</label>
-<input id="rw" placeholder="Nomor RW">
+<label for="kk">Nomor KK</label><input id="kk" placeholder="Nomor KK">
+<label for="kepala">Nama Kepala Keluarga</label><input id="kepala" placeholder="Nama Kepala Keluarga">
+<label for="rt">Nomor RT</label><input id="rt" placeholder="Nomor RT">
+<label for="rw">Nomor RW</label><input id="rw" placeholder="Nomor RW">
 <p><small>Nama dukuh akan terisi otomatis berdasarkan RW.</small></p>
 <label for="jumlah">Jumlah pemilih dalam KK</label>
 <input id="jumlah" type="number" min="1" max="30" placeholder="Masukkan jumlah pemilih">
@@ -93,17 +86,11 @@ label{display:block;margin-top:8px}
 <section class="card">
 <h3>REKAPITULASI SELURUH DESA</h3>
 <div id="rekapDesa" class="table-wrap"></div>
+<button id="btnExcel" class="excel">📊 DOWNLOAD LAPORAN EXCEL (.XLSX)</button>
 </section>
 
-<section class="card">
-<h3>Rekapitulasi Per RT</h3>
-<div id="rekapRT" class="table-wrap"></div>
-</section>
-
-<section class="card">
-<h3>Rekapitulasi Per RW</h3>
-<div id="rekapRW" class="table-wrap"></div>
-</section>
+<section class="card"><h3>Rekapitulasi Per RT</h3><div id="rekapRT" class="table-wrap"></div></section>
+<section class="card"><h3>Rekapitulasi Per RW</h3><div id="rekapRW" class="table-wrap"></div></section>
 
 <section class="card">
 <h3>Cadangan Data</h3>
@@ -115,6 +102,8 @@ label{display:block;margin-top:8px}
 </section>
 </main>
 
+<!-- Library Excel. Ekspor Excel memerlukan koneksi internet saat library pertama kali dimuat. -->
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <script>
 "use strict";
 
@@ -122,15 +111,13 @@ const KEY="simtim_v2";
 const el=id=>document.getElementById(id);
 let data=[];
 let editId=null;
+const statusList=["Belum diverifikasi","Terverifikasi"];
 
-const statusList=["Belum diverifikasi", "Terverifikasi"];
-
-// Data acuan sementara jumlah calon pemilih per RT (total 6.070)
 const ACUAN={
- 1:[177,143,171,204], 2:[152,98,76], 3:[216,185,165],
- 4:[195,127,220,170], 5:[304,186,150], 6:[98,136,196],
- 7:[99,139,68,105], 8:[157,222,216], 9:[129,132,125],
- 10:[144,117,140], 11:[191,276,246,195]
+ 1:[177,143,171,204],2:[152,98,76],3:[216,185,165],
+ 4:[195,127,220,170],5:[304,186,150],6:[98,136,196],
+ 7:[99,139,68,105],8:[157,222,216],9:[129,132,125],
+ 10:[144,117,140],11:[191,276,246,195]
 };
 const DUKUH_RW={
  1:"Gondanglegi",2:"Gondanglegi",3:"Gondanglegi",4:"Gondanglegi",
@@ -140,332 +127,252 @@ const DUKUH_RW={
 const fmt=n=>Number(n||0).toLocaleString("id-ID");
 function namaDukuh(rw){return DUKUH_RW[Number(String(rw).replace(/\D/g,""))]||"Belum dipetakan";}
 function nomor(n){const v=Number(String(n).replace(/\D/g,""));return Number.isFinite(v)?v:0;}
-
-function aman(s){
- return String(s??"").replace(/[&<>"']/g,c=>({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
- }[c]));
-}
+function aman(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 
 function normalisasi(item,i){
  const anggota=Array.isArray(item.anggota)?item.anggota:[];
  return {
   id:String(item.id||("data-"+Date.now()+"-"+i)),
-  kk:String(item.kk||""),
-  kepala:String(item.kepala||""),
-  rt:String(item.rt||""),
-  rw:String(item.rw||""),
+  kk:String(item.kk||""),kepala:String(item.kepala||""),
+  rt:String(item.rt||""),rw:String(item.rw||""),
   dukuh:namaDukuh(item.rw),
   anggota:anggota.map(a=>{
    const nama=typeof a==="string"?a:(a.nama||"");
-   const status=(typeof a==="object" && a.status==="Terverifikasi")?"Terverifikasi":"Belum diverifikasi";
+   const status=(typeof a==="object"&&a.status==="Terverifikasi")?"Terverifikasi":"Belum diverifikasi";
    return {nama:String(nama),status};
   })
  };
 }
-
 function muatData(){
  try{
   const raw=JSON.parse(localStorage.getItem(KEY)||"[]");
   data=Array.isArray(raw)?raw.map(normalisasi):[];
- }catch(e){
-  data=[];
-  alert("Data lokal tidak dapat dibaca. Coba pulihkan dari cadangan JSON.");
- }
+ }catch(e){data=[];alert("Data lokal tidak dapat dibaca. Coba pulihkan dari cadangan JSON.");}
 }
-
 function simpanLokal(){
- try{
-  localStorage.setItem(KEY,JSON.stringify(data));
-  return true;
- }catch(e){
-  alert("Penyimpanan gagal. Memori browser mungkin penuh.");
-  return false;
- }
+ try{localStorage.setItem(KEY,JSON.stringify(data));return true;}
+ catch(e){alert("Penyimpanan gagal. Memori browser mungkin penuh.");return false;}
 }
-
 function buatKolom(){
  const n=Math.max(0,Math.min(30,Number(el("jumlah").value)||0));
  const lama=[...document.querySelectorAll(".namaPemilih")].map(x=>x.value);
  const statusLama=[...document.querySelectorAll(".statusPemilih")].map(x=>x.value);
  el("kolomAnggota").innerHTML="";
-
  for(let i=0;i<n;i++){
-  const div=document.createElement("div");
-  div.className="voter";
-  const label=document.createElement("b");
-  label.textContent="Nama Pemilih "+(i+1);
-  const nama=document.createElement("input");
-  nama.className="namaPemilih";
-  nama.placeholder="Nama pemilih "+(i+1);
-  nama.value=lama[i]||"";
-  const statusLabel=document.createElement("label");
-  statusLabel.textContent="Status verifikasi data";
-  const select=document.createElement("select");
-  select.className="statusPemilih";
-  statusList.forEach(s=>{
-   const option=document.createElement("option");
-   option.value=s;
-   option.textContent=s;
-   select.appendChild(option);
-  });
+  const div=document.createElement("div");div.className="voter";
+  const label=document.createElement("b");label.textContent="Nama Pemilih "+(i+1);
+  const nama=document.createElement("input");nama.className="namaPemilih";nama.placeholder="Nama pemilih "+(i+1);nama.value=lama[i]||"";
+  const statusLabel=document.createElement("label");statusLabel.textContent="Status verifikasi data";
+  const select=document.createElement("select");select.className="statusPemilih";
+  statusList.forEach(s=>{const option=document.createElement("option");option.value=s;option.textContent=s;select.appendChild(option);});
   select.value=statusList.includes(statusLama[i])?statusLama[i]:"Belum diverifikasi";
-  div.append(label,nama,statusLabel,select);
-  el("kolomAnggota").appendChild(div);
+  div.append(label,nama,statusLabel,select);el("kolomAnggota").appendChild(div);
  }
 }
-
 function resetForm(){
- editId=null;
- ["kk","kepala","rt","rw","jumlah"].forEach(id=>el(id).value="");
- el("kolomAnggota").innerHTML="";
- el("judulForm").textContent="Input Data KK";
- el("btnSimpan").textContent="SIMPAN DATA KK";
+ editId=null;["kk","kepala","rt","rw","jumlah"].forEach(id=>el(id).value="");
+ el("kolomAnggota").innerHTML="";el("judulForm").textContent="Input Data KK";el("btnSimpan").textContent="SIMPAN DATA KK";
 }
-
 function simpan(){
- const kk=el("kk").value.trim();
- const kepala=el("kepala").value.trim();
- const rt=el("rt").value.trim();
- const rw=el("rw").value.trim();
- const dukuh=namaDukuh(rw);
- const n=Number(el("jumlah").value);
+ const kk=el("kk").value.trim(),kepala=el("kepala").value.trim();
+ const rt=el("rt").value.trim(),rw=el("rw").value.trim();
+ const dukuh=namaDukuh(rw),n=Number(el("jumlah").value);
  const names=[...document.querySelectorAll(".namaPemilih")];
  const statuses=[...document.querySelectorAll(".statusPemilih")];
-
- if(!kk||!kepala||!rt||!rw){
-  alert("Lengkapi Nomor KK, Kepala Keluarga, RT dan RW.");
-  return;
- }
- if(!Number.isInteger(n)||n<1||n>30||names.length!==n){
-  alert("Jumlah pemilih harus antara 1 sampai 30.");
-  return;
- }
- if(names.some(x=>!x.value.trim())){
-  alert("Isi nama semua pemilih.");
-  return;
- }
- if(data.some(x=>x.kk.toLowerCase()===kk.toLowerCase()&&x.id!==editId)){
-  alert("Nomor KK sudah terdaftar.");
-  return;
- }
-
- const item={
-  id:editId||String(Date.now()),
-  kk,kepala,rt,rw,dukuh,
-  anggota:names.map((x,i)=>({nama:x.value.trim(),status:statuses[i].value}))
- };
+ if(!kk||!kepala||!rt||!rw){alert("Lengkapi Nomor KK, Kepala Keluarga, RT dan RW.");return;}
+ if(!Number.isInteger(n)||n<1||n>30||names.length!==n){alert("Jumlah pemilih harus antara 1 sampai 30.");return;}
+ if(names.some(x=>!x.value.trim())){alert("Isi nama semua pemilih.");return;}
+ if(data.some(x=>x.kk.toLowerCase()===kk.toLowerCase()&&x.id!==editId)){alert("Nomor KK sudah terdaftar.");return;}
+ const item={id:editId||String(Date.now()),kk,kepala,rt,rw,dukuh,anggota:names.map((x,i)=>({nama:x.value.trim(),status:statuses[i].value}))};
  const lama=[...data];
-
- if(editId){
-  const index=data.findIndex(x=>x.id===editId);
-  if(index<0){alert("Data yang akan diedit tidak ditemukan.");return;}
-  data[index]=item;
- }else{
-  data.push(item);
- }
-
+ if(editId){const index=data.findIndex(x=>x.id===editId);if(index<0){alert("Data yang akan diedit tidak ditemukan.");return;}data[index]=item;}
+ else data.push(item);
  if(!simpanLokal()){data=lama;return;}
- resetForm();
- tampil();
- alert("Data KK berhasil disimpan.");
+ resetForm();tampil();alert("Data KK berhasil disimpan.");
 }
-
 function edit(id){
- const x=data.find(x=>x.id===id);
- if(!x)return;
- editId=id;
+ const x=data.find(x=>x.id===id);if(!x)return;editId=id;
  ["kk","kepala","rt","rw"].forEach(k=>el(k).value=x[k]||"");
- el("jumlah").value=x.anggota.length;
- el("judulForm").textContent="Edit Data KK";
- el("btnSimpan").textContent="SIMPAN PERUBAHAN";
- buatKolom();
-
- const names=document.querySelectorAll(".namaPemilih");
- const statuses=document.querySelectorAll(".statusPemilih");
- x.anggota.forEach((a,i)=>{
-  names[i].value=a.nama;
-  statuses[i].value=a.status;
- });
+ el("jumlah").value=x.anggota.length;el("judulForm").textContent="Edit Data KK";
+ el("btnSimpan").textContent="SIMPAN PERUBAHAN";buatKolom();
+ const names=document.querySelectorAll(".namaPemilih"),statuses=document.querySelectorAll(".statusPemilih");
+ x.anggota.forEach((a,i)=>{names[i].value=a.nama;statuses[i].value=a.status;});
  window.scrollTo({top:0,behavior:"smooth"});
 }
-
 function hapus(id){
- const x=data.find(x=>x.id===id);
- if(!x)return;
+ const x=data.find(x=>x.id===id);if(!x)return;
  if(!confirm("Hapus data KK "+x.kk+" atas nama "+x.kepala+"?"))return;
- const lama=[...data];
- data=data.filter(x=>x.id!==id);
+ const lama=[...data];data=data.filter(x=>x.id!==id);
  if(!simpanLokal()){data=lama;return;}
- if(editId===id)resetForm();
- tampil();
+ if(editId===id)resetForm();tampil();
 }
-
 function tampil(){
  const q=el("cari").value.trim().toLowerCase();
  const totalPemilih=data.reduce((s,x)=>s+x.anggota.length,0);
- el("total").textContent=data.length;
- el("pemilih").textContent=totalPemilih;
+ el("total").textContent=data.length;el("pemilih").textContent=totalPemilih;
  el("totalRT").textContent=new Set(data.map(x=>x.rw+"|"+x.rt)).size;
  el("totalRW").textContent=new Set(data.map(x=>x.rw)).size;
-
- const hasil=data.filter(x=>{
-  const teks=[x.kk,x.kepala,x.rt,x.rw,x.dukuh,...x.anggota.map(a=>a.nama)].join(" ").toLowerCase();
-  return teks.includes(q);
- });
-
+ const hasil=data.filter(x=>[x.kk,x.kepala,x.rt,x.rw,x.dukuh,...x.anggota.map(a=>a.nama)].join(" ").toLowerCase().includes(q));
  el("daftar").innerHTML=hasil.length?hasil.map(x=>
-  '<div class="voter">'+
-  "<b>"+aman(x.kepala)+"</b>"+
-  "<p>KK: "+aman(x.kk)+"</p>"+
-  "<p>RT: "+aman(x.rt)+" | RW: "+aman(x.rw)+"</p>"+
-  "<p>Dukuh: "+aman(x.dukuh||"-")+"</p>"+
-  "<p>Jumlah pemilih: "+x.anggota.length+"</p>"+
-  "<details><summary>Lihat nama pemilih</summary>"+
+  '<div class="voter"><b>'+aman(x.kepala)+'</b><p>KK: '+aman(x.kk)+'</p>'+
+  '<p>RT: '+aman(x.rt)+' | RW: '+aman(x.rw)+'</p><p>Dukuh: '+aman(x.dukuh||"-")+'</p>'+
+  '<p>Jumlah pemilih: '+x.anggota.length+'</p><details><summary>Lihat nama pemilih</summary>'+
   x.anggota.map((a,i)=>"<p>"+(i+1)+". "+aman(a.nama)+" — "+aman(a.status)+"</p>").join("")+
-  "</details>"+
-  '<div class="actions">'+
-  '<button class="edit" data-aksi="edit" data-id="'+aman(x.id)+'">EDIT</button>'+
-  '<button class="danger" data-aksi="hapus" data-id="'+aman(x.id)+'">HAPUS</button>'+
-  "</div></div>"
+  '</details><div class="actions"><button class="edit" data-aksi="edit" data-id="'+aman(x.id)+'">EDIT</button>'+
+  '<button class="danger" data-aksi="hapus" data-id="'+aman(x.id)+'">HAPUS</button></div></div>'
  ).join(""):"Belum ada data ditemukan.";
-
- rekap("rt","rekapRT");
- rekap("rw","rekapRW");
- rekapAcuan();
- rekapDesa();
+ rekap("rt","rekapRT");rekap("rw","rekapRW");rekapAcuan();rekapDesa();
 }
-
 function rekap(field,target){
  const grup={};
  data.forEach(x=>{
   const k=field==="rt"?JSON.stringify([x.rw,x.rt]):x.rw;
-  if(!grup[k]){
-   grup[k]={rt:x.rt,rw:x.rw,kk:0,pemilih:0,terverifikasi:0,belumDiverifikasi:0};
-  }
-  const g=grup[k];
-  g.kk++;
-  x.anggota.forEach(a=>{
-   g.pemilih++;
-   if(a.status==="Terverifikasi")g.terverifikasi++;
-   else g.belumDiverifikasi++;
-  });
+  if(!grup[k])grup[k]={rt:x.rt,rw:x.rw,kk:0,pemilih:0,terverifikasi:0,belumDiverifikasi:0};
+  const g=grup[k];g.kk++;
+  x.anggota.forEach(a=>{g.pemilih++;if(a.status==="Terverifikasi")g.terverifikasi++;else g.belumDiverifikasi++;});
  });
-
  const keys=Object.keys(grup).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
  if(!keys.length){el(target).textContent="Belum ada data.";return;}
-
  const total={kk:0,pemilih:0,terverifikasi:0,belumDiverifikasi:0};
  keys.forEach(k=>Object.keys(total).forEach(v=>total[v]+=grup[k][v]));
  const header=field==="rt"?"<th>RT</th><th>RW</th>":"<th>RW</th>";
-
- el(target).innerHTML=
-  "<table><thead><tr>"+header+
-  "<th>Jumlah KK</th><th>Total Anggota</th><th>Terverifikasi</th>"+
-  "<th>Belum diverifikasi</th>"+
-  "</tr></thead><tbody>"+
-  keys.map(k=>{
-   const g=grup[k];
-   return "<tr>"+(field==="rt"?"<td>"+aman(g.rt)+"</td><td>"+aman(g.rw)+"</td>":"<td>"+aman(g.rw)+"</td>")+
-    "<td>"+g.kk+"</td><td>"+g.pemilih+"</td><td>"+g.terverifikasi+"</td>"+
-    "<td>"+g.belumDiverifikasi+"</td></tr>";
-  }).join("")+
-  "</tbody><tfoot><tr class='total-row'>"+
-  (field==="rt"?"<td colspan='2'>TOTAL</td>":"<td>TOTAL</td>")+
-  "<td>"+total.kk+"</td><td>"+total.pemilih+"</td><td>"+total.terverifikasi+"</td>"+
-  "<td>"+total.belumDiverifikasi+"</td>"+
-  "</tr></tfoot></table>";
+ el(target).innerHTML="<table><thead><tr>"+header+"<th>Jumlah KK</th><th>Total Anggota</th><th>Terverifikasi</th><th>Belum diverifikasi</th></tr></thead><tbody>"+
+ keys.map(k=>{const g=grup[k];return "<tr>"+(field==="rt"?"<td>"+aman(g.rt)+"</td><td>"+aman(g.rw)+"</td>":"<td>"+aman(g.rw)+"</td>")+
+ "<td>"+g.kk+"</td><td>"+g.pemilih+"</td><td>"+g.terverifikasi+"</td><td>"+g.belumDiverifikasi+"</td></tr>";}).join("")+
+ "</tbody><tfoot><tr class='total-row'>"+(field==="rt"?"<td colspan='2'>TOTAL</td>":"<td>TOTAL</td>")+
+ "<td>"+total.kk+"</td><td>"+total.pemilih+"</td><td>"+total.terverifikasi+"</td><td>"+total.belumDiverifikasi+"</td></tr></tfoot></table>";
 }
-
 function rekapAcuan(){
  const kelompok={};
  Object.keys(ACUAN).forEach(rw=>{
-  const dukuh=DUKUH_RW[rw]||"Belum dipetakan";
-  if(!kelompok[dukuh])kelompok[dukuh]={acuan:0,masuk:0};
+  const dukuh=DUKUH_RW[rw]||"Belum dipetakan";if(!kelompok[dukuh])kelompok[dukuh]={acuan:0,masuk:0};
   ACUAN[rw].forEach((jumlah,i)=>{
-   const rt=i+1;
-   const masuk=data.filter(x=>nomor(x.rw)===Number(rw)&&nomor(x.rt)===rt)
-    .reduce((sum,x)=>sum+x.anggota.length,0);
-   kelompok[dukuh].acuan+=jumlah;
-   kelompok[dukuh].masuk+=masuk;
+   const rt=i+1;const masuk=data.filter(x=>nomor(x.rw)===Number(rw)&&nomor(x.rt)===rt).reduce((sum,x)=>sum+x.anggota.length,0);
+   kelompok[dukuh].acuan+=jumlah;kelompok[dukuh].masuk+=masuk;
   });
  });
  let html='<table><thead><tr><th>Dukuh</th><th>Data acuan</th><th>Data masuk</th><th>Belum masuk</th></tr></thead><tbody>';
  let totalA=0,totalM=0;
- Object.entries(kelompok).forEach(([nama,g])=>{
-  totalA+=g.acuan;totalM+=g.masuk;
-  html+='<tr><td>'+aman(nama)+'</td><td>'+fmt(g.acuan)+'</td><td>'+fmt(g.masuk)+'</td><td>'+fmt(Math.max(0,g.acuan-g.masuk))+'</td></tr>';
- });
- html+='</tbody></table>';
- html+='<h4>Rincian RW dan RT</h4><table><thead><tr><th>Dukuh</th><th>RW</th><th>RT</th><th>Acuan</th><th>Masuk</th><th>Belum masuk</th></tr></thead><tbody>';
+ Object.entries(kelompok).forEach(([nama,g])=>{totalA+=g.acuan;totalM+=g.masuk;html+='<tr><td>'+aman(nama)+'</td><td>'+fmt(g.acuan)+'</td><td>'+fmt(g.masuk)+'</td><td>'+fmt(Math.max(0,g.acuan-g.masuk))+'</td></tr>';});
+ html+='</tbody></table><h4>Rincian RW dan RT</h4><table><thead><tr><th>Dukuh</th><th>RW</th><th>RT</th><th>Acuan</th><th>Masuk</th><th>Belum masuk</th></tr></thead><tbody>';
  Object.keys(ACUAN).forEach(rw=>ACUAN[rw].forEach((jumlah,i)=>{
-  const rt=i+1;
-  const masuk=data.filter(x=>nomor(x.rw)===Number(rw)&&nomor(x.rt)===rt)
-   .reduce((sum,x)=>sum+x.anggota.length,0);
+  const rt=i+1;const masuk=data.filter(x=>nomor(x.rw)===Number(rw)&&nomor(x.rt)===rt).reduce((sum,x)=>sum+x.anggota.length,0);
   html+='<tr><td>'+aman(DUKUH_RW[rw])+'</td><td>RW '+rw+'</td><td>RT '+String(rt).padStart(3,'0')+'</td><td>'+fmt(jumlah)+'</td><td>'+fmt(masuk)+'</td><td>'+fmt(Math.max(0,jumlah-masuk))+'</td></tr>';
  }));
  html+='</tbody><tfoot><tr class="total-row"><td colspan="3">TOTAL DESA</td><td>'+fmt(totalA)+'</td><td>'+fmt(totalM)+'</td><td>'+fmt(Math.max(0,totalA-totalM))+'</td></tr></tfoot></table>';
  el("rekapAcuan").innerHTML=html;
 }
-
 function rekapDesa(){
- const totalKK=data.length;
- const totalPemilih=data.reduce((s,x)=>s+x.anggota.length,0);
- const totalRT=new Set(data.map(x=>x.rw+"|"+x.rt)).size;
- const totalRW=new Set(data.map(x=>x.rw)).size;
+ const totalKK=data.length,totalPemilih=data.reduce((s,x)=>s+x.anggota.length,0);
+ const totalRT=new Set(data.map(x=>x.rw+"|"+x.rt)).size,totalRW=new Set(data.map(x=>x.rw)).size;
  const totalDukuh=new Set(data.map(x=>x.dukuh).filter(Boolean)).size;
-
- el("rekapDesa").innerHTML=
-  "<table><thead><tr><th>Keterangan</th><th>Jumlah</th></tr></thead><tbody>"+
-  "<tr><td>Total KK</td><td>"+totalKK+"</td></tr>"+
-  "<tr><td>Total Pemilih</td><td>"+totalPemilih+"</td></tr>"+
-  "<tr><td>Total RT</td><td>"+totalRT+"</td></tr>"+
-  "<tr><td>Total RW</td><td>"+totalRW+"</td></tr>"+
-  "<tr><td>Total Dukuh Terdata</td><td>"+totalDukuh+"</td></tr>"+
-  "</tbody></table>";
+ el("rekapDesa").innerHTML="<table><thead><tr><th>Keterangan</th><th>Jumlah</th></tr></thead><tbody>"+
+ "<tr><td>Total KK</td><td>"+totalKK+"</td></tr><tr><td>Total Pemilih</td><td>"+totalPemilih+"</td></tr>"+
+ "<tr><td>Total RT</td><td>"+totalRT+"</td></tr><tr><td>Total RW</td><td>"+totalRW+"</td></tr>"+
+ "<tr><td>Total Dukuh Terdata</td><td>"+totalDukuh+"</td></tr></tbody></table>";
 }
-
 function ekspor(){
  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
- const url=URL.createObjectURL(blob);
- const a=document.createElement("a");
- a.href=url;
- a.download="cadangan-sim-tim-desa.json";
- a.click();
- setTimeout(()=>URL.revokeObjectURL(url),1000);
+ const url=URL.createObjectURL(blob),a=document.createElement("a");
+ a.href=url;a.download="cadangan-sim-tim-desa.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
-
 function impor(){
- const file=el("file").files[0];
- if(!file){alert("Pilih file JSON terlebih dahulu.");return;}
+ const file=el("file").files[0];if(!file){alert("Pilih file JSON terlebih dahulu.");return;}
  const reader=new FileReader();
  reader.onload=()=>{
   try{
-   const d=JSON.parse(reader.result);
-   if(!Array.isArray(d))throw Error("Format salah");
-   const baru=d.map(normalisasi);
-   const ids=baru.map(x=>x.id);
+   const d=JSON.parse(reader.result);if(!Array.isArray(d))throw Error("Format salah");
+   const baru=d.map(normalisasi),ids=baru.map(x=>x.id);
    if(new Set(ids).size!==ids.length)throw Error("ID ganda");
-   const nomor=baru.map(x=>x.kk.toLowerCase());
-   if(new Set(nomor).size!==nomor.length)throw Error("Nomor KK ganda");
+   const nomorKK=baru.map(x=>x.kk.toLowerCase());if(new Set(nomorKK).size!==nomorKK.length)throw Error("Nomor KK ganda");
    if(!confirm("Data saat ini akan diganti dengan data cadangan. Lanjutkan?"))return;
-   const lama=[...data];
-   data=baru;
-   if(!simpanLokal()){data=lama;return;}
-   resetForm();
-   tampil();
-   el("file").value="";
-   alert("Data berhasil dipulihkan.");
-  }catch(e){
-   alert("File JSON tidak valid atau mengandung data ganda.");
-  }
+   const lama=[...data];data=baru;if(!simpanLokal()){data=lama;return;}
+   resetForm();tampil();el("file").value="";alert("Data berhasil dipulihkan.");
+  }catch(e){alert("File JSON tidak valid atau mengandung data ganda.");}
  };
  reader.readAsText(file);
 }
 
+/* EKSPOR EXCEL: satu file dengan tujuh lembar laporan */
+function downloadExcel(){
+ if(typeof XLSX==="undefined"){
+  alert("Fitur Excel belum termuat. Pastikan internet aktif, lalu muat ulang aplikasi.");
+  return;
+ }
+ const wb=XLSX.utils.book_new();
+ const tambahSheet=(nama,baris)=>{
+  const ws=XLSX.utils.aoa_to_sheet(baris);
+  ws["!cols"]=baris[0].map((_,i)=>({wch:Math.min(32,Math.max(12,...baris.slice(0,100).map(r=>String(r[i]??"").length+2)))}));
+  XLSX.utils.book_append_sheet(wb,ws,nama);
+ };
+
+ const totalPemilih=data.reduce((s,x)=>s+x.anggota.length,0);
+ tambahSheet("Rekap Desa",[
+  ["REKAPITULASI SELURUH DESA"],["Keterangan","Jumlah"],
+  ["Total KK",data.length],["Total Pemilih",totalPemilih],
+  ["Total RT",new Set(data.map(x=>x.rw+"|"+x.rt)).size],
+  ["Total RW",new Set(data.map(x=>x.rw)).size],
+  ["Total Dukuh Terdata",new Set(data.map(x=>x.dukuh).filter(Boolean)).size]
+ ]);
+
+ const kelompokDukuh={};
+ data.forEach(x=>{
+  const nama=x.dukuh||"Belum dipetakan";
+  if(!kelompokDukuh[nama])kelompokDukuh[nama]={kk:0,pemilih:0,terverifikasi:0};
+  kelompokDukuh[nama].kk++;kelompokDukuh[nama].pemilih+=x.anggota.length;
+  kelompokDukuh[nama].terverifikasi+=x.anggota.filter(a=>a.status==="Terverifikasi").length;
+ });
+ tambahSheet("Rekap Dukuh",[["Dukuh","Jumlah KK","Jumlah Pemilih","Terverifikasi","Belum Diverifikasi"],
+  ...Object.entries(kelompokDukuh).map(([k,v])=>[k,v.kk,v.pemilih,v.terverifikasi,v.pemilih-v.terverifikasi])]);
+
+ const kelompokRW={};
+ data.forEach(x=>{
+  const k=x.rw||"Tidak diisi";
+  if(!kelompokRW[k])kelompokRW[k]={kk:0,pemilih:0,terverifikasi:0};
+  kelompokRW[k].kk++;kelompokRW[k].pemilih+=x.anggota.length;
+  kelompokRW[k].terverifikasi+=x.anggota.filter(a=>a.status==="Terverifikasi").length;
+ });
+ tambahSheet("Rekap RW",[["RW","Jumlah KK","Jumlah Pemilih","Terverifikasi","Belum Diverifikasi"],
+  ...Object.entries(kelompokRW).sort((a,b)=>a[0].localeCompare(b[0],undefined,{numeric:true}))
+   .map(([k,v])=>[k,v.kk,v.pemilih,v.terverifikasi,v.pemilih-v.terverifikasi])]);
+
+ const kelompokRT={};
+ data.forEach(x=>{
+  const k=x.rw+"-"+x.rt;
+  if(!kelompokRT[k])kelompokRT[k]={rw:x.rw,rt:x.rt,kk:0,pemilih:0,terverifikasi:0};
+  kelompokRT[k].kk++;kelompokRT[k].pemilih+=x.anggota.length;
+  kelompokRT[k].terverifikasi+=x.anggota.filter(a=>a.status==="Terverifikasi").length;
+ });
+ tambahSheet("Rekap RT",[["RW","RT","Jumlah KK","Jumlah Pemilih","Terverifikasi","Belum Diverifikasi"],
+  ...Object.values(kelompokRT).sort((a,b)=>Number(a.rw)-Number(b.rw)||Number(a.rt)-Number(b.rt))
+   .map(v=>[v.rw,v.rt,v.kk,v.pemilih,v.terverifikasi,v.pemilih-v.terverifikasi])]);
+
+ tambahSheet("Data KK",[["Nomor KK","Kepala Keluarga","Dukuh","RW","RT","Jumlah Pemilih"],
+  ...data.map(x=>[x.kk,x.kepala,x.dukuh,x.rw,x.rt,x.anggota.length])]);
+
+ tambahSheet("Detail Pemilih",[["Nomor KK","Kepala Keluarga","Dukuh","RW","RT","Nama Pemilih","Status Verifikasi"],
+  ...data.flatMap(x=>x.anggota.map(a=>[x.kk,x.kepala,x.dukuh,x.rw,x.rt,a.nama,a.status]))]);
+
+ const acuan=[["Dukuh","RW","RT","Data Acuan","Data Masuk","Belum Masuk"]];
+ let totalA=0,totalM=0;
+ Object.keys(ACUAN).forEach(r=>{
+  ACUAN[r].forEach((jumlah,i)=>{
+   const rt=i+1;
+   const masuk=data.filter(x=>nomor(x.rw)===Number(r)&&nomor(x.rt)===rt)
+    .reduce((s,x)=>s+x.anggota.length,0);
+   totalA+=jumlah;totalM+=masuk;
+   acuan.push([DUKUH_RW[r],"RW "+r,"RT "+String(rt).padStart(3,"0"),jumlah,masuk,Math.max(0,jumlah-masuk)]);
+  });
+ });
+ acuan.push(["TOTAL DESA","","",totalA,totalM,Math.max(0,totalA-totalM)]);
+ tambahSheet("Acuan dan Masuk",acuan);
+
+ XLSX.writeFile(wb,"LAPORAN_SIM_TIM_DESA_"+new Date().toISOString().slice(0,10)+".xlsx");
+}
+el("btnExcel").addEventListener("click",downloadExcel);
+
 el("daftar").addEventListener("click",e=>{
- const btn=e.target.closest("button[data-aksi]");
- if(!btn)return;
+ const btn=e.target.closest("button[data-aksi]");if(!btn)return;
  const id=btn.dataset.id;
  if(btn.dataset.aksi==="edit")edit(id);
  if(btn.dataset.aksi==="hapus")hapus(id);
