@@ -7,36 +7,187 @@
 <meta name="theme-color" content="#14532d">
 <title>SIM-TIM DESA</title>
 <style>
+
 *{box-sizing:border-box}
-body{font-family:Arial,sans-serif;background:#f1f5f9;margin:0;color:#1e293b;overflow-x:hidden}
-header{background:#14532d;color:white;padding:20px}
-header h2{margin:0}
-main{padding:12px;max-width:1100px;margin:auto}
-.card{background:white;padding:16px;margin:12px 0;border-radius:12px;min-width:0}
-input,select,button{width:100%;padding:12px;margin:6px 0;border:1px solid #cbd5e1;border-radius:7px;font-size:15px}
-button{background:#166534;color:white;border:0;font-weight:bold;cursor:pointer}
+body{
+ font-family:Arial,sans-serif;
+ background:#f0f5f1;
+ margin:0;
+ color:#1e293b;
+ overflow-x:hidden;
+}
+header{
+ background:linear-gradient(125deg,#064e32,#15803d,#16a34a);
+ color:white;
+ padding:27px 20px;
+ position:relative;
+ overflow:hidden;
+ border-bottom:4px solid #a3e635;
+}
+header:after{
+ content:"";
+ position:absolute;
+ width:180px;
+ height:180px;
+ border:25px solid rgba(255,255,255,.08);
+ border-radius:50%;
+ right:-55px;
+ top:-65px;
+}
+header h2{
+ margin:0;
+ font-size:25px;
+ letter-spacing:.5px;
+}
+header p{
+ margin:8px 0 0;
+ color:#dcfce7;
+ font-size:13px;
+}
+main{
+ padding:14px;
+ max-width:1100px;
+ margin:auto;
+}
+.card{
+ background:white;
+ padding:18px;
+ margin:14px 0;
+ border-radius:16px;
+ border:1px solid #e2e8f0;
+ box-shadow:0 4px 15px rgba(15,55,30,.055);
+ min-width:0;
+}
+.card h3{
+ color:#14532d;
+ font-size:17px;
+ margin:3px 0 17px;
+}
+.stats{
+ display:grid;
+ grid-template-columns:repeat(2,minmax(0,1fr));
+ gap:11px;
+}
+.stat{
+ background:linear-gradient(145deg,#ecfdf5,#dcfce7);
+ padding:16px 10px;
+ text-align:center;
+ border:1px solid #bbf7d0;
+ border-radius:13px;
+ color:#166534;
+ font-size:13px;
+}
+.stat b{
+ font-size:27px;
+ display:block;
+ margin-top:8px;
+ color:#14532d;
+}
+input,select{
+ width:100%;
+ padding:13px;
+ margin:7px 0 12px;
+ border:1px solid #cbd5e1;
+ border-radius:10px;
+ font-size:15px;
+ background:#fff;
+ color:#1e293b;
+ outline:none;
+}
+input:focus,select:focus{
+ border-color:#16a34a;
+ box-shadow:0 0 0 3px rgba(22,163,74,.12);
+}
+label{
+ display:block;
+ margin-top:8px;
+ color:#334155;
+ font-weight:bold;
+ font-size:13px;
+}
+button{
+ width:100%;
+ padding:14px;
+ margin:7px 0;
+ border:0;
+ border-radius:10px;
+ background:linear-gradient(120deg,#15803d,#166534);
+ color:white;
+ font-size:14px;
+ font-weight:bold;
+ cursor:pointer;
+ box-shadow:0 3px 7px rgba(22,101,52,.12);
+}
+button:active{transform:scale(.98)}
 .secondary{background:#475569}
-.danger{background:#b91c1c}
+.danger{background:#dc2626}
 .edit{background:#2563eb}
-.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-.stat{background:#dcfce7;padding:14px;text-align:center;border-radius:8px}
-.stat b{font-size:23px;display:block;margin-top:5px}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.voter{border:1px solid #e2e8f0;padding:10px;margin:8px 0;border-radius:8px}
-.actions{display:flex;gap:8px}
+.voter{
+ border:1px solid #e2e8f0;
+ padding:13px;
+ margin:10px 0;
+ border-radius:12px;
+ background:#fbfefc;
+}
+.actions{
+ display:flex;
+ gap:8px;
+}
 .actions button{flex:1}
-.table-wrap{width:100%;overflow-x:auto}
-table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{padding:9px;border:1px solid #e2e8f0;text-align:center;white-space:nowrap}
-th{background:#dcfce7}
-.total-row{font-weight:bold;background:#f1f5f9}
-label{display:block;margin-top:8px;font-weight:bold;font-size:14px}
+.table-wrap{
+ width:100%;
+ overflow-x:auto;
+ border-radius:10px;
+}
+table{
+ width:100%;
+ border-collapse:collapse;
+ font-size:13px;
+}
+th,td{
+ padding:11px 9px;
+ border:1px solid #e2e8f0;
+ text-align:center;
+}
+th{
+ background:#166534;
+ color:white;
+}
+tbody tr:nth-child(even){background:#f0fdf4}
+.total-row{
+ font-weight:bold;
+ background:#dcfce7;
+}
 small{color:#64748b}
-.info{background:#eff6ff;padding:12px;border-radius:8px;font-size:13px}
-.stat-title{font-size:13px;color:#475569}
-h3{margin-top:5px}
-@media(min-width:650px){.stats{grid-template-columns:repeat(4,1fr)}}
-@media(max-width:450px){.grid{grid-template-columns:1fr}}
+.info{
+ background:#eff6ff;
+ padding:13px;
+ border-radius:10px;
+ border-left:4px solid #3b82f6;
+ font-size:13px;
+ line-height:1.6;
+}
+details{
+ background:#f8fafc;
+ padding:10px;
+ border-radius:8px;
+ margin:10px 0;
+}
+summary{
+ color:#166534;
+ font-weight:bold;
+ cursor:pointer;
+}
+@media(min-width:650px){
+ .stats{grid-template-columns:repeat(4,1fr)}
+}
+@media(max-width:600px){
+ main{padding:9px}
+ .card{padding:14px}
+ .table-wrap table{min-width:650px}
+ header{padding:23px 16px}
+}
+
 </style>
 </head>
 <body>
