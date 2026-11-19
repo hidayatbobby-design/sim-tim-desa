@@ -440,5 +440,78 @@ el("btnImpor").addEventListener("click",impor);
 muatData();
 tampil();
 </script>
+
+  
+<script>
+(function(){
+
+const data = [
+["I",177,143,171,204],
+["II",152,98,76],
+["III",216,185,165],
+["IV",195,127,220,170],
+["V",304,186,150],
+["VI",98,136,196],
+["VII",99,139,68,105],
+["VIII",157,222,216],
+["IX",129,132,125],
+["X",144,117,140],
+["XI",191,276,246,195]
+];
+
+let total = 0;
+let totalRT = 0;
+let html = `
+<div style="background:#dcfce7;padding:15px;
+border-radius:10px;margin-bottom:15px">
+<h3 style="margin:0">TOTAL PEMILIH DESA</h3>
+<h1 id="totalPemilihDasar">6.070</h1>
+<p>11 RW · 37 RT</p>
+</div>
+<div style="overflow-x:auto">
+<table style="width:100%;border-collapse:collapse">
+<thead>
+<tr style="background:#166534;color:white">
+<th style="padding:10px">RW</th>
+<th style="padding:10px">RT</th>
+<th style="padding:10px">Pemilih</th>
+</tr>
+</thead><tbody>`;
+
+data.forEach((rw)=>{
+let subtotal=0;
+rw.slice(1).forEach((jumlah,i)=>{
+subtotal+=jumlah;
+total+=jumlah;
+totalRT++;
+html+=`<tr>
+<td style="padding:9px;border-bottom:1px solid #ddd">
+${rw[0]}</td>
+<td style="padding:9px;border-bottom:1px solid #ddd">
+${String(i+1).padStart(3,"0")}</td>
+<td style="padding:9px;text-align:center;
+border-bottom:1px solid #ddd">${jumlah}</td>
+</tr>`;
+});
+html+=`<tr style="background:#dcfce7;font-weight:bold">
+<td colspan="2" style="padding:9px">
+SUBTOTAL RW ${rw[0]}</td>
+<td style="padding:9px;text-align:center">${subtotal}</td>
+</tr>`;
+});
+
+html+=`</tbody></table></div>
+<p style="font-weight:bold;background:#166534;
+color:white;padding:12px;border-radius:8px">
+TOTAL SELURUH DESA: ${total.toLocaleString("id-ID")}
+PEMILIH
+</p>`;
+
+const target=document.getElementById("rekapDasarDesa");
+if(target) target.innerHTML=html;
+
+})();
+</script>
 </body>
 </html>
+
