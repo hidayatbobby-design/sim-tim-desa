@@ -52,17 +52,78 @@ p{line-height:1.5}
 input[type=file]{background:#f0fdf4;border:1px dashed #86b99a;padding:11px}
 @media(min-width:650px){.stats{grid-template-columns:repeat(4,1fr)}header{padding-left:max(24px,calc((100% - 1000px)/2));padding-right:max(24px,calc((100% - 1000px)/2))}.card{padding:23px}main{padding:22px}}
 @media(max-width:600px){.card{padding:15px;overflow:hidden}.table-wrap table{min-width:650px}.stat{padding:13px 5px}.stat b{font-size:24px}header h2{font-size:24px}.actions button{font-size:12px;padding:11px 5px}}
+
+/* ===== DASHBOARD & NAVIGASI BARU ===== */
+html{scroll-behavior:smooth;scroll-padding-top:92px}
+body{background:#f3f7f4}
+header{display:flex;align-items:center;gap:16px;padding:22px max(18px,calc((100% - 1050px)/2));min-height:132px}
+.logo-nganjuk{width:82px;height:96px;object-fit:contain;background:rgba(255,255,255,.96);border-radius:15px;padding:5px;flex:0 0 auto;box-shadow:0 5px 18px rgba(0,0,0,.16)}
+.header-copy{position:relative;z-index:1}
+header h2{font-size:27px;letter-spacing:1.1px}
+header p{font-size:13px;line-height:1.5}
+.header-tag{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:6px 10px;border:1px solid rgba(255,255,255,.25);border-radius:30px;background:rgba(255,255,255,.12);font-size:11px;color:#f0fdf4}
+.navbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid #dce8df;box-shadow:0 3px 12px rgba(15,23,42,.06)}
+.nav-inner{max-width:1050px;margin:auto;padding:9px 14px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin}
+.nav-btn{width:auto;flex:0 0 auto;margin:0;padding:10px 14px;border-radius:9px;background:transparent;color:#466052;box-shadow:none;font-size:12px;font-weight:700;border:1px solid transparent;white-space:nowrap}
+.nav-btn:hover,.nav-btn.active{background:#e8f7ed;color:#14532d;border-color:#c5e8d0;filter:none}
+main{padding-top:12px}
+.card{scroll-margin-top:82px;border-radius:17px}
+#dashboard{background:linear-gradient(145deg,#fff,#f8fcf9)}
+#dashboard h3:before{content:"▦";margin-right:8px;color:#16a34a}
+#formKK h3:before{content:"＋";margin-right:8px;color:#16a34a}
+#dataKK h3:before{content:"▤";margin-right:8px;color:#16a34a}
+#rekapAcuanSection h3:before{content:"▥";margin-right:8px;color:#16a34a}
+#laporanSection h3:before{content:"▧";margin-right:8px;color:#16a34a}
+#rekapRTSection h3:before,#rekapRWSection h3:before{content:"▦";margin-right:8px;color:#16a34a}
+#backupSection h3:before{content:"↥";margin-right:8px;color:#16a34a}
+.stats{gap:12px}
+.stat{position:relative;overflow:hidden;min-height:94px;display:flex;flex-direction:column;justify-content:center;border-radius:14px;box-shadow:inset 0 1px 0 rgba(255,255,255,.8)}
+.stat:after{content:"";position:absolute;width:55px;height:55px;border-radius:50%;background:rgba(22,163,74,.07);right:-17px;top:-18px}
+.stat b{font-variant-numeric:tabular-nums}
+.section-kicker{margin:0 0 14px;color:#64748b;font-size:12px}
+.card h3{display:flex;align-items:center}
+button{min-height:43px}
+#btnSimpan{margin-top:15px}
+#daftar:empty:before{content:"Belum ada data tersimpan.";display:block;color:#94a3b8;padding:12px 0;font-size:13px}
+@media(max-width:600px){
+ header{padding:18px 15px;min-height:112px;gap:12px}
+ .logo-nganjuk{width:66px;height:78px;padding:4px}
+ header h2{font-size:21px}
+ header p{font-size:11px;margin-top:5px}
+ .header-tag{font-size:10px;margin-top:7px}
+ .nav-inner{padding:8px 10px}
+ .nav-btn{font-size:11px;padding:9px 11px}
+ main{padding:10px}
+ .card{margin:11px 0}
+}
+
 </style>
 </head>
 <body>
 <header>
+<img class="logo-nganjuk" src="https://www.nganjukkab.go.id/assets/frontend/images/log.png" alt="Lambang Kabupaten Nganjuk">
+<div class="header-copy">
 <h2>SIM-TIM DESA</h2>
-<p>Sistem Informasi Data Keluarga dan Pemilih</p>
+<p>Sistem Informasi Data Keluarga dan Pemilih<br>Kabupaten Nganjuk, Jawa Timur</p>
+<div class="header-tag">● SISTEM INFORMASI DESA</div>
+</div>
 </header>
 
+<nav class="navbar" aria-label="Menu utama aplikasi">
+<div class="nav-inner">
+<button type="button" class="nav-btn active" data-target="dashboard">▦ Dashboard</button>
+<button type="button" class="nav-btn" data-target="formKK">＋ Input KK</button>
+<button type="button" class="nav-btn" data-target="dataKK">▤ Data KK</button>
+<button type="button" class="nav-btn" data-target="rekapAcuanSection">▥ Rekap Acuan</button>
+<button type="button" class="nav-btn" data-target="laporanSection">▧ Laporan</button>
+<button type="button" class="nav-btn" data-target="backupSection">↥ Cadangan Data</button>
+</div>
+</nav>
+
 <main>
-<section class="card">
-<h3>Dashboard</h3>
+<section class="card" id="dashboard">
+<h3>Dashboard Utama</h3>
+<p class="section-kicker">Ringkasan data keluarga dan pemilih yang telah dimasukkan ke sistem.</p>
 <div class="stats">
 <div class="stat">Total KK<b id="total">0</b></div>
 <div class="stat">Total Pemilih<b id="pemilih">0</b></div>
@@ -71,7 +132,7 @@ input[type=file]{background:#f0fdf4;border:1px dashed #86b99a;padding:11px}
 </div>
 </section>
 
-<section class="card">
+<section class="card" id="formKK">
 <h3 id="judulForm">Input Data KK</h3>
 <label for="kk">Nomor KK</label><input id="kk" placeholder="Nomor KK">
 <label for="kepala">Nama Kepala Keluarga</label><input id="kepala" placeholder="Nama Kepala Keluarga">
@@ -85,28 +146,28 @@ input[type=file]{background:#f0fdf4;border:1px dashed #86b99a;padding:11px}
 <button class="secondary" id="btnReset">KOSONGKAN FORM</button>
 </section>
 
-<section class="card">
+<section class="card" id="dataKK">
 <h3>Daftar Data KK</h3>
 <input id="cari" placeholder="Cari nama, nomor KK, RT, RW atau dukuh">
 <div id="daftar"></div>
 </section>
 
-<section class="card">
+<section class="card" id="rekapAcuanSection">
 <h3>REKAP DATA ACUAN DAN DATA MASUK</h3>
 <p><small>Data acuan bersifat sementara dan harus dicocokkan dengan data resmi desa. Data masuk dihitung dari jumlah anggota KK yang telah disimpan.</small></p>
 <div id="rekapAcuan" class="table-wrap"></div>
 </section>
 
-<section class="card">
+<section class="card" id="laporanSection">
 <h3>REKAPITULASI SELURUH DESA</h3>
 <div id="rekapDesa" class="table-wrap"></div>
 <button id="btnExcel" class="excel">📊 DOWNLOAD LAPORAN EXCEL (.XLSX)</button>
 </section>
 
-<section class="card"><h3>Rekapitulasi Per RT</h3><div id="rekapRT" class="table-wrap"></div></section>
-<section class="card"><h3>Rekapitulasi Per RW</h3><div id="rekapRW" class="table-wrap"></div></section>
+<section class="card" id="rekapRTSection"><h3>Rekapitulasi Per RT</h3><div id="rekapRT" class="table-wrap"></div></section>
+<section class="card" id="rekapRWSection"><h3>Rekapitulasi Per RW</h3><div id="rekapRW" class="table-wrap"></div></section>
 
-<section class="card">
+<section class="card" id="backupSection">
 <h3>Cadangan Data</h3>
 <button id="btnEkspor">DOWNLOAD CADANGAN DATA JSON</button>
 <label for="file">Pilih file cadangan JSON</label>
@@ -277,117 +338,4 @@ function rekapAcuan(){
 }
 function rekapDesa(){
  const totalKK=data.length,totalPemilih=data.reduce((s,x)=>s+x.anggota.length,0);
- const totalRT=new Set(data.map(x=>x.rw+"|"+x.rt)).size,totalRW=new Set(data.map(x=>x.rw)).size;
- const totalDukuh=new Set(data.map(x=>x.dukuh).filter(Boolean)).size;
- el("rekapDesa").innerHTML="<table><thead><tr><th>Keterangan</th><th>Jumlah</th></tr></thead><tbody>"+
- "<tr><td>Total KK</td><td>"+fmt(totalKK)+"</td></tr><tr><td>Total Pemilih</td><td>"+fmt(totalPemilih)+"</td></tr>"+
- "<tr><td>Total RT</td><td>"+fmt(totalRT)+"</td></tr><tr><td>Total RW</td><td>"+fmt(totalRW)+"</td></tr>"+
- "<tr><td>Total Dukuh Terdata</td><td>"+fmt(totalDukuh)+"</td></tr></tbody></table>";
-}
-function ekspor(){
- const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
- const url=URL.createObjectURL(blob),a=document.createElement("a");
- a.href=url;a.download="cadangan-sim-tim-desa.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
-}
-function impor(){
- const file=el("file").files[0];if(!file){alert("Pilih file JSON terlebih dahulu.");return;}
- const reader=new FileReader();
- reader.onload=()=>{
-  try{
-   const d=JSON.parse(reader.result);if(!Array.isArray(d))throw Error("Format salah");
-   const baru=d.map(normalisasi),ids=baru.map(x=>x.id);
-   if(new Set(ids).size!==ids.length)throw Error("ID ganda");
-   const nomorKK=baru.map(x=>x.kk.toLowerCase());if(new Set(nomorKK).size!==nomorKK.length)throw Error("Nomor KK ganda");
-   if(!confirm("Data saat ini akan diganti dengan data cadangan. Lanjutkan?"))return;
-   const lama=[...data];data=baru;if(!simpanLokal()){data=lama;return;}
-   resetForm();tampil();el("file").value="";alert("Data berhasil dipulihkan.");
-  }catch(e){alert("File JSON tidak valid atau mengandung data ganda.");}
- };
- reader.readAsText(file);
-}
-
-/* EKSPOR EXCEL: satu file dengan tujuh lembar laporan */
-function downloadExcel(){
- if(typeof XLSX==="undefined"){
-  alert("Fitur Excel belum termuat. Pastikan internet aktif, lalu muat ulang aplikasi.");
-  return;
- }
- const wb=XLSX.utils.book_new();
- const tambahSheet=(nama,baris)=>{
-  const ws=XLSX.utils.aoa_to_sheet(baris);
-  ws["!cols"]=baris[0].map((_,i)=>({wch:Math.min(32,Math.max(12,...baris.slice(0,100).map(r=>String(r[i]??"").length+2)))}));
-  XLSX.utils.book_append_sheet(wb,ws,nama);
- };
- const totalPemilih=data.reduce((s,x)=>s+x.anggota.length,0);
- tambahSheet("Rekap Desa",[
-  ["REKAPITULASI SELURUH DESA"],["Keterangan","Jumlah"],
-  ["Total KK",data.length],["Total Pemilih",totalPemilih],
-  ["Total RT",new Set(data.map(x=>x.rw+"|"+x.rt)).size],
-  ["Total RW",new Set(data.map(x=>x.rw)).size],
-  ["Total Dukuh Terdata",new Set(data.map(x=>x.dukuh).filter(Boolean)).size]
- ]);
- const kelompokDukuh={};
- data.forEach(x=>{
-  const nama=x.dukuh||"Belum dipetakan";
-  if(!kelompokDukuh[nama])kelompokDukuh[nama]={kk:0,pemilih:0,terverifikasi:0};
-  kelompokDukuh[nama].kk++;kelompokDukuh[nama].pemilih+=x.anggota.length;
-  kelompokDukuh[nama].terverifikasi+=x.anggota.filter(a=>a.status==="Terverifikasi").length;
- });
- tambahSheet("Rekap Dukuh",[["Dukuh","Jumlah KK","Jumlah Pemilih","Terverifikasi","Belum Diverifikasi"],
-  ...Object.entries(kelompokDukuh).map(([k,v])=>[k,v.kk,v.pemilih,v.terverifikasi,v.pemilih-v.terverifikasi])]);
- const kelompokRW={};
- data.forEach(x=>{
-  const k=x.rw||"Tidak diisi";
-  if(!kelompokRW[k])kelompokRW[k]={kk:0,pemilih:0,terverifikasi:0};
-  kelompokRW[k].kk++;kelompokRW[k].pemilih+=x.anggota.length;
-  kelompokRW[k].terverifikasi+=x.anggota.filter(a=>a.status==="Terverifikasi").length;
- });
- tambahSheet("Rekap RW",[["RW","Jumlah KK","Jumlah Pemilih","Terverifikasi","Belum Diverifikasi"],
-  ...Object.entries(kelompokRW).sort((a,b)=>a[0].localeCompare(b[0],undefined,{numeric:true}))
-   .map(([k,v])=>[k,v.kk,v.pemilih,v.terverifikasi,v.pemilih-v.terverifikasi])]);
- const kelompokRT={};
- data.forEach(x=>{
-  const k=x.rw+"-"+x.rt;
-  if(!kelompokRT[k])kelompokRT[k]={rw:x.rw,rt:x.rt,kk:0,pemilih:0,terverifikasi:0};
-  kelompokRT[k].kk++;kelompokRT[k].pemilih+=x.anggota.length;
-  kelompokRT[k].terverifikasi+=x.anggota.filter(a=>a.status==="Terverifikasi").length;
- });
- tambahSheet("Rekap RT",[["RW","RT","Jumlah KK","Jumlah Pemilih","Terverifikasi","Belum Diverifikasi"],
-  ...Object.values(kelompokRT).sort((a,b)=>Number(a.rw)-Number(b.rw)||Number(a.rt)-Number(b.rt))
-   .map(v=>[v.rw,v.rt,v.kk,v.pemilih,v.terverifikasi,v.pemilih-v.terverifikasi])]);
- tambahSheet("Data KK",[["Nomor KK","Kepala Keluarga","Dukuh","RW","RT","Jumlah Pemilih"],
-  ...data.map(x=>[x.kk,x.kepala,x.dukuh,x.rw,x.rt,x.anggota.length])]);
- tambahSheet("Detail Pemilih",[["Nomor KK","Kepala Keluarga","Dukuh","RW","RT","Nama Pemilih","Status Verifikasi"],
-  ...data.flatMap(x=>x.anggota.map(a=>[x.kk,x.kepala,x.dukuh,x.rw,x.rt,a.nama,a.status]))]);
- const acuan=[["Dukuh","RW","RT","Data Acuan","Data Masuk","Belum Masuk"]];
- let totalA=0,totalM=0;
- Object.keys(ACUAN).forEach(r=>{
-  ACUAN[r].forEach((jumlah,i)=>{
-   const rt=i+1;
-   const masuk=data.filter(x=>nomor(x.rw)===Number(r)&&nomor(x.rt)===rt).reduce((s,x)=>s+x.anggota.length,0);
-   totalA+=jumlah;totalM+=masuk;
-   acuan.push([DUKUH_RW[r],"RW "+r,"RT "+String(rt).padStart(3,"0"),jumlah,masuk,Math.max(0,jumlah-masuk)]);
-  });
- });
- acuan.push(["TOTAL DESA","","",totalA,totalM,Math.max(0,totalA-totalM)]);
- tambahSheet("Acuan dan Masuk",acuan);
- XLSX.writeFile(wb,"LAPORAN_SIM_TIM_DESA_"+new Date().toISOString().slice(0,10)+".xlsx");
-}
-el("btnExcel").addEventListener("click",downloadExcel);
-el("daftar").addEventListener("click",e=>{
- const btn=e.target.closest("button[data-aksi]");if(!btn)return;
- const id=btn.dataset.id;
- if(btn.dataset.aksi==="edit")edit(id);
- if(btn.dataset.aksi==="hapus")hapus(id);
-});
-el("jumlah").addEventListener("input",buatKolom);
-el("cari").addEventListener("input",tampil);
-el("btnSimpan").addEventListener("click",simpan);
-el("btnReset").addEventListener("click",resetForm);
-el("btnEkspor").addEventListener("click",ekspor);
-el("btnImpor").addEventListener("click",impor);
-muatData();
-tampil();
-</script>
-</body>
-</html>
+ const t
