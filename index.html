@@ -8,108 +8,61 @@
 <style>
 *{box-sizing:border-box}
 :root{--green:#14532d;--green2:#166534;--green3:#15803d;--mint:#dcfce7;--ink:#1e293b;--muted:#64748b;--line:#e2e8f0}
-body{font-family:Arial,sans-serif;background:#f1f5f9;margin:0;color:var(--ink);max-width:100%;overflow-x:hidden}
-header{background:linear-gradient(135deg,#103d25 0%,#166534 55%,#22a05a 100%);color:#fff;padding:27px 20px 30px;position:relative;overflow:hidden;box-shadow:0 5px 18px rgba(20,83,45,.18)}
-header:after{content:"";position:absolute;width:220px;height:220px;border:35px solid rgba(255,255,255,.07);border-radius:50%;right:-75px;top:-115px}
-header:before{content:"";position:absolute;width:130px;height:130px;background:rgba(255,255,255,.05);border-radius:50%;right:95px;bottom:-100px}
-header h2{margin:0;font-size:26px;letter-spacing:1px;position:relative;z-index:1}
-header p{margin:8px 0 0;color:#dcfce7;font-size:13px;position:relative;z-index:1}
-main{padding:16px;max-width:1050px;margin:auto}
-.card{background:#fff;padding:19px;margin:15px 0;border-radius:16px;max-width:100%;min-width:0;border:1px solid #e8eee9;box-shadow:0 4px 15px rgba(15,23,42,.055)}
-.card h3{color:#14532d;font-size:17px;margin:0 0 16px;padding-bottom:12px;border-bottom:2px solid #dcfce7}
-input,select,button{width:100%;padding:12px;margin:6px 0;border:1px solid #cbd5e1;border-radius:9px;font-size:14px}
-input,select{background:#f8fafc;color:#1e293b;outline:none;transition:.2s}
-input:focus,select:focus{border-color:#16a34a;background:#fff;box-shadow:0 0 0 3px rgba(22,163,74,.12)}
-button{background:linear-gradient(135deg,#15803d,#166534);color:#fff;border:0;font-weight:bold;cursor:pointer;box-shadow:0 3px 8px rgba(22,101,52,.13);transition:filter .2s,transform .1s}
-button:hover{filter:brightness(1.07)}
-button:active{transform:scale(.985)}
-.secondary{background:#475569}
-.danger{background:#b91c1c}
-.edit{background:#2563eb}
-.excel{background:linear-gradient(135deg,#15803d,#166534);padding:14px}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{font-family:Arial,sans-serif;background:#f3f7f4;margin:0;color:var(--ink);overflow-x:hidden}
+header{display:flex;align-items:center;gap:16px;padding:22px max(18px,calc((100% - 1050px)/2));min-height:132px;color:#fff;background:linear-gradient(135deg,#103d25,#166534 55%,#22a05a);position:relative;overflow:hidden;box-shadow:0 5px 18px #14532d2e}
+header:after{content:"";position:absolute;width:220px;height:220px;border:35px solid #ffffff12;border-radius:50%;right:-75px;top:-115px}
+.logo-nganjuk{width:82px;height:96px;object-fit:contain;background:#fffffff2;border-radius:15px;padding:5px;flex:0 0 auto;box-shadow:0 5px 18px #0002}
+.header-copy{position:relative;z-index:1}
+header h1{font-size:27px;letter-spacing:1.1px;margin:0}
+header p{font-size:13px;line-height:1.5;margin:8px 0 0;color:#dcfce7}
+.header-tag{display:inline-flex;margin-top:10px;padding:6px 10px;border:1px solid #ffffff40;border-radius:30px;background:#ffffff1f;font-size:11px}
+.navbar{position:sticky;top:0;z-index:50;background:#fffffff2;backdrop-filter:blur(12px);border-bottom:1px solid #dce8df;box-shadow:0 3px 12px #0f172a0f}
+.nav-inner{max-width:1050px;margin:auto;padding:9px 14px;display:flex;gap:8px;overflow-x:auto}
+button{min-height:43px;padding:11px 14px;border:0;border-radius:9px;background:linear-gradient(135deg,#15803d,#166534);color:#fff;font-size:13px;font-weight:700;cursor:pointer}
+button:hover{filter:brightness(1.06)}button:disabled{opacity:.5;cursor:not-allowed}
+.nav-btn{width:auto;flex:0 0 auto;margin:0;background:transparent;color:#466052;box-shadow:none;font-size:12px;border:1px solid transparent;white-space:nowrap}
+.nav-btn.active,.nav-btn:hover{background:#e8f7ed;color:#14532d;border-color:#c5e8d0;filter:none}
+main{padding:12px 16px 30px;max-width:1050px;margin:auto}
+.card{background:#fff;padding:20px;margin:15px 0;border-radius:17px;border:1px solid #e8eee9;box-shadow:0 4px 15px #0f172a0e;scroll-margin-top:82px;min-width:0}
+.card h2{color:#14532d;font-size:17px;margin:0 0 15px;padding-bottom:12px;border-bottom:2px solid #dcfce7}
+.section-kicker{margin:-5px 0 14px;color:#64748b;font-size:12px}
+label{display:block;margin:10px 0 5px;font-size:13px;font-weight:700;color:#334155}
+input,select{width:100%;padding:12px;margin:4px 0;border:1px solid #cbd5e1;border-radius:9px;background:#f8fafc;color:#1e293b;font-size:14px}
+input:focus,select:focus{outline:2px solid #86efac;border-color:#16a34a;background:#fff}
+input[type=file]{background:#f0fdf4;border:1px dashed #86b99a}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .stat{background:linear-gradient(145deg,#f0fdf4,#dcfce7);padding:15px 9px;text-align:center;border-radius:12px;color:#166534;font-size:12px;font-weight:700;border:1px solid #bbf7d0}
-.stat b{font-size:26px;display:block;margin-top:7px;color:#14532d}
-.voter{border:1px solid #e2e8f0;padding:12px;margin:9px 0;border-radius:11px;min-width:0;background:#fff}
-.voter input,.voter select{margin:5px 0}
-.voter b{color:#14532d}
-.voter p{font-size:13px;line-height:1.5;margin:7px 0}
+.stat b{font-size:26px;display:block;margin-top:7px;color:#14532d;font-variant-numeric:tabular-nums}
+.voter{border:1px solid #e2e8f0;padding:12px;margin:9px 0;border-radius:11px;background:#fff;min-width:0}
+.voter b{color:#14532d}.voter p{font-size:13px;line-height:1.5;margin:7px 0}
 .voter details{background:#f8fafc;border-radius:8px;padding:10px;margin-top:8px}
 .voter summary{cursor:pointer;color:#166534;font-weight:700}
-.actions{display:flex;gap:8px}
-.actions button{flex:1}
+.actions{display:flex;gap:8px}.actions button{flex:1}
+.secondary{background:#475569}.danger{background:#b91c1c}.edit{background:#2563eb}
 .table-wrap{width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch;border-radius:9px}
 table{width:100%;border-collapse:collapse;font-size:13px;background:#fff}
-th,td{padding:10px;border:1px solid #e2e8f0;text-align:center}
-th{background:#dcfce7;color:#14532d;font-weight:700}
-tbody tr:nth-child(even){background:#f8fafc}
-#rekapAcuan h4{color:#166534;margin:18px 0 8px}
-#rekapAcuan table{margin-bottom:12px}
-#rekapAcuan tfoot td,.total-row{font-weight:bold;background:#ecfdf5;color:#14532d}
-small{color:#64748b;line-height:1.55}
-label{display:block;margin-top:9px;font-size:13px;font-weight:700;color:#334155}
-p{line-height:1.5}
-input[type=file]{background:#f0fdf4;border:1px dashed #86b99a;padding:11px}
-@media(min-width:650px){.stats{grid-template-columns:repeat(4,1fr)}header{padding-left:max(24px,calc((100% - 1000px)/2));padding-right:max(24px,calc((100% - 1000px)/2))}.card{padding:23px}main{padding:22px}}
-@media(max-width:600px){.card{padding:15px;overflow:hidden}.table-wrap table{min-width:650px}.stat{padding:13px 5px}.stat b{font-size:24px}header h2{font-size:24px}.actions button{font-size:12px;padding:11px 5px}}
-
-/* ===== DASHBOARD & NAVIGASI BARU ===== */
-html{scroll-behavior:smooth;scroll-padding-top:92px}
-body{background:#f3f7f4}
-header{display:flex;align-items:center;gap:16px;padding:22px max(18px,calc((100% - 1050px)/2));min-height:132px}
-.logo-nganjuk{width:82px;height:96px;object-fit:contain;background:rgba(255,255,255,.96);border-radius:15px;padding:5px;flex:0 0 auto;box-shadow:0 5px 18px rgba(0,0,0,.16)}
-.header-copy{position:relative;z-index:1}
-header h2{font-size:27px;letter-spacing:1.1px}
-header p{font-size:13px;line-height:1.5}
-.header-tag{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:6px 10px;border:1px solid rgba(255,255,255,.25);border-radius:30px;background:rgba(255,255,255,.12);font-size:11px;color:#f0fdf4}
-.navbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);border-bottom:1px solid #dce8df;box-shadow:0 3px 12px rgba(15,23,42,.06)}
-.nav-inner{max-width:1050px;margin:auto;padding:9px 14px;display:flex;gap:8px;overflow-x:auto;scrollbar-width:thin}
-.nav-btn{width:auto;flex:0 0 auto;margin:0;padding:10px 14px;border-radius:9px;background:transparent;color:#466052;box-shadow:none;font-size:12px;font-weight:700;border:1px solid transparent;white-space:nowrap}
-.nav-btn:hover,.nav-btn.active{background:#e8f7ed;color:#14532d;border-color:#c5e8d0;filter:none}
-main{padding-top:12px}
-.card{scroll-margin-top:82px;border-radius:17px}
-#dashboard{background:linear-gradient(145deg,#fff,#f8fcf9)}
-#dashboard h3:before{content:"▦";margin-right:8px;color:#16a34a}
-#formKK h3:before{content:"＋";margin-right:8px;color:#16a34a}
-#dataKK h3:before{content:"▤";margin-right:8px;color:#16a34a}
-#rekapAcuanSection h3:before{content:"▥";margin-right:8px;color:#16a34a}
-#laporanSection h3:before{content:"▧";margin-right:8px;color:#16a34a}
-#rekapRTSection h3:before,#rekapRWSection h3:before{content:"▦";margin-right:8px;color:#16a34a}
-#backupSection h3:before{content:"↥";margin-right:8px;color:#16a34a}
-.stats{gap:12px}
-.stat{position:relative;overflow:hidden;min-height:94px;display:flex;flex-direction:column;justify-content:center;border-radius:14px;box-shadow:inset 0 1px 0 rgba(255,255,255,.8)}
-.stat:after{content:"";position:absolute;width:55px;height:55px;border-radius:50%;background:rgba(22,163,74,.07);right:-17px;top:-18px}
-.stat b{font-variant-numeric:tabular-nums}
-.section-kicker{margin:0 0 14px;color:#64748b;font-size:12px}
-.card h3{display:flex;align-items:center}
-button{min-height:43px}
-#btnSimpan{margin-top:15px}
-#daftar:empty:before{content:"Belum ada data tersimpan.";display:block;color:#94a3b8;padding:12px 0;font-size:13px}
-@media(max-width:600px){
- header{padding:18px 15px;min-height:112px;gap:12px}
- .logo-nganjuk{width:66px;height:78px;padding:4px}
- header h2{font-size:21px}
- header p{font-size:11px;margin-top:5px}
- .header-tag{font-size:10px;margin-top:7px}
- .nav-inner{padding:8px 10px}
- .nav-btn{font-size:11px;padding:9px 11px}
- main{padding:10px}
- .card{margin:11px 0}
-}
-
+th,td{padding:10px;border:1px solid #e2e8f0;text-align:center;white-space:nowrap}
+th{background:#dcfce7;color:#14532d}tbody tr:nth-child(even){background:#f8fafc}
+tfoot td{font-weight:bold;background:#ecfdf5;color:#14532d}
+small,.muted{color:#64748b;line-height:1.55}
+.notice{padding:11px 13px;background:#fffbeb;border:1px solid #fde68a;border-radius:10px;color:#854d0e;font-size:12px;line-height:1.5}
+.empty{padding:12px;color:#94a3b8;font-size:13px}
+.button-row{display:flex;gap:8px;flex-wrap:wrap}.button-row button{flex:1;min-width:170px}
+@media(min-width:650px){.stats{grid-template-columns:repeat(4,minmax(0,1fr))}main{padding:22px}.card{padding:23px}}
+@media(max-width:600px){header{padding:18px 15px;min-height:112px;gap:12px}.logo-nganjuk{width:66px;height:78px}header h1{font-size:21px}header p{font-size:11px}.header-tag{font-size:10px}.nav-inner{padding:8px 10px}.nav-btn{font-size:11px;padding:9px 11px}main{padding:10px}.card{padding:15px;margin:11px 0}.stat{padding:13px 5px}.stat b{font-size:24px}.actions button{font-size:12px;padding:10px 5px}}
 </style>
 </head>
 <body>
 <header>
-<img class="logo-nganjuk" src="https://www.nganjukkab.go.id/assets/frontend/images/log.png" alt="Lambang Kabupaten Nganjuk">
+<img class="logo-nganjuk" src="https://www.nganjukkab.go.id/assets/frontend/images/log.png" alt="Lambang Kabupaten Nganjuk" onerror="this.style.display='none'">
 <div class="header-copy">
-<h2>SIM-TIM DESA</h2>
+<h1>SIM-TIM DESA</h1>
 <p>Sistem Informasi Data Keluarga dan Pemilih<br>Kabupaten Nganjuk, Jawa Timur</p>
 <div class="header-tag">● SISTEM INFORMASI DESA</div>
 </div>
 </header>
-
-<nav class="navbar" aria-label="Menu utama aplikasi">
+<nav class="navbar" aria-label="Menu utama">
 <div class="nav-inner">
 <button type="button" class="nav-btn active" data-target="dashboard">▦ Dashboard</button>
 <button type="button" class="nav-btn" data-target="formKK">＋ Input KK</button>
@@ -117,130 +70,77 @@ button{min-height:43px}
 <button type="button" class="nav-btn" data-target="rekapAcuanSection">▥ Rekap Acuan</button>
 <button type="button" class="nav-btn" data-target="laporanSection">▧ Laporan</button>
 <button type="button" class="nav-btn" data-target="backupSection">↥ Cadangan Data</button>
-</div>
-</nav>
-
+</div></nav>
 <main>
 <section class="card" id="dashboard">
-<h3>Dashboard Utama</h3>
-<p class="section-kicker">Ringkasan data keluarga dan pemilih yang telah dimasukkan ke sistem.</p>
+<h2>Dashboard Utama</h2><p class="section-kicker">Ringkasan data keluarga dan pemilih yang sudah dimasukkan.</p>
 <div class="stats">
-<div class="stat">Total KK<b id="total">0</b></div>
-<div class="stat">Total Pemilih<b id="pemilih">0</b></div>
-<div class="stat">Total RT<b id="totalRT">0</b></div>
-<div class="stat">Total RW<b id="totalRW">0</b></div>
-</div>
-</section>
-
+<div class="stat">Total KK<b id="total">0</b></div><div class="stat">Total Pemilih<b id="pemilih">0</b></div>
+<div class="stat">Total RT<b id="totalRT">0</b></div><div class="stat">Total RW<b id="totalRW">0</b></div>
+</div></section>
 <section class="card" id="formKK">
-<h3 id="judulForm">Input Data KK</h3>
-<label for="kk">Nomor KK</label><input id="kk" placeholder="Nomor KK">
-<label for="kepala">Nama Kepala Keluarga</label><input id="kepala" placeholder="Nama Kepala Keluarga">
-<label for="rt">Nomor RT</label><input id="rt" placeholder="Nomor RT">
-<label for="rw">Nomor RW</label><input id="rw" placeholder="Nomor RW">
-<p><small>Nama dukuh akan terisi otomatis berdasarkan RW.</small></p>
-<label for="jumlah">Jumlah pemilih dalam KK</label>
-<input id="jumlah" type="number" min="1" max="30" placeholder="Masukkan jumlah pemilih">
+<h2 id="judulForm">Input Data KK</h2>
+<div class="notice">Masukkan data seperlunya dan batasi akses perangkat. Nomor KK serta nama anggota keluarga merupakan data pribadi. Jangan membagikan file cadangan kepada pihak yang tidak berwenang.</div>
+<label for="kk">Nomor KK</label><input id="kk" inputmode="numeric" maxlength="20" placeholder="Masukkan nomor KK">
+<label for="kepala">Nama Kepala Keluarga</label><input id="kepala" maxlength="100" placeholder="Nama Kepala Keluarga">
+<label for="rt">Nomor RT</label><input id="rt" inputmode="numeric" maxlength="3" placeholder="Contoh: 001">
+<label for="rw">Nomor RW</label><input id="rw" inputmode="numeric" maxlength="3" placeholder="Contoh: 001">
+<p><small>Dukuh diisi otomatis berdasarkan pemetaan RW yang tersedia di aplikasi.</small></p>
+<label for="jumlah">Jumlah pemilih dalam KK</label><input id="jumlah" type="number" min="1" max="30" step="1" placeholder="Masukkan jumlah pemilih">
 <div id="kolomAnggota"></div>
-<button id="btnSimpan">SIMPAN DATA KK</button>
-<button class="secondary" id="btnReset">KOSONGKAN FORM</button>
+<div class="button-row"><button id="btnSimpan" type="button">SIMPAN DATA KK</button><button class="secondary" id="btnReset" type="button">KOSONGKAN FORM</button></div>
 </section>
-
-<section class="card" id="dataKK">
-<h3>Daftar Data KK</h3>
-<input id="cari" placeholder="Cari nama, nomor KK, RT, RW atau dukuh">
-<div id="daftar"></div>
-</section>
-
-<section class="card" id="rekapAcuanSection">
-<h3>REKAP DATA ACUAN DAN DATA MASUK</h3>
-<p><small>Data acuan bersifat sementara dan harus dicocokkan dengan data resmi desa. Data masuk dihitung dari jumlah anggota KK yang telah disimpan.</small></p>
-<div id="rekapAcuan" class="table-wrap"></div>
-</section>
-
-<section class="card" id="laporanSection">
-<h3>REKAPITULASI SELURUH DESA</h3>
-<div id="rekapDesa" class="table-wrap"></div>
-<button id="btnExcel" class="excel">📊 DOWNLOAD LAPORAN EXCEL (.XLSX)</button>
-</section>
-
-<section class="card" id="rekapRTSection"><h3>Rekapitulasi Per RT</h3><div id="rekapRT" class="table-wrap"></div></section>
-<section class="card" id="rekapRWSection"><h3>Rekapitulasi Per RW</h3><div id="rekapRW" class="table-wrap"></div></section>
-
-<section class="card" id="backupSection">
-<h3>Cadangan Data</h3>
-<button id="btnEkspor">DOWNLOAD CADANGAN DATA JSON</button>
-<label for="file">Pilih file cadangan JSON</label>
-<input type="file" id="file" accept=".json,application/json">
-<button class="secondary" id="btnImpor">PULIHKAN DATA JSON</button>
-<p><small>Data tersimpan di browser/perangkat ini. Unduh cadangan secara berkala.</small></p>
-</section>
+<section class="card" id="dataKK"><h2>Daftar Data KK</h2><input id="cari" placeholder="Cari nama, nomor KK, RT, RW atau dukuh"><div id="daftar" class="empty">Belum ada data tersimpan.</div></section>
+<section class="card" id="rekapAcuanSection"><h2>Rekap Data Acuan dan Data Masuk</h2><p class="section-kicker">Data acuan adalah angka sementara yang perlu diverifikasi dengan data resmi desa. Data masuk dihitung dari anggota KK yang telah disimpan.</p><div id="rekapAcuan" class="table-wrap"></div></section>
+<section class="card" id="laporanSection"><h2>Rekapitulasi Seluruh Desa</h2><div id="rekapDesa" class="table-wrap"></div><button id="btnExcel" type="button">📊 DOWNLOAD LAPORAN EXCEL (.XLSX)</button></section>
+<section class="card" id="rekapRTSection"><h2>Rekapitulasi Per RT</h2><div id="rekapRT" class="table-wrap"></div></section>
+<section class="card" id="rekapRWSection"><h2>Rekapitulasi Per RW</h2><div id="rekapRW" class="table-wrap"></div></section>
+<section class="card" id="backupSection"><h2>Cadangan Data</h2><div class="button-row"><button id="btnEkspor" type="button">DOWNLOAD CADANGAN DATA JSON</button></div><label for="file">Pilih file cadangan JSON</label><input type="file" id="file" accept=".json,application/json"><button class="secondary" id="btnImpor" type="button">PULIHKAN DATA JSON</button><p><small>Data tersimpan pada browser dan perangkat ini saja. Data tidak otomatis tersinkron ke GitHub atau perangkat lain. Unduh cadangan secara berkala.</small></p></section>
 </main>
-
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <script>
 "use strict";
-
-const KEY="simtim_v2";
+const KEY="simtim_v3";
 const el=id=>document.getElementById(id);
-let data=[];
-let editId=null;
+let data=[],editId=null;
 const statusList=["Belum diverifikasi","Terverifikasi"];
-
-const ACUAN={
- 1:[177,143,171,204],2:[152,98,76],3:[216,185,165],
- 4:[195,127,220,170],5:[304,186,150],6:[98,136,196],
- 7:[99,139,68,105],8:[157,222,216],9:[129,132,125],
- 10:[144,117,140],11:[191,276,246,195]
-};
-const DUKUH_RW={
- 1:"Gondanglegi",2:"Gondanglegi",3:"Gondanglegi",4:"Gondanglegi",
- 5:"Combre",6:"Combre",7:"Combre",
- 8:"Ringinrejo",9:"Ringinrejo",10:"Ringinrejo",11:"Benden"
-};
+const ACUAN={1:[177,143,171,204],2:[152,98,76],3:[216,185,165],4:[195,127,220,170],5:[304,186,150],6:[98,136,196],7:[99,139,68,105],8:[157,222,216],9:[129,132,125],10:[144,117,140],11:[191,276,246,195]};
+const DUKUH_RW={1:"Gondanglegi",2:"Gondanglegi",3:"Gondanglegi",4:"Gondanglegi",5:"Combre",6:"Combre",7:"Combre",8:"Ringinrejo",9:"Ringinrejo",10:"Ringinrejo",11:"Benden"};
 const fmt=n=>Number(n||0).toLocaleString("id-ID");
-function namaDukuh(rw){return DUKUH_RW[Number(String(rw).replace(/\D/g,""))]||"Belum dipetakan";}
-function nomor(n){const v=Number(String(n).replace(/\D/g,""));return Number.isFinite(v)?v:0;}
-function aman(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
-
+const nomor=n=>{const v=Number(String(n??"").replace(/\D/g,""));return Number.isFinite(v)?v:0};
+const namaDukuh=rw=>DUKUH_RW[nomor(rw)]||"Belum dipetakan";
+const aman=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 function normalisasi(item,i){
  const anggota=Array.isArray(item.anggota)?item.anggota:[];
- return {
-  id:String(item.id||("data-"+Date.now()+"-"+i)),
-  kk:String(item.kk||""),kepala:String(item.kepala||""),
-  rt:String(item.rt||""),rw:String(item.rw||""),
-  dukuh:namaDukuh(item.rw),
-  anggota:anggota.map(a=>{
-   const nama=typeof a==="string"?a:(a.nama||"");
-   const status=(typeof a==="object"&&a.status==="Terverifikasi")?"Terverifikasi":"Belum diverifikasi";
-   return {nama:String(nama),status};
-  })
- };
+ return {id:String(item.id||("data-"+Date.now()+"-"+i)),kk:String(item.kk||"").trim(),kepala:String(item.kepala||"").trim(),rt:String(item.rt||"").trim(),rw:String(item.rw||"").trim(),dukuh:namaDukuh(item.rw),anggota:anggota.map(a=>({nama:String(typeof a==="string"?a:(a?.nama||"")).trim(),status:(a&&typeof a==="object"&&a.status==="Terverifikasi")?"Terverifikasi":"Belum diverifikasi"}))};
 }
 function muatData(){
  try{
-  const raw=JSON.parse(localStorage.getItem(KEY)||"[]");
-  data=Array.isArray(raw)?raw.map(normalisasi):[];
- }catch(e){data=[];alert("Data lokal tidak dapat dibaca. Coba pulihkan dari cadangan JSON.");}
+  let raw=localStorage.getItem(KEY);
+  if(raw===null)raw=localStorage.getItem("simtim_v2")||"[]";
+  const parsed=JSON.parse(raw);
+  if(!Array.isArray(parsed))throw Error("Format data bukan daftar");
+  data=parsed.map(normalisasi);
+ }catch(e){data=[];alert("Data tersimpan tidak dapat dibaca. Jangan hapus data browser. Coba pulihkan dari file cadangan JSON.");}
 }
 function simpanLokal(){
- try{localStorage.setItem(KEY,JSON.stringify(data));return true;}
- catch(e){alert("Penyimpanan gagal. Memori browser mungkin penuh.");return false;}
+ try{localStorage.setItem(KEY,JSON.stringify(data));return true}
+ catch(e){alert("Penyimpanan gagal. Ruang penyimpanan browser mungkin penuh. Unduh cadangan data dan kurangi ukuran data.");return false}
 }
 function buatKolom(){
  const n=Math.max(0,Math.min(30,Number(el("jumlah").value)||0));
  const lama=[...document.querySelectorAll(".namaPemilih")].map(x=>x.value);
- const statusLama=[...document.querySelectorAll(".statusPemilih")].map(x=>x.value);
+ const statLama=[...document.querySelectorAll(".statusPemilih")].map(x=>x.value);
  el("kolomAnggota").innerHTML="";
  for(let i=0;i<n;i++){
   const div=document.createElement("div");div.className="voter";
-  const label=document.createElement("b");label.textContent="Nama Pemilih "+(i+1);
-  const nama=document.createElement("input");nama.className="namaPemilih";nama.placeholder="Nama pemilih "+(i+1);nama.value=lama[i]||"";
-  const statusLabel=document.createElement("label");statusLabel.textContent="Status verifikasi data";
+  const b=document.createElement("b");b.textContent="Nama Pemilih "+(i+1);
+  const input=document.createElement("input");input.className="namaPemilih";input.maxLength=100;input.placeholder="Nama pemilih "+(i+1);input.value=lama[i]||"";
+  const label=document.createElement("label");label.textContent="Status verifikasi data";
   const select=document.createElement("select");select.className="statusPemilih";
-  statusList.forEach(s=>{const option=document.createElement("option");option.value=s;option.textContent=s;select.appendChild(option);});
-  select.value=statusList.includes(statusLama[i])?statusLama[i]:"Belum diverifikasi";
-  div.append(label,nama,statusLabel,select);el("kolomAnggota").appendChild(div);
+  statusList.forEach(s=>{const o=document.createElement("option");o.value=s;o.textContent=s;select.appendChild(o)});
+  select.value=statusList.includes(statLama[i])?statLama[i]:statusList[0];
+  div.append(b,input,label,select);el("kolomAnggota").appendChild(div);
  }
 }
 function resetForm(){
@@ -248,94 +148,115 @@ function resetForm(){
  el("kolomAnggota").innerHTML="";el("judulForm").textContent="Input Data KK";el("btnSimpan").textContent="SIMPAN DATA KK";
 }
 function simpan(){
- const kk=el("kk").value.trim(),kepala=el("kepala").value.trim();
- const rt=el("rt").value.trim(),rw=el("rw").value.trim();
- const dukuh=namaDukuh(rw),n=Number(el("jumlah").value);
- const names=[...document.querySelectorAll(".namaPemilih")];
- const statuses=[...document.querySelectorAll(".statusPemilih")];
- if(!kk||!kepala||!rt||!rw){alert("Lengkapi Nomor KK, Kepala Keluarga, RT dan RW.");return;}
- if(!Number.isInteger(n)||n<1||n>30||names.length!==n){alert("Jumlah pemilih harus antara 1 sampai 30.");return;}
- if(names.some(x=>!x.value.trim())){alert("Isi nama semua pemilih.");return;}
- if(data.some(x=>x.kk.toLowerCase()===kk.toLowerCase()&&x.id!==editId)){alert("Nomor KK sudah terdaftar.");return;}
- const item={id:editId||String(Date.now()),kk,kepala,rt,rw,dukuh,anggota:names.map((x,i)=>({nama:x.value.trim(),status:statuses[i].value}))};
- const lama=[...data];
- if(editId){const index=data.findIndex(x=>x.id===editId);if(index<0){alert("Data yang akan diedit tidak ditemukan.");return;}data[index]=item;}
- else data.push(item);
- if(!simpanLokal()){data=lama;return;}
+ const kk=el("kk").value.trim(),kepala=el("kepala").value.trim(),rt=el("rt").value.trim(),rw=el("rw").value.trim(),n=Number(el("jumlah").value);
+ const names=[...document.querySelectorAll(".namaPemilih")],statuses=[...document.querySelectorAll(".statusPemilih")];
+ if(!kk||!kepala||!rt||!rw){alert("Lengkapi Nomor KK, Kepala Keluarga, RT dan RW.");return}
+ if(!Number.isInteger(n)||n<1||n>30||names.length!==n){alert("Jumlah pemilih harus bilangan bulat antara 1 sampai 30.");return}
+ if(names.some(x=>!x.value.trim())){alert("Isi nama seluruh anggota/pemilih.");return}
+ if(data.some(x=>x.kk.toLowerCase()===kk.toLowerCase()&&x.id!==editId)){alert("Nomor KK sudah terdaftar. Gunakan menu Edit jika ingin memperbaiki data.");return}
+ const item={id:editId||("kk-"+Date.now()+"-"+Math.random().toString(36).slice(2,8)),kk,kepala,rt,rw,dukuh:namaDukuh(rw),anggota:names.map((x,i)=>({nama:x.value.trim(),status:statuses[i].value}))};
+ const lama=data.map(x=>({...x,anggota:x.anggota.map(a=>({...a}))}));
+ if(editId){const ix=data.findIndex(x=>x.id===editId);if(ix<0){alert("Data yang akan diedit tidak ditemukan.");return}data[ix]=item}else data.push(item);
+ if(!simpanLokal()){data=lama;return}
  resetForm();tampil();alert("Data KK berhasil disimpan.");
 }
 function edit(id){
- const x=data.find(x=>x.id===id);if(!x)return;editId=id;
+ const x=data.find(v=>v.id===id);if(!x)return;editId=id;
  ["kk","kepala","rt","rw"].forEach(k=>el(k).value=x[k]||"");
- el("jumlah").value=x.anggota.length;el("judulForm").textContent="Edit Data KK";
- el("btnSimpan").textContent="SIMPAN PERUBAHAN";buatKolom();
- const names=document.querySelectorAll(".namaPemilih"),statuses=document.querySelectorAll(".statusPemilih");
- x.anggota.forEach((a,i)=>{names[i].value=a.nama;statuses[i].value=a.status;});
- window.scrollTo({top:0,behavior:"smooth"});
+ el("jumlah").value=x.anggota.length;el("judulForm").textContent="Edit Data KK";el("btnSimpan").textContent="SIMPAN PERUBAHAN";buatKolom();
+ document.querySelectorAll(".namaPemilih").forEach((v,i)=>v.value=x.anggota[i]?.nama||"");
+ document.querySelectorAll(".statusPemilih").forEach((v,i)=>v.value=x.anggota[i]?.status||statusList[0]);
+ el("formKK").scrollIntoView({behavior:"smooth"});
 }
 function hapus(id){
- const x=data.find(x=>x.id===id);if(!x)return;
- if(!confirm("Hapus data KK "+x.kk+" atas nama "+x.kepala+"?"))return;
- const lama=[...data];data=data.filter(x=>x.id!==id);
- if(!simpanLokal()){data=lama;return;}
- if(editId===id)resetForm();tampil();
+ const x=data.find(v=>v.id===id);if(!x||!confirm("Hapus data KK "+x.kk+" atas nama "+x.kepala+"?"))return;
+ const lama=data;data=data.filter(v=>v.id!==id);
+ if(!simpanLokal()){data=lama;return}if(editId===id)resetForm();tampil();
 }
+function tabelKosong(target){el(target).innerHTML='<div class="empty">Belum ada data.</div>'}
 function tampil(){
- const q=el("cari").value.trim().toLowerCase();
- const totalPemilih=data.reduce((s,x)=>s+x.anggota.length,0);
- el("total").textContent=fmt(data.length);el("pemilih").textContent=fmt(totalPemilih);
+ const q=el("cari").value.trim().toLowerCase(),pemilih=data.reduce((s,x)=>s+x.anggota.length,0);
+ el("total").textContent=fmt(data.length);el("pemilih").textContent=fmt(pemilih);
  el("totalRT").textContent=fmt(new Set(data.map(x=>x.rw+"|"+x.rt)).size);
  el("totalRW").textContent=fmt(new Set(data.map(x=>x.rw)).size);
  const hasil=data.filter(x=>[x.kk,x.kepala,x.rt,x.rw,x.dukuh,...x.anggota.map(a=>a.nama)].join(" ").toLowerCase().includes(q));
- el("daftar").innerHTML=hasil.length?hasil.map(x=>
-  '<div class="voter"><b>'+aman(x.kepala)+'</b><p>KK: '+aman(x.kk)+'</p>'+
-  '<p>RT: '+aman(x.rt)+' | RW: '+aman(x.rw)+'</p><p>Dukuh: '+aman(x.dukuh||"-")+'</p>'+
-  '<p>Jumlah pemilih: '+x.anggota.length+'</p><details><summary>Lihat nama pemilih</summary>'+
-  x.anggota.map((a,i)=>"<p>"+(i+1)+". "+aman(a.nama)+" — "+aman(a.status)+"</p>").join("")+
-  '</details><div class="actions"><button class="edit" data-aksi="edit" data-id="'+aman(x.id)+'">EDIT</button>'+
-  '<button class="danger" data-aksi="hapus" data-id="'+aman(x.id)+'">HAPUS</button></div></div>'
- ).join(""):"Belum ada data ditemukan.";
+ el("daftar").innerHTML=hasil.length?hasil.map(x=>'<div class="voter"><b>'+aman(x.kepala)+'</b><p>KK: '+aman(x.kk)+'</p><p>RT: '+aman(x.rt)+' | RW: '+aman(x.rw)+'</p><p>Dukuh: '+aman(x.dukuh)+'</p><p>Jumlah pemilih: '+x.anggota.length+'</p><details><summary>Lihat nama pemilih</summary>'+x.anggota.map((a,i)=>'<p>'+(i+1)+'. '+aman(a.nama)+' — '+aman(a.status)+'</p>').join("")+'</details><div class="actions"><button class="edit" data-aksi="edit" data-id="'+aman(x.id)+'">EDIT</button><button class="danger" data-aksi="hapus" data-id="'+aman(x.id)+'">HAPUS</button></div></div>').join(""):'<div class="empty">Belum ada data ditemukan.</div>';
  rekap("rt","rekapRT");rekap("rw","rekapRW");rekapAcuan();rekapDesa();
 }
 function rekap(field,target){
  const grup={};
  data.forEach(x=>{
-  const k=field==="rt"?JSON.stringify([x.rw,x.rt]):x.rw;
-  if(!grup[k])grup[k]={rt:x.rt,rw:x.rw,kk:0,pemilih:0,terverifikasi:0,belumDiverifikasi:0};
-  const g=grup[k];g.kk++;
-  x.anggota.forEach(a=>{g.pemilih++;if(a.status==="Terverifikasi")g.terverifikasi++;else g.belumDiverifikasi++;});
+  const key=field==="rt"?JSON.stringify([x.rw,x.rt]):x.rw;
+  if(!grup[key])grup[key]={rt:x.rt,rw:x.rw,kk:0,pemilih:0,terverifikasi:0,belum:0};
+  const g=grup[key];g.kk++;
+  x.anggota.forEach(a=>{g.pemilih++;if(a.status==="Terverifikasi")g.terverifikasi++;else g.belum++});
  });
  const keys=Object.keys(grup).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));
- if(!keys.length){el(target).textContent="Belum ada data.";return;}
- const total={kk:0,pemilih:0,terverifikasi:0,belumDiverifikasi:0};
+ if(!keys.length){tabelKosong(target);return}
+ const total={kk:0,pemilih:0,terverifikasi:0,belum:0};
  keys.forEach(k=>Object.keys(total).forEach(v=>total[v]+=grup[k][v]));
- const header=field==="rt"?"<th>RT</th><th>RW</th>":"<th>RW</th>";
- el(target).innerHTML="<table><thead><tr>"+header+"<th>Jumlah KK</th><th>Total Anggota</th><th>Terverifikasi</th><th>Belum diverifikasi</th></tr></thead><tbody>"+
- keys.map(k=>{const g=grup[k];return "<tr>"+(field==="rt"?"<td>"+aman(g.rt)+"</td><td>"+aman(g.rw)+"</td>":"<td>"+aman(g.rw)+"</td>")+
- "<td>"+g.kk+"</td><td>"+g.pemilih+"</td><td>"+g.terverifikasi+"</td><td>"+g.belumDiverifikasi+"</td></tr>";}).join("")+
- "</tbody><tfoot><tr class='total-row'>"+(field==="rt"?"<td colspan='2'>TOTAL</td>":"<td>TOTAL</td>")+
- "<td>"+total.kk+"</td><td>"+total.pemilih+"</td><td>"+total.terverifikasi+"</td><td>"+total.belumDiverifikasi+"</td></tr></tfoot></table>";
+ const head=field==="rt"?"<th>RT</th><th>RW</th>":"<th>RW</th>";
+ el(target).innerHTML="<table><thead><tr>"+head+"<th>Jumlah KK</th><th>Total Pemilih</th><th>Terverifikasi</th><th>Belum diverifikasi</th></tr></thead><tbody>"+
+ keys.map(k=>{const g=grup[k];return "<tr>"+(field==="rt"?"<td>"+aman(g.rt)+"</td><td>"+aman(g.rw)+"</td>":"<td>"+aman(g.rw)+"</td>")+"<td>"+g.kk+"</td><td>"+g.pemilih+"</td><td>"+g.terverifikasi+"</td><td>"+g.belum+"</td></tr>"}).join("")+
+ "</tbody><tfoot><tr>"+(field==="rt"?"<td colspan='2'>TOTAL</td>":"<td>TOTAL</td>")+"<td>"+total.kk+"</td><td>"+total.pemilih+"</td><td>"+total.terverifikasi+"</td><td>"+total.belum+"</td></tr></tfoot></table>";
 }
+function hitungMasuk(rw,rt){return data.filter(x=>nomor(x.rw)===Number(rw)&&nomor(x.rt)===Number(rt)).reduce((s,x)=>s+x.anggota.length,0)}
 function rekapAcuan(){
- const kelompok={};
- Object.keys(ACUAN).forEach(rw=>{
-  const dukuh=DUKUH_RW[rw]||"Belum dipetakan";if(!kelompok[dukuh])kelompok[dukuh]={acuan:0,masuk:0};
-  ACUAN[rw].forEach((jumlah,i)=>{
-   const rt=i+1;const masuk=data.filter(x=>nomor(x.rw)===Number(rw)&&nomor(x.rt)===rt).reduce((sum,x)=>sum+x.anggota.length,0);
-   kelompok[dukuh].acuan+=jumlah;kelompok[dukuh].masuk+=masuk;
-  });
- });
- let html='<table><thead><tr><th>Dukuh</th><th>Data acuan</th><th>Data masuk</th><th>Belum masuk</th></tr></thead><tbody>';
- let totalA=0,totalM=0;
- Object.entries(kelompok).forEach(([nama,g])=>{totalA+=g.acuan;totalM+=g.masuk;html+='<tr><td>'+aman(nama)+'</td><td>'+fmt(g.acuan)+'</td><td>'+fmt(g.masuk)+'</td><td>'+fmt(Math.max(0,g.acuan-g.masuk))+'</td></tr>';});
- html+='</tbody></table><h4>Rincian RW dan RT</h4><table><thead><tr><th>Dukuh</th><th>RW</th><th>RT</th><th>Acuan</th><th>Masuk</th><th>Belum masuk</th></tr></thead><tbody>';
- Object.keys(ACUAN).forEach(rw=>ACUAN[rw].forEach((jumlah,i)=>{
-  const rt=i+1;const masuk=data.filter(x=>nomor(x.rw)===Number(rw)&&nomor(x.rt)===rt).reduce((sum,x)=>sum+x.anggota.length,0);
-  html+='<tr><td>'+aman(DUKUH_RW[rw])+'</td><td>RW '+rw+'</td><td>RT '+String(rt).padStart(3,'0')+'</td><td>'+fmt(jumlah)+'</td><td>'+fmt(masuk)+'</td><td>'+fmt(Math.max(0,jumlah-masuk))+'</td></tr>';
- }));
- html+='</tbody><tfoot><tr class="total-row"><td colspan="3">TOTAL DESA</td><td>'+fmt(totalA)+'</td><td>'+fmt(totalM)+'</td><td>'+fmt(Math.max(0,totalA-totalM))+'</td></tr></tfoot></table>';
- el("rekapAcuan").innerHTML=html;
+ const kelompok={};Object.keys(ACUAN).forEach(rw=>{const d=DUKUH_RW[rw]||"Belum dipetakan";if(!kelompok[d])kelompok[d]={acuan:0,masuk:0};ACUAN[rw].forEach((n,i)=>{kelompok[d].acuan+=n;kelompok[d].masuk+=hitungMasuk(rw,i+1)})});
+ let html="<table><thead><tr><th>Dukuh</th><th>Data acuan</th><th>Data masuk</th><th>Belum masuk</th></tr></thead><tbody>",ta=0,tm=0;
+ Object.entries(kelompok).forEach(([d,g])=>{ta+=g.acuan;tm+=g.masuk;html+="<tr><td>"+aman(d)+"</td><td>"+fmt(g.acuan)+"</td><td>"+fmt(g.masuk)+"</td><td>"+fmt(Math.max(0,g.acuan-g.masuk))+"</td></tr>"});
+ html+="</tbody><tfoot><tr><td>TOTAL DESA</td><td>"+fmt(ta)+"</td><td>"+fmt(tm)+"</td><td>"+fmt(Math.max(0,ta-tm))+"</td></tr></tfoot></table><h3 style='color:#166534;font-size:15px;margin:20px 0 8px'>Rincian RW dan RT</h3><table><thead><tr><th>Dukuh</th><th>RW</th><th>RT</th><th>Acuan</th><th>Masuk</th><th>Belum masuk</th></tr></thead><tbody>";
+ Object.keys(ACUAN).forEach(rw=>ACUAN[rw].forEach((n,i)=>{const masuk=hitungMasuk(rw,i+1);html+="<tr><td>"+aman(DUKUH_RW[rw])+"</td><td>RW "+rw+"</td><td>RT "+String(i+1).padStart(3,"0")+"</td><td>"+fmt(n)+"</td><td>"+fmt(masuk)+"</td><td>"+fmt(Math.max(0,n-masuk))+"</td></tr>"}));
+ el("rekapAcuan").innerHTML=html+"</tbody></table>";
 }
 function rekapDesa(){
- const totalKK=data.length,totalPemilih=data.reduce((s,x)=>s+x.anggota.length,0);
- const t
+ const p=data.reduce((s,x)=>s+x.anggota.length,0);
+ const rows=[["Total KK",data.length],["Total Pemilih",p],["Total RT",new Set(data.map(x=>x.rw+"|"+x.rt)).size],["Total RW",new Set(data.map(x=>x.rw)).size],["Total Dukuh Terdata",new Set(data.map(x=>x.dukuh).filter(Boolean)).size]];
+ el("rekapDesa").innerHTML="<table><thead><tr><th>Keterangan</th><th>Jumlah</th></tr></thead><tbody>"+rows.map(r=>"<tr><td>"+r[0]+"</td><td>"+fmt(r[1])+"</td></tr>").join("")+"</tbody></table>";
+}
+function unduh(blob,nama){const url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download=nama;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500)}
+function ekspor(){unduh(new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),"cadangan-sim-tim-desa.json")}
+function impor(){
+ const file=el("file").files[0];if(!file){alert("Pilih file JSON terlebih dahulu.");return}
+ const reader=new FileReader();
+ reader.onload=()=>{
+  try{
+   const parsed=JSON.parse(reader.result);if(!Array.isArray(parsed))throw Error("format");
+   const baru=parsed.map(normalisasi);
+   if(baru.some(x=>!x.kk||!x.kepala||!Array.isArray(x.anggota)))throw Error("data");
+   if(new Set(baru.map(x=>x.id)).size!==baru.length)throw Error("id");
+   const kks=baru.map(x=>x.kk.toLowerCase());if(new Set(kks).size!==kks.length)throw Error("kk");
+   if(!confirm("Data saat ini akan diganti dengan data cadangan. Lanjutkan?"))return;
+   const lama=data;data=baru;if(!simpanLokal()){data=lama;return}
+   resetForm();el("file").value="";tampil();alert("Data berhasil dipulihkan.");
+  }catch(e){alert("File JSON tidak valid, ada nomor KK ganda, atau struktur data tidak sesuai.")}
+ };reader.readAsText(file);
+}
+function downloadExcel(){
+ if(typeof XLSX==="undefined"){alert("Pustaka Excel belum termuat. Periksa koneksi internet, lalu muat ulang aplikasi.");return}
+ const wb=XLSX.utils.book_new();
+ function sheet(name,rows){const ws=XLSX.utils.aoa_to_sheet(rows);if(rows.length)ws["!cols"]=rows[0].map((_,i)=>({wch:Math.min(34,Math.max(12,...rows.slice(0,200).map(r=>String(r[i]??"").length+2)))}));XLSX.utils.book_append_sheet(wb,ws,name)}
+ const totalPemilih=data.reduce((s,x)=>s+x.anggota.length,0);
+ sheet("Rekap Desa",[["REKAPITULASI SELURUH DESA"],["Keterangan","Jumlah"],["Total KK",data.length],["Total Pemilih",totalPemilih],["Total RT",new Set(data.map(x=>x.rw+"|"+x.rt)).size],["Total RW",new Set(data.map(x=>x.rw)).size],["Total Dukuh Terdata",new Set(data.map(x=>x.dukuh).filter(Boolean)).size]]);
+ const byD={};data.forEach(x=>{const k=x.dukuh||"Belum dipetakan";byD[k]??={kk:0,p:0,v:0};byD[k].kk++;byD[k].p+=x.anggota.length;byD[k].v+=x.anggota.filter(a=>a.status==="Terverifikasi").length});
+ sheet("Rekap Dukuh",[["Dukuh","Jumlah KK","Jumlah Pemilih","Terverifikasi","Belum Diverifikasi"],...Object.entries(byD).map(([k,v])=>[k,v.kk,v.p,v.v,v.p-v.v])]);
+ const byRW={};data.forEach(x=>{const k=x.rw||"Tidak diisi";byRW[k]??={kk:0,p:0,v:0};byRW[k].kk++;byRW[k].p+=x.anggota.length;byRW[k].v+=x.anggota.filter(a=>a.status==="Terverifikasi").length});
+ sheet("Rekap RW",[["RW","Jumlah KK","Jumlah Pemilih","Terverifikasi","Belum Diverifikasi"],...Object.entries(byRW).sort((a,b)=>a[0].localeCompare(b[0],undefined,{numeric:true})).map(([k,v])=>[k,v.kk,v.p,v.v,v.p-v.v])]);
+ const byRT={};data.forEach(x=>{const k=x.rw+"-"+x.rt;byRT[k]??={rw:x.rw,rt:x.rt,kk:0,p:0,v:0};byRT[k].kk++;byRT[k].p+=x.anggota.length;byRT[k].v+=x.anggota.filter(a=>a.status==="Terverifikasi").length});
+ sheet("Rekap RT",[["RW","RT","Jumlah KK","Jumlah Pemilih","Terverifikasi","Belum Diverifikasi"],...Object.values(byRT).sort((a,b)=>nomor(a.rw)-nomor(b.rw)||nomor(a.rt)-nomor(b.rt)).map(v=>[v.rw,v.rt,v.kk,v.p,v.v,v.p-v.v])]);
+ sheet("Data KK",[["Nomor KK","Kepala Keluarga","Dukuh","RW","RT","Jumlah Pemilih"],...data.map(x=>[x.kk,x.kepala,x.dukuh,x.rw,x.rt,x.anggota.length])]);
+ sheet("Detail Pemilih",[["Nomor KK","Kepala Keluarga","Dukuh","RW","RT","Nama Pemilih","Status Verifikasi"],...data.flatMap(x=>x.anggota.map(a=>[x.kk,x.kepala,x.dukuh,x.rw,x.rt,a.nama,a.status]))]);
+ const ac=[["Dukuh","RW","RT","Data Acuan","Data Masuk","Belum Masuk"]];let ta=0,tm=0;
+ Object.keys(ACUAN).forEach(rw=>ACUAN[rw].forEach((n,i)=>{const m=hitungMasuk(rw,i+1);ta+=n;tm+=m;ac.push([DUKUH_RW[rw],"RW "+rw,"RT "+String(i+1).padStart(3,"0"),n,m,Math.max(0,n-m)])}));
+ ac.push(["TOTAL DESA","","",ta,tm,Math.max(0,ta-tm)]);sheet("Acuan dan Masuk",ac);
+ XLSX.writeFile(wb,"LAPORAN_SIM_TIM_DESA_"+new Date().toISOString().slice(0,10)+".xlsx");
+}
+el("btnExcel").addEventListener("click",downloadExcel);
+el("daftar").addEventListener("click",e=>{const b=e.target.closest("button[data-aksi]");if(!b)return;if(b.dataset.aksi==="edit")edit(b.dataset.id);if(b.dataset.aksi==="hapus")hapus(b.dataset.id)});
+el("jumlah").addEventListener("input",buatKolom);el("cari").addEventListener("input",tampil);
+el("btnSimpan").addEventListener("click",simpan);el("btnReset").addEventListener("click",resetForm);
+el("btnEkspor").addEventListener("click",ekspor);el("btnImpor").addEventListener("click",impor);
+document.querySelectorAll(".nav-btn").forEach(b=>b.addEventListener("click",()=>{const t=el(b.dataset.target);if(t)t.scrollIntoView({behavior:"smooth",block:"start"});document.querySelectorAll(".nav-btn").forEach(x=>x.classList.remove("active"));b.classList.add("active")}));
+muatData();tampil();
+</script>
+</body></html>
